@@ -1,0 +1,15 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\DesertState.cs">
+    <Files>
+      <File FileName="Assets\Scripts\DesertState.cs" Line="22" Column="2" />
+      <File FileName="Assets\Scripts\DesertExplorer.cs" Line="136" Column="4" />
+      <File FileName="Assets\Scripts\DesertTile.cs" Line="368" Column="3" />
+      <File FileName="Assets\Scripts\Player.cs" Line="30" Column="5" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
