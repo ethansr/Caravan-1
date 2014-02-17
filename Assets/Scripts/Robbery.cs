@@ -15,6 +15,7 @@ public class Robbery : Event {
 		
 		wasRobbed = drawFromBagOfChance (numbersThatLoseWater);
 		effectOccurring = true;
+		tookEffect=false;
 		eventStartTime = Time.time;
 		explorer = desertExplorer;
 		

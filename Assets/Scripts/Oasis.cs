@@ -16,13 +16,14 @@ public class Oasis : Event
 		        
 				getMoreWater = drawFromBagOfChance (numbersThatWinMoreWater);
 				effectOccurring = true;
+				tookEffect = false;
 				eventStartTime = Time.time;
 				explorer = desertExplorer;
 				
 		}
 
 		void Update ()
-	{      
+		{      
 				if (effectOccurring) {
 						displayResultOfTwoCaseEvent (getMoreWater, foundOasisMessage, isOasisMessage, isMirageMessage);
 				}

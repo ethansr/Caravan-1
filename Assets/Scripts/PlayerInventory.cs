@@ -37,6 +37,15 @@ public class PlayerInventory : MonoBehaviour {
 		Debug.Log (amountOfEachGood [(int)good].ToString ());
 	}
 
+	public bool hasGoods(DesertGenerator.GoodType good, int numOf){
+		return amountOfEachGood [(int)good] >= numOf;
+		}
+
+	public void removeGoods(DesertGenerator.GoodType good, int numOf){
+		int newAmount = amountOfEachGood [(int)good] - numOf;
+		amountOfEachGood [(int)good] = newAmount;
+		}
+
 	public void changeAvailableWater(int change){
 				availableWater += change;
 		}

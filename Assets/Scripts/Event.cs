@@ -8,13 +8,18 @@ public abstract class Event : MonoBehaviour
 		public const float secondsWaitForEventResult = 5.0f;
 		public const float secondsWaitForEventResultClear = secondsWaitForEventResult * 2;
 		public static GameObject eventText;
-
 		protected float eventStartTime;
 		protected bool effectOccurring;
 		protected bool tookEffect;
 		protected GameObject explorer;
+		protected GameObject desertTileWhereLocated;
 
 		public abstract void activateEvent (GameObject desertExplorer);
+
+		public void setTileWhereLocated (GameObject tile)
+		{
+				desertTileWhereLocated = tile;
+		}
 	
 		void Start ()
 		{
@@ -60,7 +65,6 @@ public abstract class Event : MonoBehaviour
 						tookEffect = true;
 				} else {
 								
-						explorer = null;
 						clearEventText ();
 						effectOccurring = false; 
 				

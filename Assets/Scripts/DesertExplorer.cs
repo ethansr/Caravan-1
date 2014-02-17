@@ -36,15 +36,14 @@ public class DesertExplorer : MonoBehaviour
 	
 		void returnToMeepleSource ()
 		{
-		
 				stopFlashing ();
 				removeSelfFromDesertIfMoving ();
 				gameObject.GetComponent<Meeple> ().endExploration ();
 		
 		}
 		//assume that move was successful
-		void moveToNewDesertTile (GameObject newLocation)
-		{  
+		public void moveToNewDesertTile (GameObject newLocation)
+		{      
 				currentTile = newLocation;
 				currentPos = currentTile.GetComponent<DesertTile> ().enterTile (gameObject);
 				currentPos.z = 1;
@@ -78,7 +77,7 @@ public class DesertExplorer : MonoBehaviour
 		}
 	
 		void Update ()
-		{   
+		{          
 				if (moving ()) {
 						flashToIndicateMoveState ();
 						GameObject newLocation = getNewLocationGivenKeyInput ();
@@ -94,10 +93,7 @@ public class DesertExplorer : MonoBehaviour
 		//I don't really understand why this is neccessary tbh, but it seems to be.
 		void maintainPosition ()
 		{
-				if (currentTile && currentTile.GetComponent<Bazaar> () != null)
-						GetComponent<Transform> ().position = bazaarPosition;
-				else if (currentTile)
-						GetComponent<Transform> ().position = currentPos;
+				GetComponent<Transform> ().position = currentPos;
 		}
 	
 		bool moving ()
@@ -210,8 +206,8 @@ public class DesertExplorer : MonoBehaviour
 	
 		void makeMover ()
 		{
-				//desert.GetComponent<DesertState> ().movingObject = gameObject;
 				desert.GetComponent<DesertState> ().changeMover (gameObject);
+				
 		}
 	
 		public bool acceptInvader (GameObject invader)

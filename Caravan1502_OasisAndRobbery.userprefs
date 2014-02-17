@@ -1,11 +1,21 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\DesertState.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Mercenary.cs">
     <Files>
-      <File FileName="Assets\Scripts\DesertState.cs" Line="22" Column="2" />
-      <File FileName="Assets\Scripts\DesertExplorer.cs" Line="136" Column="4" />
-      <File FileName="Assets\Scripts\DesertTile.cs" Line="368" Column="3" />
-      <File FileName="Assets\Scripts\Player.cs" Line="30" Column="5" />
+      <File FileName="Assets\Scripts\Mercenary.cs" Line="22" Column="16" />
+      <File FileName="Assets\Scripts\DesertTile.cs" Line="376" Column="21" />
+      <File FileName="Assets\Scripts\Event.cs" Line="33" Column="2" />
+      <File FileName="Assets\Scripts\Oasis.cs" Line="7" Column="47" />
+      <File FileName="Assets\Scripts\DesertGenerator.cs" Line="315" Column="5" />
+      <File FileName="Assets\Scripts\PlayerInventory.cs" Line="46" Column="44" />
+      <File FileName="Assets\Scripts\Meeple.cs" Line="7" Column="2" />
+      <File FileName="Assets\Scripts\DesertExplorer.cs" Line="40" Column="37" />
+      <File FileName="Assets\Scripts\Bazaar.cs" Line="14" Column="42" />
+      <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\DesertState.cs" Line="10" Column="2" />
+      <File FileName="Assets\Scripts\Robbery.cs" Line="31" Column="3" />
+      <File FileName="Assets\MercenaryExplorer.cs" Line="13" Column="86" />
+      <File FileName="Assets\Scripts\MeepleSource.cs" Line="70" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

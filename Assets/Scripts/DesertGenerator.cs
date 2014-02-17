@@ -304,30 +304,6 @@ public class DesertGenerator : MonoBehaviour
 						return null;
 						
 		}
-	/*
-		void assignEventsToTiles ()
-		//for each typpe of e
-		{
-				foreach (var value in Enum.GetValues(typeof(EventType))) {
-						int indexOfNumberOf = (int)value;
-						int numberOf = numbersOfEachEvent [indexOfNumberOf];
-						for (int i=0; i<numberOf; i++) {
-								GameObject candidateTile;
-								do {
-										int tagOfCandidateTileForEvent = (int)UnityEngine.Random.Range (0, totalTiles);
-										candidateTile = GameObject.FindGameObjectWithTag (tagOfCandidateTileForEvent.ToString ());
-								} while(candidateTile.GetComponent<DesertTile>().hasEvent);
-			
-								//have to instantiate an event
-								GameObject newDesertEvent = (GameObject)Instantiate (desertEvent);
-								newDesertEvent.GetComponent<Event> ().type = (int)value;
-								candidateTile.GetComponent<DesertTile> ().setEvent (newDesertEvent);
-
-						}
-				}
-
-		}
-		*/
 
 		void assignEventsToTiles ()
 		{
@@ -339,7 +315,7 @@ public class DesertGenerator : MonoBehaviour
 								do {
 										int tagOfCandidateTileForEvent = (int)UnityEngine.Random.Range (0, totalTiles);
 										candidateTile = GameObject.FindGameObjectWithTag (tagOfCandidateTileForEvent.ToString ());
-								} while(candidateTile.GetComponent<DesertTile>().hasEvent);
+								} while(candidateTile.GetComponent<DesertTile>().hasEvent||candidateTile.GetComponent<DesertTile>().isBazaar());
 				
 								//have to instantiate an event
 								GameObject newDesertEvent = (GameObject)Instantiate (events [indexOfNumberOf]);

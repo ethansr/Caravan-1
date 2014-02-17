@@ -388,8 +388,8 @@ public class DesertTile : MonoBehaviour
 		
 				desertEvent.GetComponent<SpriteRenderer> ().enabled = false;
 				hasEvent = true;
+				desertEvent.GetComponent<Event> ().setTileWhereLocated (gameObject);
 		}
-
 
 		public bool hasDesertEvent ()
 		{
@@ -418,7 +418,7 @@ public class DesertTile : MonoBehaviour
 	
 		//assume that move was successful
 		public Vector3 enterTile (GameObject explorer)
-		{
+		{      
 		
 				if (!flipped)
 						flip ();
