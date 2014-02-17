@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
 		float doubleClickStart = 0;
 		public GameObject meepleSource;
 		Collection<GameObject> eventsExperiencedThisTurn;
-
+	public string id;
 		void OnMouseUp ()
 		{
 				if ((Time.time - doubleClickStart) < 0.3f) {

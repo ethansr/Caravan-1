@@ -39,9 +39,10 @@ public abstract class Event : MonoBehaviour
 		public static void writeToEventText (string message)
 		{
 				eventText.GetComponent<GUIText> ().text = message;
-		
-		
+
 		}
+
+
 	
 		public static void clearEventText ()
 		{

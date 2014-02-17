@@ -56,7 +56,7 @@ public class Mercenary : Event
 				cannotHireMessage = "Either " + insufficientFundsMessage + " or " + noRoomMessage;
 				
 
-		if (effectOccurring) {
+				if (effectOccurring) {
 						displayResultOfTwoCaseEvent (mercenaryCanBeHired, foundMercenaryMessage, canHireMessage, cannotHireMessage);
 				}
 		               
@@ -122,7 +122,7 @@ public class Mercenary : Event
 		}
 
 		void assignToNewPlayer (GameObject newPlayer)
-		{
+		{       
 				mercenary.GetComponent<Meeple> ().player = newPlayer;
 				Color playersColor = newPlayer.GetComponent<Player> ().meepleSource.GetComponent<SpriteRenderer> ().color;
 				playersColor = darken (playersColor);

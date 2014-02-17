@@ -263,7 +263,7 @@ public class DesertTile : MonoBehaviour
 						GameObject headOccupantOfTargetTile = targetTile.GetComponent<DesertTile> ().getHeadOccupant ();
 						GameObject invader = desert.GetComponent<DesertState> ().movingObject;
 						if (headOccupantOfTargetTile.GetComponent<DesertExplorer> ().acceptInvader (invader)) {
-								headOccupantOfTargetTile.GetComponent<DesertExplorer> ().handleInvader (headOccupantOfTargetTile);
+								headOccupantOfTargetTile.GetComponent<DesertExplorer> ().handleInvader (invader);
 						} else
 								targetTile = null;
 				}

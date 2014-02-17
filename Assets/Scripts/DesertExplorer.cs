@@ -11,6 +11,7 @@ public class DesertExplorer : MonoBehaviour
 		public Vector3 bazaarPosition;
 		Vector3 currentPos;
 		GameObject desert;
+		public string id;
 	
 		void Start ()
 		{
@@ -92,6 +93,7 @@ public class DesertExplorer : MonoBehaviour
 						stopFlashing ();
 		
 				maintainPosition ();
+
 	
 		
 		}
@@ -217,19 +219,18 @@ public class DesertExplorer : MonoBehaviour
 
 		//if the mercenary is the sole occupant of this tile, he will accept the invader no matter what
 		public bool acceptInvader (GameObject invader)
-		{
+		{      
 				if (!isMercenary ())
 						return (!isForeign (invader));
+                
 				return true;
 		}
 	
 		public void handleInvader (GameObject invader)
-		{
-				if (isMercenary () && isForeign (invader)) {
+		{      
+
+				if (isMercenary () && isForeign (invader)) 
 						GetComponent<MercenaryExplorer> ().activateEvent (invader);
-				}
-				else 
-						Debug.Log ("handle invader non merc");
 			
 
 		}
@@ -242,7 +243,8 @@ public class DesertExplorer : MonoBehaviour
 
 		bool isForeign (GameObject invader)
 		{
-				return invader.GetComponent<Meeple> ().player != GetComponent<Meeple> ().player;
+				
+				return !(invader.GetComponent<Meeple> ().player.Equals (GetComponent<Meeple> ().player));
 		}
 	
 	

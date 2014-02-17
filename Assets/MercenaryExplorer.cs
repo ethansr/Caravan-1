@@ -7,7 +7,8 @@ public class MercenaryExplorer : MonoBehaviour {
 
 
 	public void activateEvent(GameObject newExplorer){
-		sourceEvent.GetComponent<Mercenary> ().activateEvent (newExplorer);
+	
+		sourceEvent.GetComponent<Mercenary> ().reActivateEvent(newExplorer);
 	}
 
 

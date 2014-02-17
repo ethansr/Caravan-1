@@ -1,21 +1,21 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\MercenaryExplorer.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Event.cs">
     <Files>
-      <File FileName="Assets\Scripts\DesertExplorer.cs" Line="37" Column="4" />
-      <File FileName="Assets\Scripts\Mercenary.cs" Line="58" Column="1" />
-      <File FileName="Assets\Scripts\DesertTile.cs" Line="281" Column="18" />
-      <File FileName="Assets\Scripts\Event.cs" Line="71" Column="5" />
+      <File FileName="Assets\Scripts\Mercenary.cs" Line="13" Column="16" />
+      <File FileName="Assets\Scripts\DesertExplorer.cs" Line="96" Column="3" />
+      <File FileName="Assets\Scripts\Mercenary.cs" Line="165" Column="1" />
+      <File FileName="Assets\Scripts\DesertTile.cs" Line="273" Column="46" />
+      <File FileName="Assets\Scripts\Event.cs" Line="29" Column="24" />
       <File FileName="Assets\Scripts\Oasis.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\DesertGenerator.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PlayerInventory.cs" Line="39" Column="2" />
-      <File FileName="Assets\Scripts\Meeple.cs" Line="15" Column="2" />
-      <File FileName="Assets\Scripts\DesertExplorer.cs" Line="231" Column="10" />
+      <File FileName="Assets\Scripts\PlayerInventory.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Meeple.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Bazaar.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\DesertState.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Robbery.cs" Line="1" Column="1" />
-      <File FileName="Assets\MercenaryExplorer.cs" Line="8" Column="2" />
+      <File FileName="Assets\MercenaryExplorer.cs" Line="11" Column="55" />
       <File FileName="Assets\Scripts\MeepleSource.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
