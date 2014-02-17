@@ -269,10 +269,17 @@ public class DesertTile : MonoBehaviour
 				}
 				return targetTile;
 		}
-	
+
+		//... the mercenary is only considered the "head" occupant in case he's the only occupant on the tile.
+		// otherwise if first is the mercenary then if there are more then get the next one
 		GameObject getHeadOccupant ()
 		{
-				return occupants.First<GameObject> ();
+				GameObject first = occupants.First<GameObject> ();
+				if (first.GetComponent<DesertExplorer> ().isMercenary () && getNumOccupants () > 1) 
+						first = occupants.ElementAt (1);
+				
+				return first;
+				
 		
 		}
 	

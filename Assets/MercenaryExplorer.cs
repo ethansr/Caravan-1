@@ -3,14 +3,12 @@ using System.Collections;
 
 public class MercenaryExplorer : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
+	public GameObject sourceEvent;
+
+
+	public void activateEvent(GameObject newExplorer){
+		sourceEvent.GetComponent<Mercenary> ().activateEvent (newExplorer);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		Debug.Log (GetComponent<DesertExplorer> ().enabled + " that mercenary is enabled");
-	
-	}
+
+
 }

@@ -33,17 +33,16 @@ public class Mercenary : Event
 				mercenary.GetComponent<Draggable> ().enabled = false;
 				
 				mercenary.GetComponent<SpriteRenderer> ().enabled = false;
+
+				mercenary.GetComponent<MercenaryExplorer> ().sourceEvent = gameObject;
+				
 		}
 		
 		public override void activateEvent (GameObject desertExplorer)
 		{
 				if (!eventTileAlreadyActivated) {
-			            initializeMercenary ();
-			            mercenaryCanBeHired = roomAtTileWhereLocated () && checkIfPlayerHasSufficientFunds (desertExplorer.GetComponent<Meeple> ().player);
-						effectOccurring = true;
-						tookEffect = false;
-						eventStartTime = Time.time;
-						explorer = desertExplorer;
+						initializeMercenary ();
+						reActivateEvent (desertExplorer);
 						eventTileAlreadyActivated = true;
 				} 
 			
@@ -55,7 +54,9 @@ public class Mercenary : Event
 				canHireMessage = "You may hire the mercenary for " + price + ". Do you wish to?";
 				insufficientFundsMessage = "you cannot pay my price of " + price;
 				cannotHireMessage = "Either " + insufficientFundsMessage + " or " + noRoomMessage;
-				if (effectOccurring) {
+				
+
+		if (effectOccurring) {
 						displayResultOfTwoCaseEvent (mercenaryCanBeHired, foundMercenaryMessage, canHireMessage, cannotHireMessage);
 				}
 		               
@@ -124,8 +125,17 @@ public class Mercenary : Event
 		{
 				mercenary.GetComponent<Meeple> ().player = newPlayer;
 				Color playersColor = newPlayer.GetComponent<Player> ().meepleSource.GetComponent<SpriteRenderer> ().color;
+				playersColor = darken (playersColor);
 				mercenary.GetComponent<SpriteRenderer> ().color = playersColor;
 
+		}
+
+		Color darken (Color color)
+		{
+				color.r /= 1.5f;
+				color.g /= 1.5f;
+				color.b /= 1.5f;
+				return color;
 		}
 
 		bool firstTimeHired ()
@@ -140,5 +150,15 @@ public class Mercenary : Event
 				
 		}
 
-	   
+		public void reActivateEvent (GameObject desertExplorer)
+		{
+				mercenaryCanBeHired = roomAtTileWhereLocated () && checkIfPlayerHasSufficientFunds (desertExplorer.GetComponent<Meeple> ().player);
+				effectOccurring = true;
+				tookEffect = false;
+				eventStartTime = Time.time;
+				explorer = desertExplorer;
+		
+		}
+	
+	
 }

@@ -24,7 +24,6 @@ public abstract class Event : MonoBehaviour
 		void Start ()
 		{
 				eventText = GameObject.Find ("EventText");
-				
 				clearEventText ();
 				effectOccurring = false;
 				tookEffect = false;

@@ -19,13 +19,18 @@ public class DesertExplorer : MonoBehaviour
 	
 		//assume that move was successful
 		public void updateLocation (GameObject newLocation)
-		{       //the other one is being made to move to the new location.
-				//which is based on the move called relative to the (original) meeples position
-				currentTile.GetComponent<DesertTile> ().leaveTile (gameObject, gameObject.GetComponent<Transform> ().position);
-				if (returnedToBazaar (newLocation))
-						returnToMeepleSource ();
-				else
+		{      //the only case where we dont leave the tile is when we try moving back to bazaar when we are mercenary.
+				if (!(returnedToBazaar (newLocation) && isMercenary ()))
+						currentTile.GetComponent<DesertTile> ().leaveTile (gameObject, gameObject.GetComponent<Transform> ().position);
+
+				//...not actually equivalent to if(returned to bazaar and not mercenary, note).
+				if (returnedToBazaar (newLocation)) {  
+						if (!isMercenary ())
+								returnToSource ();
+						//(else, if the mercenary tries to move to bazaar, don't move).
+				} else
 						moveToNewDesertTile (newLocation);
+
 		}
 	
 		bool returnedToBazaar (GameObject newLocation)
@@ -34,7 +39,7 @@ public class DesertExplorer : MonoBehaviour
 		
 		}
 	
-		void returnToMeepleSource ()
+		void returnToSource ()
 		{
 				stopFlashing ();
 				removeSelfFromDesertIfMoving ();
@@ -209,15 +214,35 @@ public class DesertExplorer : MonoBehaviour
 				desert.GetComponent<DesertState> ().changeMover (gameObject);
 				
 		}
-	
+
+		//if the mercenary is the sole occupant of this tile, he will accept the invader no matter what
 		public bool acceptInvader (GameObject invader)
-		{     
-				return (invader.GetComponent<Meeple> ().player == GetComponent<Meeple> ().player);
+		{
+				if (!isMercenary ())
+						return (!isForeign (invader));
+				return true;
 		}
 	
 		public void handleInvader (GameObject invader)
 		{
-				Debug.Log ("handle invader");
+				if (isMercenary () && isForeign (invader)) {
+						GetComponent<MercenaryExplorer> ().activateEvent (invader);
+				}
+				else 
+						Debug.Log ("handle invader non merc");
+			
+
+		}
+
+		public bool isMercenary ()
+		{
+				return GetComponent<MercenaryExplorer> () != null;
+
+		}
+
+		bool isForeign (GameObject invader)
+		{
+				return invader.GetComponent<Meeple> ().player != GetComponent<Meeple> ().player;
 		}
 	
 	
