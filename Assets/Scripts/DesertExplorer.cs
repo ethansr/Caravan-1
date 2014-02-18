@@ -195,7 +195,7 @@ public class DesertExplorer : MonoBehaviour
 
 		public void decreaseAvailableWater ()
 		{
-				gameObject.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().decreaseAvailableWater ();
+				gameObject.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().changeAvailableWater (-1);
 
 		}
 	
