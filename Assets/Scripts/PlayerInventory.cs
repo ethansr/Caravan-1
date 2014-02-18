@@ -9,7 +9,7 @@ public class PlayerInventory : MonoBehaviour {
 	public int availableWater=10;
 	public GUIText waterText;
 	public GUIText goodsText;
-	int[] amountOfEachGood = {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0};
+	int[] amountOfEachGood = {0,0,0,0};
 	public int wellDepth = 0;
 
 	
@@ -25,9 +25,7 @@ public class PlayerInventory : MonoBehaviour {
 
 	}
 
-	public void decreaseAvailableWater (){
-		availableWater--;
-	}
+
 
 	public bool waterAvailable(){
 				return availableWater > 0;
@@ -48,6 +46,9 @@ public class PlayerInventory : MonoBehaviour {
 		}
 
 	public void changeAvailableWater(int change){
-				availableWater += change;
+		       //check new water
+		int newWaterCount = availableWater + change;
+		if(newWaterCount>-1)
+			availableWater =newWaterCount;
 		}
 }

@@ -109,29 +109,15 @@ public class DesertGenerator : MonoBehaviour
 		//the indexes of the quantities of each event are matched to the integer values of the events in the enumeration
 		int[] numbersOfEachEvent = {4, 4, 2, 4};
 
-		//use these to identify "goods'
-		public static int numGoods = 16;
+		//is the number of different types of goods
+		public static int numGoods = 3;
+	    
 		public enum GoodType
 		{
 				Nutmeg=0,
-				Clove=1,
-				Cinnamon=2,
-				Saffron=3,
-
-				Lion=4,
-				Camel=5,
-				Horse=6,
-				Elephant=7,
-
-				Amethyst=8,
-				Turquoise=9,
-				Topaz=10,
-				Ruby=11,
-
-				AnimalSkin=12,
-				Silk=13,
-				Wool=14,
-				PaintedCloth=15,
+				Lion=1,
+				Turquoise=2,
+				Silk=3,
 		};
 
 		GoodType[] goods;
@@ -213,25 +199,25 @@ public class DesertGenerator : MonoBehaviour
 
 		}
 
-		void assignAdjacentGoods (int y, int j, GameObject tile)
+		void assignAdjacentGoods (int y, int x, GameObject tile)
 		{
 				Vector3 goodTilePos;
-				if (y == 0 && j % 2 == 1) {
+				if (y == 0 && x % 2 == 1) {
 						tile.GetComponent<DesertTile> ().adjGoodLocation = NORTH_INDEX;
 						goodTilePos = tile.GetComponent<Transform> ().position;
 						goodTilePos.y += tileSide;
 
-				} else if (y == numTilesHeight - 1 && j % 2 == 1) {
+				} else if (y == numTilesHeight - 1 && x % 2 == 1) {
 						tile.GetComponent<DesertTile> ().adjGoodLocation = SOUTH_INDEX;
 						goodTilePos = tile.GetComponent<Transform> ().position;
 						goodTilePos.y -= tileSide;
 		
-				} else if (j == 0 && y % 2 == 1) {
+				} else if (x == 0 && y % 2 == 1) {
 						tile.GetComponent<DesertTile> ().adjGoodLocation = WEST_INDEX;
 						goodTilePos = tile.GetComponent<Transform> ().position;
 						goodTilePos.x -= tileSide;
 			
-				} else if (j == numTilesWidth - 1 && y % 2 == 1) {
+				} else if (x == numTilesWidth - 1 && y % 2 == 1) {
 						tile.GetComponent<DesertTile> ().adjGoodLocation = EAST_INDEX;
 						goodTilePos = tile.GetComponent<Transform> ().position;
 						goodTilePos.x += tileSide;
@@ -253,7 +239,7 @@ public class DesertGenerator : MonoBehaviour
 				
 				goodTile.GetComponent<Transform> ().position = goodTilePos;
 				tile.GetComponent<DesertTile> ().adjGood = goodTile;
-				goodsCounter++;
+				goodsCounter+=(goodsCounter==3?-3:1);
 
 		}
 	
