@@ -10,6 +10,7 @@ public class PlayerInventory : MonoBehaviour {
 	public GUIText waterText;
 	public GUIText goodsText;
 	int[] amountOfEachGood = {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0};
+	public int wellDepth = 0;
 
 	
 	// Use this for initialization
