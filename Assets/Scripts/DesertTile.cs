@@ -275,11 +275,17 @@ public class DesertTile : MonoBehaviour
 		GameObject getHeadOccupant ()
 		{
 				GameObject first = occupants.First<GameObject> ();
-				if (first.GetComponent<DesertExplorer> ().isMercenary () && getNumOccupants () > 1) 
-						first = occupants.ElementAt (1);
-				
+				int numOtherOccupantsOnTile = getNumOccupants ();
+				if (first.GetComponent<DesertExplorer> ().isMercenary () && numOtherOccupantsOnTile > 1) {
+						for (int i=1; i<numOtherOccupantsOnTile; i++) { 
+								first = occupants.ElementAt (i);
+								if (!first.GetComponent<DesertExplorer> ().isMercenary ())
+										break;
+						}
+				}
+		
 				return first;
-				
+		
 		
 		}
 	
@@ -352,7 +358,7 @@ public class DesertTile : MonoBehaviour
 	
 		void changeSpriteAndDecrementRotatingPlayerWater ()
 		{
-				playerWhoIsRotatingTile.GetComponent<PlayerInventory> ().decreaseAvailableWater ();
+				playerWhoIsRotatingTile.GetComponent<PlayerInventory> ().changeAvailableWater (-1);
 				updateSprite ();
 		}
 	

@@ -145,7 +145,7 @@ public class Mercenary : Event
 	
 		void pickDesiredGood ()
 		{
-				int randomGood = (int)UnityEngine.Random.Range (0, DesertGenerator.numGoods);
+		int randomGood = (int)UnityEngine.Random.Range (0, DesertGenerator.numGoods);
 				desiredGood = (DesertGenerator.GoodType)Enum.ToObject (typeof(DesertGenerator.GoodType), randomGood);
 				
 		}
