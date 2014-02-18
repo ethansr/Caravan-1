@@ -10,7 +10,8 @@ public class PublicWell : DropLocation {
 	
 	public override void SetOccupant (GameObject o)
 	{ 
-
+		base.SetOccupant (o);
+		if (o){
 		Meeple meeple = o.GetComponent <Meeple>();
 		print (meeple);
 		GameObject player = meeple.player;
@@ -19,7 +20,8 @@ public class PublicWell : DropLocation {
 		print (inventory);
 		inventory.availableWater = inventory.availableWater + 1;
 		print ("Boom");
-		base.SetOccupant (o);
+	}
+
 	}
 
 }
