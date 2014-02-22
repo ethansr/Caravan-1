@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class Good : MonoBehaviour {
 
-	public DesertGenerator.GoodType good;
+	public DesertGenerator.GoodItem good;
 	
 	// Use this for initialization
 	void Start () {

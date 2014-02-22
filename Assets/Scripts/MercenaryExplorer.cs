@@ -7,7 +7,7 @@ public class MercenaryExplorer : MonoBehaviour {
 
 
 	public void activateEvent(GameObject newExplorer){
-	
+		sourceEvent.GetComponent<Mercenary> ().pickDesiredGoodTypeGivenCurrentLocation (GetComponent<DesertExplorer>().currentTile);
 		sourceEvent.GetComponent<Mercenary> ().reActivateEvent(newExplorer);
 	}
 

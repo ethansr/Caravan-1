@@ -2,12 +2,15 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 public class Mercenary : Event
 {
 		public GameObject mercenaryPrefab;
 		GameObject mercenary = null;
-		DesertGenerator.GoodType desiredGood;
+		DesertGenerator.GoodItem desiredGood;
+		DesertGenerator.GoodType desiredGoodType;
 		int requiredNumberOfGood = 1;
 		bool mercenaryCanBeHired = false;
 		string price;
@@ -17,14 +20,9 @@ public class Mercenary : Event
 		string noRoomMessage = "there is no room for me here.";
 		string cannotHireMessage;
 		bool showHireSelectionButtons = false;
+		bool showGoodSelectionButtons = false;
 		bool eventTileAlreadyActivated = false;
-
-		void Start ()
-		{
-				
-				pickDesiredGood ();
-
-		}
+		Collection<DesertGenerator.GoodItem> goodsPlayerCanPay;
 
 		void initializeMercenary ()
 		{
@@ -38,9 +36,11 @@ public class Mercenary : Event
 				
 		}
 		
+		//
 		public override void activateEvent (GameObject desertExplorer)
 		{
 				if (!eventTileAlreadyActivated) {
+						pickDesiredGoodTypeGivenCurrentLocation (desertTileWhereLocated);
 						initializeMercenary ();
 						reActivateEvent (desertExplorer);
 						eventTileAlreadyActivated = true;
@@ -50,7 +50,7 @@ public class Mercenary : Event
 
 		void Update ()
 		{       
-				price = requiredNumberOfGood + " " + desiredGood.ToString ();
+				price = requiredNumberOfGood + " " + desiredGoodType.ToString ();
 				canHireMessage = "You may hire the mercenary for " + price + ". Do you wish to?";
 				insufficientFundsMessage = "you cannot pay my price of " + price;
 				cannotHireMessage = "Either " + insufficientFundsMessage + " or " + noRoomMessage;
@@ -82,33 +82,51 @@ public class Mercenary : Event
 		}
 
 		void OnGUI ()
-		{       
+		{
+				float buttonWidth = 80;
+				float buttonHeight = 30;
+				float buttonStartX = 500;
+				float buttonY = 500;
 				if (showHireSelectionButtons) {
-						float buttonWidth = 80;
-						float buttonHeight = 30;
-						if (GUI.Button (new Rect (500, 500, buttonWidth, buttonHeight), "YES")) {
+						
+						if (GUI.Button (new Rect (buttonStartX, buttonY, buttonWidth, buttonHeight), "YES")) {
 							
-								hireMercenary ();
 								showHireSelectionButtons = false;
+								showGoodSelectionButtons = true;
+
 						}
 			
-						if (GUI.Button (new Rect (500 + buttonWidth * 2, 500, buttonWidth, buttonHeight), "NO")) {
+						if (GUI.Button (new Rect (buttonStartX + buttonWidth * 2, buttonY, buttonWidth, buttonHeight), "NO")) {
 								//do nothing
 								showHireSelectionButtons = false;
 					
 						}
 			
+				} else if (showGoodSelectionButtons) {
+						int xAdjFactor = 0;
+						float xAdj = buttonWidth * 1.5f;
+						foreach (DesertGenerator.GoodItem item in goodsPlayerCanPay) {
+								string itemName = item.ToString ();
+								if (GUI.Button (new Rect (buttonStartX + (xAdj * xAdjFactor), buttonY, buttonWidth, buttonHeight), itemName)) {
+										hireMercenary (item);
+										showGoodSelectionButtons = false;
+								}
+								xAdjFactor++;
+						}
+
+
 				}
 		
 		}
 
 		//requires that current explorer is the one who stumbled on the mercenary.
-		void hireMercenary ()
-		{
+		void hireMercenary (DesertGenerator.GoodItem payment)
+		{       
 				GameObject newPlayer = explorer.GetComponent<Meeple> ().player;
-				newPlayer.GetComponent<PlayerInventory> ().removeGoods (desiredGood, requiredNumberOfGood);
-				if (firstTimeHired ())
+				newPlayer.GetComponent<PlayerInventory> ().removeGoods (payment, requiredNumberOfGood);
+				if (firstTimeHired ()) {
 						setupMercenaryForExploration ();
+				}
 				assignToNewPlayer (newPlayer);
 
 		}
@@ -142,23 +160,31 @@ public class Mercenary : Event
 		{
 				return mercenary.GetComponent<DesertExplorer> ().enabled == false;
 		}
-	
-		void pickDesiredGood ()
-		{
-		int randomGood = (int)UnityEngine.Random.Range (0, DesertGenerator.numGoods);
-				desiredGood = (DesertGenerator.GoodType)Enum.ToObject (typeof(DesertGenerator.GoodType), randomGood);
-				
-		}
 
+		//the MercenaryExplorerScript calls this method subsequent times it is reaxctviated
+		public void pickDesiredGoodTypeGivenCurrentLocation (GameObject currentLocation)
+		{      
+				DesertTile.RelativePosition mercPos = currentLocation.GetComponent<DesertTile> ().rp;
+				desiredGoodType = DesertGenerator.getGoodTypeGivenLocation (mercPos.x, mercPos.y);
+		     
+		}
+		//assume that whenever this event has been called the new desired good type has been updated
 		public void reActivateEvent (GameObject desertExplorer)
-		{
+		{       
 				mercenaryCanBeHired = roomAtTileWhereLocated () && checkIfPlayerHasSufficientFunds (desertExplorer.GetComponent<Meeple> ().player);
+				if (mercenaryCanBeHired)
+						getGoodItemsPlayerCanPay (desertExplorer.GetComponent<Meeple> ().player);		
 				effectOccurring = true;
 				tookEffect = false;
 				eventStartTime = Time.time;
 				explorer = desertExplorer;
 		
 		}
-	
+
+		void getGoodItemsPlayerCanPay (GameObject player)
+		{
+				goodsPlayerCanPay = player.GetComponent<PlayerInventory> ().getAllGoodItemsOfType (desiredGoodType);
+
+		}	
 	
 }

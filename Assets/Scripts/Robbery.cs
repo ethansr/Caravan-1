@@ -4,7 +4,7 @@ using System.Collections;
 public class Robbery : Event {
 
 	public const int numbersThatLoseWater = 3;
-	public const int waterStolen = -3;
+	public const int waterStolen = -1;
 	const string foundRobberMessage = "Robbers attack! Will they triumph???";
 	string wasRobbedMessage = "Robbers steal "+waterStolen+" water!!!";
 	const string escapedRobbersMessage = "You fight them off... this time.";

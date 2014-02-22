@@ -14,7 +14,7 @@ public abstract class Event : MonoBehaviour
 		protected GameObject explorer;
 		protected GameObject desertTileWhereLocated;
 
-		public abstract void activateEvent (GameObject desertExplorer);
+		public abstract void activateEvent(GameObject desertExplorer);
 
 		public void setTileWhereLocated (GameObject tile)
 		{
