@@ -28,37 +28,10 @@ public class PlayerInventory : MonoBehaviour
 				}
 
 				//for testing only
-				testInitialGoodValues ();
+				//testInitialGoodValues ();
 
 		}
-	    //only for testing
-		void testInitialGoodValues ()
-		{
-				string playerId = GetComponent<Player> ().id;
-				if (playerId.Equals ("P1")) {
-						addGoodToInventoryIfTypeIs (DesertGenerator.GoodType.Animal);
-
-				} else if (playerId.Equals ("P3")) {
-						addGoodToInventoryIfTypeIs (DesertGenerator.GoodType.Spice);
-				} else if (playerId.Equals ("P2")) {
-						addGoodToInventoryIfTypeIs (DesertGenerator.GoodType.Textile);
-				} else if (playerId.Equals ("P4")) {
-						addGoodToInventoryIfTypeIs (DesertGenerator.GoodType.Gem);
-				}
-
-		}
-	//also only for testing
-		void addGoodToInventoryIfTypeIs (DesertGenerator.GoodType type)
-		{
-				foreach (var value in Enum.GetValues(typeof(DesertGenerator.GoodItem))) {
-						DesertGenerator.GoodItem goodItem = (DesertGenerator.GoodItem)value;
-						if (DesertGenerator.typeOfGoodItem (goodItem) == type)
-								amountOfEachGoodItem [goodItem] = 2;
-
-
-				}
-		}
-	
+	  
 		// Update is called once per frame
 		void Update ()
 		{
@@ -121,4 +94,35 @@ public class PlayerInventory : MonoBehaviour
 				if (newWaterCount > -1)
 						availableWater = newWaterCount;
 		}
+
+
+
+	//only for testing
+	void testInitialGoodValues ()
+	{
+		string playerId = GetComponent<Player> ().id;
+		if (playerId.Equals ("P1")) {
+			addGoodToInventoryIfTypeIs (DesertGenerator.GoodType.Animal);
+			
+		} else if (playerId.Equals ("P3")) {
+			addGoodToInventoryIfTypeIs (DesertGenerator.GoodType.Spice);
+		} else if (playerId.Equals ("P2")) {
+			addGoodToInventoryIfTypeIs (DesertGenerator.GoodType.Textile);
+		} else if (playerId.Equals ("P4")) {
+			addGoodToInventoryIfTypeIs (DesertGenerator.GoodType.Gem);
+		}
+		
+	}
+	//also only for testing
+	void addGoodToInventoryIfTypeIs (DesertGenerator.GoodType type)
+	{
+		foreach (var value in Enum.GetValues(typeof(DesertGenerator.GoodItem))) {
+			DesertGenerator.GoodItem goodItem = (DesertGenerator.GoodItem)value;
+			if (DesertGenerator.typeOfGoodItem (goodItem) == type)
+				amountOfEachGoodItem [goodItem] = 2;
+			
+			
+		}
+	}
+
 }

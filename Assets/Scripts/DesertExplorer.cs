@@ -12,10 +12,12 @@ public class DesertExplorer : MonoBehaviour
 		Vector3 currentPos;
 		GameObject desert;
 		public string id;
+		public bool hasMovedThisTurn;
 	
 		void Start ()
 		{
 				desert = GameObject.Find ("Desert");
+				hasMovedThisTurn = false;
 		}
 	
 		//assume that move was successful
@@ -59,11 +61,13 @@ public class DesertExplorer : MonoBehaviour
 	
 		void OnMouseUpAsButton ()
 		{  
-				if (isMyPlayersTurn () && currentTile) {
+				if (isMyPlayersTurn () && currentTile && firstExplorerMovedThisTurn ()) {
 						if (isMover ()) { 
+								/*
 								stopFlashing ();
 								removeSelfFromDesertIfMoving ();
 								experienceEventIfHaventAlready ();
+								*/
 						} else {
 								makeMover ();
 						}     
@@ -80,6 +84,13 @@ public class DesertExplorer : MonoBehaviour
 		{
 				if (isMover ()) 
 						desert.GetComponent<DesertState> ().movingObject = null;
+		}
+
+		//return true if this explorer's player has NOT moved an exploer this turn already
+		bool firstExplorerMovedThisTurn ()
+		{
+				GameObject myPlayer = gameObject.GetComponent<Meeple> ().player;
+				return !myPlayer.GetComponent<Player> ().hasMovedAnExplorerThisTurn;
 		}
 	
 		void Update ()
@@ -113,7 +124,24 @@ public class DesertExplorer : MonoBehaviour
 		public void reactToMovementEnding ()
 		{
 				experienceEventIfHaventAlready ();
+				//note: a good consequence of putting this here is that accidental "double clicks" that toggle
+				//"makemover" on and off don't prevent that meeple from exploring again. 
+				//Only if there is an actual change of mover will this meeple stop.
+				//(of if the player runs out of water; this method is called by that condition too)
+				preventThisExplorerFromMovingAgain ();
+				decrementPlayersMoveableExplorers ();
+				
+		}
 
+		void preventThisExplorerFromMovingAgain ()
+		{
+				hasMovedThisTurn = true;
+		}
+
+		void decrementPlayersMoveableExplorers ()
+		{
+				gameObject.GetComponent<Meeple> ().player.GetComponent<Player> ().moveableDesertExplorers--;
+		
 		}
 
 		void experienceEventIfHaventAlready ()
@@ -213,9 +241,21 @@ public class DesertExplorer : MonoBehaviour
 	
 		void makeMover ()
 		{
-				desert.GetComponent<DesertState> ().changeMover (gameObject);
+				if (!hasMovedThisTurn) {
+						desert.GetComponent<DesertState> ().changeMover (gameObject);
+						recordMovementOfExplorerToPlayer ();
+				}
+		       
 				
 		}
+
+		void recordMovementOfExplorerToPlayer ()
+		{
+				GameObject myPlayer = gameObject.GetComponent<Meeple> ().player;
+				myPlayer.GetComponent<Player> ().hasMovedAnExplorerThisTurn = true;
+		}
+
+
 
 		//if the mercenary is the sole occupant of this tile, he will accept the invader no matter what
 		public bool acceptInvader (GameObject invader)

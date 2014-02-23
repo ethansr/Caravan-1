@@ -9,13 +9,19 @@ public class DesertMovementController : MonoBehaviour
 				//disable workerPlacementController
 				gameObject.GetComponent<WorkerPlacementController> ().enabled = false;
 				//tell the desert who is the first player
-				GameObject.Find ("Desert").GetComponent<DesertState> ().playerWhoseTurnItIs = gameObject.GetComponent<GameController> ().getNextPlayer ();
+				updatePlayer ();
+				
 		}
 
 		void endDesertMovementPhase ()
 		{
-
-
 				gameObject.GetComponent<WorkerPlacementController> ().enabled = true;
+		}
+
+		public void updatePlayer ()
+		{
+				GameObject nextPlayer = gameObject.GetComponent<GameController> ().getNextPlayer ();
+				GameObject.Find ("Desert").GetComponent<DesertState> ().changePlayerWhoseTurnItIs (nextPlayer);
+
 		}
 }

@@ -159,7 +159,24 @@ public class Mercenary : Event
 		}
 
 		void assignToNewPlayer (GameObject newPlayer)
-		{       
+		{
+				removeSelfFromOldPlayer ();
+				assumeNewColor (newPlayer);
+				mercenary.GetComponent<DesertExplorer> ().hasMovedThisTurn = false;
+				newPlayer.GetComponent<Player> ().moveableDesertExplorers++;
+		}
+
+		void removeSelfFromOldPlayer ()
+		{
+				GameObject oldPlayer = mercenary.GetComponent<Meeple> ().player;
+				bool hasMovedThisTurnForOldPlayer = mercenary.GetComponent<DesertExplorer> ().hasMovedThisTurn;
+				if (oldPlayer && !hasMovedThisTurnForOldPlayer)
+						oldPlayer.GetComponent<Player> ().moveableDesertExplorers--;
+
+	}   
+
+		void assumeNewColor (GameObject newPlayer)
+		{
 				mercenary.GetComponent<Meeple> ().player = newPlayer;
 				Color playersColor = newPlayer.GetComponent<Player> ().meepleSource.GetComponent<SpriteRenderer> ().color;
 				playersColor = darken (playersColor);

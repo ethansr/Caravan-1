@@ -14,7 +14,10 @@ public class Player : MonoBehaviour
 		float doubleClickStart = 0;
 		public GameObject meepleSource;
 		Collection<GameObject> eventsExperiencedThisTurn;
-	public string id;
+		public string id;
+		public int moveableDesertExplorers;
+		public bool hasMovedAnExplorerThisTurn=false;
+
 		void OnMouseUp ()
 		{
 				if ((Time.time - doubleClickStart) < 0.3f) {
@@ -24,11 +27,23 @@ public class Player : MonoBehaviour
 						doubleClickStart = Time.time;
 				}
 		}
-	
+
+		//in general double click is how a player ends his turn early (ie before running out of wter)
 		void OnDoubleClick ()
 		{      
-				
-				GameObject.Find ("Desert").GetComponent<DesertState> ().changePlayerWhoseTurnItIs (gameObject);
+				if (isPlayersTurn ()) {
+						endTurn ();
+				} else {
+						//this part will eventually be removed, since the controller will handle this all. 
+						//we leabe it here now just for test purposes
+						GameObject.Find ("Desert").GetComponent<DesertState> ().changePlayerWhoseTurnItIs (gameObject);
+				}
+		}
+
+		void endTurn ()
+		{
+				GameObject.Find ("GameController").GetComponent<DesertMovementController> ().updatePlayer ();
+
 		}
 
 		void Start ()
@@ -43,6 +58,8 @@ public class Player : MonoBehaviour
 						flashColor ();
 				else
 						GetComponent<SpriteRenderer> ().color = col;
+
+				Debug.Log (id + " " + moveableDesertExplorers);
 
 		}
 
@@ -69,6 +86,7 @@ public class Player : MonoBehaviour
 		public void reactToTurnEnding ()
 		{
 				eventsExperiencedThisTurn.Clear ();
+				hasMovedAnExplorerThisTurn = false;
 		}
 
 		public bool alreadyExperiencedThisEventThisTurn (GameObject candidateEvent)

@@ -7,7 +7,7 @@ public class Robbery : Event
 		public const int numbersThatLoseWater = 3;
 		public const int waterStolen = -1;
 		const string foundRobberMessage = "Robbers attack! Will they triumph???";
-		string wasRobbedMessage = "Robbers steal " + waterStolen + " water!!!";
+		string wasRobbedMessage = "Robbers steal " + (-1)*waterStolen + " water!!!";
 		const string escapedRobbersMessage = "You fight them off... this time.";
 		bool wasRobbed = false;
 	
@@ -28,9 +28,10 @@ public class Robbery : Event
 				if (effectOccurring) {
 						displayResultOfTwoCaseEvent (wasRobbed, foundRobberMessage, wasRobbedMessage, escapedRobbersMessage);
 
-				} else if (inControlOfTextBox)
+				} else if (inControlOfTextBox) {
 						disableEventTextBox ();
-		inControlOfTextBox=false;
+						inControlOfTextBox = false;
+				}
 		
 		
 		}
