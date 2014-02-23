@@ -407,35 +407,7 @@ public class DesertGenerator : MonoBehaviour
 		}
 
 		public static DesertGenerator.GoodType getGoodTypeGivenLocation (int x, int y)
-		{       //start by assuming that we are in zone 0
-				/*
-				GoodType result = GoodType.Spice;
-				if (y == numTilesHeight / 2) {
-						if (x < numTilesWidth / 2)
-								result = (GoodType)GoodType.ToObject (typeof(GoodType), 2);
-						else
-								result = (GoodType)GoodType.ToObject (typeof(GoodType), 3);
-				} else if (y < numTilesHeight / 2) {
-						if (x < y)
-								result = (GoodType)GoodType.ToObject (typeof(GoodType), 2);
-						else if (x >= numTilesWidth - (y + 1))
-								result = (GoodType)GoodType.ToObject (typeof(GoodType), 3);
-
-
-				} else { //y>midpoint
-	
-						result = (GoodType)GoodType.ToObject (typeof(GoodType), 1);
-		
-						if (x < numTilesWidth - (y + 1))
-								result = (GoodType)GoodType.ToObject (typeof(GoodType), 2);
-						else if (x >= y)
-								result = (GoodType)GoodType.ToObject (typeof(GoodType), 3);
-			
-				}
-
-				return result;
-				*/
-
+		{     //two lines define 4 triangular regions
 				int a = x;
 				int b = (numTilesHeight - 1) - x;
 				GoodType result = GoodType.Spice;

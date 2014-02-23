@@ -27,6 +27,8 @@ public class DesertState : MonoBehaviour {
 			 if(movingObject.GetComponent<Meeple>().player==playerWhoseTurnItIs)
 				movingObject.GetComponent<DesertExplorer> ().reactToMovementEnding ();
 		}
+		//this is new; beware if there are bugs...
+		 movingObject = null;
 
 		if(playerWhoseTurnItIs) playerWhoseTurnItIs.GetComponent<Player> ().reactToTurnEnding ();
 

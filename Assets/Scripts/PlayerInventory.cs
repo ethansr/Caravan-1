@@ -31,7 +31,7 @@ public class PlayerInventory : MonoBehaviour
 				testInitialGoodValues ();
 
 		}
-
+	    //only for testing
 		void testInitialGoodValues ()
 		{
 				string playerId = GetComponent<Player> ().id;
@@ -47,7 +47,7 @@ public class PlayerInventory : MonoBehaviour
 				}
 
 		}
-
+	//also only for testing
 		void addGoodToInventoryIfTypeIs (DesertGenerator.GoodType type)
 		{
 				foreach (var value in Enum.GetValues(typeof(DesertGenerator.GoodItem))) {
