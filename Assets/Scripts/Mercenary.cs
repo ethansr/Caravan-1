@@ -53,14 +53,22 @@ public class Mercenary : Event
 				price = requiredNumberOfGood + " " + desiredGoodType.ToString ();
 				canHireMessage = "You may hire the mercenary for " + price + ". Do you wish to?";
 				insufficientFundsMessage = "you cannot pay my price of " + price;
-				cannotHireMessage = "Either " + insufficientFundsMessage + " or " + noRoomMessage;
+				cannotHireMessage = "Either " + insufficientFundsMessage + System.Environment.NewLine + " or " + noRoomMessage;
 				
-
 				if (effectOccurring) {
 						displayResultOfTwoCaseEvent (mercenaryCanBeHired, foundMercenaryMessage, canHireMessage, cannotHireMessage);
+				} else if (!showingButtons ()) { 
+						if (inControlOfTextBox) {
+								disableEventTextBox ();
+								inControlOfTextBox = false;
+						}
+		
 				}
-		               
-			
+		}
+
+		bool showingButtons ()
+		{
+				return (showHireSelectionButtons || showGoodSelectionButtons);
 		}
 	
 		bool roomAtTileWhereLocated ()
@@ -78,46 +86,56 @@ public class Mercenary : Event
 		protected override void takeEffect ()
 		{
 				showHireSelectionButtons = true;
-		        
+				
+			
 		}
 
 		void OnGUI ()
 		{
-				float buttonWidth = 80;
-				float buttonHeight = 30;
-				float buttonStartX = 500;
-				float buttonY = 500;
-				if (showHireSelectionButtons) {
+				if (showHireSelectionButtons || showGoodSelectionButtons) {
 						
-						if (GUI.Button (new Rect (buttonStartX, buttonY, buttonWidth, buttonHeight), "YES")) {
+						float buttonWidth = 80;
+						float buttonHeight = 30;
+						float buttonStartX = 500;
+						float buttonY = 450;
+
+						if (showHireSelectionButtons) {
+						
+								if (GUI.Button (new Rect (buttonStartX, buttonY, buttonWidth, buttonHeight), "YES")) {
 							
-								showHireSelectionButtons = false;
-								showGoodSelectionButtons = true;
+										showHireSelectionButtons = false;
+										showGoodSelectionButtons = true;
 
-						}
-			
-						if (GUI.Button (new Rect (buttonStartX + buttonWidth * 2, buttonY, buttonWidth, buttonHeight), "NO")) {
-								//do nothing
-								showHireSelectionButtons = false;
-					
-						}
-			
-				} else if (showGoodSelectionButtons) {
-						int xAdjFactor = 0;
-						float xAdj = buttonWidth * 1.5f;
-						foreach (DesertGenerator.GoodItem item in goodsPlayerCanPay) {
-								string itemName = item.ToString ();
-								if (GUI.Button (new Rect (buttonStartX + (xAdj * xAdjFactor), buttonY, buttonWidth, buttonHeight), itemName)) {
-										hireMercenary (item);
-										showGoodSelectionButtons = false;
 								}
-								xAdjFactor++;
+			
+								if (GUI.Button (new Rect (buttonStartX + buttonWidth * 2, buttonY, buttonWidth, buttonHeight), "NO")) {
+										//do nothing
+										showHireSelectionButtons = false;
+									
+					
+								}
+			
+						} else if (showGoodSelectionButtons) {
+								int xAdjFactor = 0;
+								float xAdj = buttonWidth * 1.5f;
+								foreach (DesertGenerator.GoodItem item in goodsPlayerCanPay) {
+										string itemName = item.ToString ();
+										if (GUI.Button (new Rect (buttonStartX + (xAdj * xAdjFactor), buttonY, buttonWidth, buttonHeight), itemName)) {
+												hireMercenary (item);
+												showGoodSelectionButtons = false;
+												
+										}
+										xAdjFactor++;
+								}
+			       
 						}
 
-
-				}
+				} 
+		
 		
 		}
+	
+	
 
 		//requires that current explorer is the one who stumbled on the mercenary.
 		void hireMercenary (DesertGenerator.GoodItem payment)
@@ -171,7 +189,8 @@ public class Mercenary : Event
 		}
 		//assume that whenever this event has been called the new desired good type has been updated
 		public void reActivateEvent (GameObject desertExplorer)
-		{       
+		{
+				inControlOfTextBox = true;
 				mercenaryCanBeHired = roomAtTileWhereLocated () && checkIfPlayerHasSufficientFunds (desertExplorer.GetComponent<Meeple> ().player);
 				if (mercenaryCanBeHired)
 						getGoodItemsPlayerCanPay (desertExplorer.GetComponent<Meeple> ().player);		

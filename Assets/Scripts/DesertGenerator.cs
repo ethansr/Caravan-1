@@ -324,7 +324,7 @@ public class DesertGenerator : MonoBehaviour
 				goodTile.GetComponent<Good> ().good = goods [indexOfGoodItem];
 	
 				Color goodSpriteColor = typesToColors [goodTypeAsInt];
-				goodTile.GetComponent<SpriteRenderer> ().sprite = GetComponent<DesertTileIndex> ().goodTileSprites [goodsCounter];
+				goodTile.GetComponent<SpriteRenderer> ().sprite = GetComponent<DesertTileIndex> ().goodTileSprites [indexOfGoodItem];
 				goodSpriteColor.a = 255.0f;
 				goodTile.GetComponent<SpriteRenderer> ().color = goodSpriteColor;
 				goodTile.GetComponent<Transform> ().position = goodTilePos;

@@ -13,8 +13,11 @@ public abstract class Event : MonoBehaviour
 		protected bool tookEffect;
 		protected GameObject explorer;
 		protected GameObject desertTileWhereLocated;
-
-		public abstract void activateEvent(GameObject desertExplorer);
+		protected float delayStartTime;
+		protected float eventTextBoxDisplayDelay = 2.0f;
+		protected bool inControlOfTextBox;
+	
+		public abstract void activateEvent (GameObject desertExplorer);
 
 		public void setTileWhereLocated (GameObject tile)
 		{
@@ -24,9 +27,12 @@ public abstract class Event : MonoBehaviour
 		void Start ()
 		{
 				eventText = GameObject.Find ("EventText");
+				disableEventTextBox ();
 				clearEventText ();
 				effectOccurring = false;
 				tookEffect = false;
+				inControlOfTextBox = false;
+		       
 			
 		}
 	
@@ -38,14 +44,27 @@ public abstract class Event : MonoBehaviour
 	
 		public static void writeToEventText (string message)
 		{
+				renderTextBox ();
 				eventText.GetComponent<GUIText> ().text = message;
 
 		}
 
+		protected static void renderTextBox ()
+		{
+				
+				eventText.GetComponent<SpriteRenderer> ().enabled = true;
+		
+		}
 
+		protected static void disableEventTextBox ()
+		{
+				eventText.GetComponent<SpriteRenderer> ().enabled = false;
+				
+		}
 	
 		public static void clearEventText ()
 		{
+				
 				eventText.GetComponent<GUIText> ().text = "";
 		}
 
@@ -62,6 +81,7 @@ public abstract class Event : MonoBehaviour
 								}
 						} else
 								writeToEventText (resultFalseMessage);
+
 						tookEffect = true;
 				} else {
 								
