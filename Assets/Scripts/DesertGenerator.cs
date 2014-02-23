@@ -408,6 +408,7 @@ public class DesertGenerator : MonoBehaviour
 
 		public static DesertGenerator.GoodType getGoodTypeGivenLocation (int x, int y)
 		{       //start by assuming that we are in zone 0
+				/*
 				GoodType result = GoodType.Spice;
 				if (y == numTilesHeight / 2) {
 						if (x < numTilesWidth / 2)
@@ -433,6 +434,19 @@ public class DesertGenerator : MonoBehaviour
 				}
 
 				return result;
+				*/
+
+				int a = x;
+				int b = (numTilesHeight - 1) - x;
+				GoodType result = GoodType.Spice;
+				if (y > a && y <= b)
+						result = GoodType.Gem;
+				else if (y < a && y >= b)
+						result = GoodType.Textile;
+				else if (y > a && y >= b)
+						result = GoodType.Animal;
+				return result;
+
 		}
 
 		public static GoodType typeOfGoodItem (GoodItem goodItem)
