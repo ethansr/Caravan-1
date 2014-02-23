@@ -5,7 +5,7 @@ public class GameController : MonoBehaviour {
 
 	public GameObject[] players;
 	public int indexOfNextPlayer;
-	public int numPlayers = 4;
+	public static int numPlayers = 4;
 
 	// Use this for initialization
 	void Start () {

@@ -4,7 +4,7 @@ using System.Collections;
 public class Oasis : Event
 {
 	
-		public const int numbersThatWinMoreWater = 3;
+		public const int numbersThatWinMoreWater = 6;
 		public const int waterGranted = 3;
 		const string foundOasisMessage = "Is it an oasis, or a mirage?...";
 		const string isOasisMessage = "It is an oasis! You earn more water.";

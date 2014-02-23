@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,8 +15,10 @@ public class Player : MonoBehaviour
 		public GameObject meepleSource;
 		Collection<GameObject> eventsExperiencedThisTurn;
 		public string id;
-		public int moveableDesertExplorers;
-		public bool hasMovedAnExplorerThisTurn=false;
+		//public int moveableDesertExplorers;
+		int moveableDesertExplorers;
+		public bool hasMovedAnExplorerThisTurn = false;
+		public bool canMoveAgainThisRound = true;
 
 		void OnMouseUp ()
 		{
@@ -58,8 +60,13 @@ public class Player : MonoBehaviour
 						flashColor ();
 				else
 						GetComponent<SpriteRenderer> ().color = col;
-
-				Debug.Log (id + " " + moveableDesertExplorers);
+				//this should wok when people are placing thei explorers during the wp phase,
+				//so that when the movement phase actually starts this will generally be true.
+				//but for now I'll have the mercenary set it to true...
+				//canMoveAgainThisRound = (moveableDesertExplorers > 0);
+	
+				Debug.Log (id + " " + moveableDesertExplorers + " " + canMoveAgainThisRound);
+				
 
 		}
 
@@ -93,6 +100,36 @@ public class Player : MonoBehaviour
 		{
 				return eventsExperiencedThisTurn.Contains (candidateEvent);
 		}
+
+		public void changeMovebleDesertExplorers (int change)
+		{
+				int newNumMoveables = moveableDesertExplorers + change;
+				if (newNumMoveables <= 0)
+						setMoveablesToZero ();
+				else { //its posible that we will dip to 0 and then go back to 1 again, because of the sequence of
+			//events when players acquire a mercenary
+						if (moveableDesertExplorers == 0)
+								canMoveAgainThisRound = true;
+						moveableDesertExplorers = newNumMoveables;
+				}
+				
+		}
+
+		public void setMoveablesToZero ()
+		{
+				moveableDesertExplorers = 0;
+				preventFromTakingAnotherTurnThisRound ();
+		}
+
+		public void preventFromTakingAnotherTurnThisRound ()
+		{
+
+				canMoveAgainThisRound = false;
+
+		}
+	    
+	  
+		
 
 
 }

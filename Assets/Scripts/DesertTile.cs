@@ -17,8 +17,8 @@ public class DesertTile : MonoBehaviour
 		//-1 if has no adjacent good.
 		public int adjGoodLocation;
 		public GameObject adjGood;
-		public const int maxAllowedOccupants = 4;
-		Collection<Vector3> availablePositions;
+		public int maxAllowedOccupants = 4;
+		public Collection<Vector3> availablePositions;
 		public GameObject headOccupant;
 		Collection<GameObject> occupants;
 		GameObject desert;
@@ -431,15 +431,24 @@ public class DesertTile : MonoBehaviour
 	
 		//assume that move was successful
 		public Vector3 enterTile (GameObject explorer)
-		{      
+		{
+				Vector3 explorersPosition;
+
+				if (isBazaar ()) {
+						GameObject player = explorer.GetComponent<Meeple> ().player;
+						explorersPosition = GetComponent<Bazaar> ().getPositionForPlayer (player);
+			            
+			      
+				} else {
 		
-				if (!flipped)
-						flip ();
+						if (!flipped)
+								flip ();
 		
-				Vector3 explorersPosition = availablePositions.First<Vector3> ();
-				availablePositions.Remove (explorersPosition);
+						explorersPosition = availablePositions.First<Vector3> ();
+						availablePositions.Remove (explorersPosition);
+						
+				}
 				occupants.Add (explorer);
-		
 				return explorersPosition;
 		
 		}

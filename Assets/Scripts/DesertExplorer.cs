@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class DesertExplorer : MonoBehaviour
@@ -12,12 +12,12 @@ public class DesertExplorer : MonoBehaviour
 		Vector3 currentPos;
 		GameObject desert;
 		public string id;
-		public bool hasMovedThisTurn;
+		public bool hasMovedThisRound;
 	
 		void Start ()
 		{
 				desert = GameObject.Find ("Desert");
-				hasMovedThisTurn = false;
+				hasMovedThisRound = false;
 		}
 	
 		//assume that move was successful
@@ -45,7 +45,8 @@ public class DesertExplorer : MonoBehaviour
 		void returnToSource ()
 		{
 				stopFlashing ();
-				removeSelfFromDesertIfMoving ();
+				
+		        tellDesertControllerToGetNextPlayer ();
 				gameObject.GetComponent<Meeple> ().endExploration ();
 		
 		}
@@ -62,29 +63,16 @@ public class DesertExplorer : MonoBehaviour
 		void OnMouseUpAsButton ()
 		{  
 				if (isMyPlayersTurn () && currentTile && firstExplorerMovedThisTurn ()) {
-						if (isMover ()) { 
-								/*
-								stopFlashing ();
-								removeSelfFromDesertIfMoving ();
-								experienceEventIfHaventAlready ();
-								*/
-						} else {
-								makeMover ();
-						}     
-				}
 
+						makeMover ();
+				}     
 		}
 	
 		bool isMyPlayersTurn ()
 		{
 				return gameObject.GetComponent<Meeple> ().player.GetComponent<Player> ().isPlayersTurn ();
 		}
-	
-		void removeSelfFromDesertIfMoving ()
-		{
-				if (isMover ()) 
-						desert.GetComponent<DesertState> ().movingObject = null;
-		}
+
 
 		//return true if this explorer's player has NOT moved an exploer this turn already
 		bool firstExplorerMovedThisTurn ()
@@ -124,23 +112,19 @@ public class DesertExplorer : MonoBehaviour
 		public void reactToMovementEnding ()
 		{
 				experienceEventIfHaventAlready ();
-				//note: a good consequence of putting this here is that accidental "double clicks" that toggle
-				//"makemover" on and off don't prevent that meeple from exploring again. 
-				//Only if there is an actual change of mover will this meeple stop.
-				//(of if the player runs out of water; this method is called by that condition too)
-				preventThisExplorerFromMovingAgain ();
+				preventThisExplorerFromMovingAgainThisRound ();
 				decrementPlayersMoveableExplorers ();
 				
 		}
 
-		void preventThisExplorerFromMovingAgain ()
+		void preventThisExplorerFromMovingAgainThisRound ()
 		{
-				hasMovedThisTurn = true;
+				hasMovedThisRound = true;
 		}
 
 		void decrementPlayersMoveableExplorers ()
 		{
-				gameObject.GetComponent<Meeple> ().player.GetComponent<Player> ().moveableDesertExplorers--;
+				gameObject.GetComponent<Meeple> ().player.GetComponent<Player> ().changeMovebleDesertExplorers (-1);
 		
 		}
 
@@ -152,6 +136,7 @@ public class DesertExplorer : MonoBehaviour
 								newEvent.GetComponent<Event> ().activateEvent (gameObject);
 								lastEventExperienced = newEvent;
 								updatePlayersEvents (newEvent);
+				      
 						}
 				}
 		}
@@ -199,8 +184,21 @@ public class DesertExplorer : MonoBehaviour
 		
 				decreaseAvailableWater ();
 				//end movement if out of water.
-				if (!waterAvailable ())
-						reactToMovementEnding ();
+
+				if (!waterAvailable ()) {
+						tellDesertControllerToGetNextPlayer ();
+
+				}
+		}
+
+		void tellDesertControllerToGetNextPlayer ()
+		{
+				GameObject.Find ("GameController").GetComponent<DesertMovementController> ().updatePlayer ();
+		}
+
+		void setThisPlayersMoveableMeeplesToZero ()
+		{
+				gameObject.GetComponent<Meeple> ().player.GetComponent<Player> ().setMoveablesToZero ();
 		}
 
 		void addGoodToPlayerInventory (GameObject goodTile)
@@ -241,7 +239,7 @@ public class DesertExplorer : MonoBehaviour
 	
 		void makeMover ()
 		{
-				if (!hasMovedThisTurn) {
+				if (!hasMovedThisRound) {
 						desert.GetComponent<DesertState> ().changeMover (gameObject);
 						recordMovementOfExplorerToPlayer ();
 				}
