@@ -27,6 +27,36 @@ public class PlayerInventory : MonoBehaviour
 						amountOfEachGoodItem.Add (goodItem, 0);
 				}
 
+				//for testing only
+				testInitialGoodValues ();
+
+		}
+
+		void testInitialGoodValues ()
+		{
+				string playerId = GetComponent<Player> ().id;
+				if (playerId.Equals ("P1")) {
+						addGoodToInventoryIfTypeIs (DesertGenerator.GoodType.Animal);
+
+				} else if (playerId.Equals ("P3")) {
+						addGoodToInventoryIfTypeIs (DesertGenerator.GoodType.Spice);
+				} else if (playerId.Equals ("P2")) {
+						addGoodToInventoryIfTypeIs (DesertGenerator.GoodType.Textile);
+				} else if (playerId.Equals ("P4")) {
+						addGoodToInventoryIfTypeIs (DesertGenerator.GoodType.Gem);
+				}
+
+		}
+
+		void addGoodToInventoryIfTypeIs (DesertGenerator.GoodType type)
+		{
+				foreach (var value in Enum.GetValues(typeof(DesertGenerator.GoodItem))) {
+						DesertGenerator.GoodItem goodItem = (DesertGenerator.GoodItem)value;
+						if (DesertGenerator.typeOfGoodItem (goodItem) == type)
+								amountOfEachGoodItem [goodItem] = 2;
+
+
+				}
 		}
 	
 		// Update is called once per frame
@@ -34,6 +64,7 @@ public class PlayerInventory : MonoBehaviour
 		{
 				waterText.transform.position = Camera.main.WorldToViewportPoint (transform.position);
 				waterText.text = (availableWater).ToString ();
+
 
 		}
 
@@ -44,25 +75,27 @@ public class PlayerInventory : MonoBehaviour
 
 		public void increaseGood (DesertGenerator.GoodItem good)
 		{
-				amountOfEachGoodType [(int)good]++;
-				amountOfEachGoodItem [good] = amountOfEachGoodItem [good]++;
-
+				int typeOfGoodItem = (int)DesertGenerator.typeOfGoodItem (good);
+				amountOfEachGoodType [(int)typeOfGoodItem]++;
+				amountOfEachGoodItem [good] = amountOfEachGoodItem [good]+1;
+		Debug.Log (amountOfEachGoodType [typeOfGoodItem].ToString () + " " + DesertGenerator.typeOfGoodItem (good).ToString ());
 				Debug.Log (amountOfEachGoodItem [good].ToString () + " " + good.ToString ());
 		}
 
-		public bool hasGoods (DesertGenerator.GoodItem good, int numOf)
+		public bool hasGoodsOfGivenType (DesertGenerator.GoodType goodType, int numOf)
 		{
-				return amountOfEachGoodType [(int)good] >= numOf;
+				return amountOfEachGoodType [(int)goodType] >= numOf;
 		}
 
 		public void removeGoods (DesertGenerator.GoodItem good, int numOf)
 		{       
-				int newAmount = amountOfEachGoodItem [good] - numOf;//amountOfEachGoodType [(int)DesertGenerator.typeOfGoodItem(good)] - numOf;
+				int newAmount = amountOfEachGoodItem [good] - numOf;
 				amountOfEachGoodItem [good] = newAmount;
 				//also decrement num type of each good
 				int typeOfGoodItem = (int)DesertGenerator.typeOfGoodItem (good);
 				newAmount = amountOfEachGoodType [(int)DesertGenerator.typeOfGoodItem (good)] - numOf;
 				amountOfEachGoodType [typeOfGoodItem] = newAmount;
+				Debug.Log (amountOfEachGoodItem [good].ToString () + " " + good.ToString ());
 		}
 
 		public Collection<DesertGenerator.GoodItem> getAllGoodItemsOfType (DesertGenerator.GoodType goodType)
@@ -72,7 +105,7 @@ public class PlayerInventory : MonoBehaviour
 						DesertGenerator.GoodItem goodItem = (DesertGenerator.GoodItem)value;
 				
 
-						if (DesertGenerator.typeOfGoodItem(goodItem) == goodType && amountOfEachGoodItem [goodItem] > 0)
+						if (DesertGenerator.typeOfGoodItem (goodItem) == goodType && amountOfEachGoodItem [goodItem] > 0)
 							
 								result.Add (goodItem);
 				}

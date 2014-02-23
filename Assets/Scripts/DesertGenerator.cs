@@ -123,6 +123,8 @@ public class DesertGenerator : MonoBehaviour
 				Textile=3
 	}
 		;
+
+		int[] goodCounters = {0,0,0,0};
 	    
 		public enum GoodItem
 		{
@@ -154,7 +156,7 @@ public class DesertGenerator : MonoBehaviour
 		public Color fourthGoodColor;
 		Dictionary<int,Color> typesToColors;
 		GoodItem[] goods;
-		int goodsCounter;
+		
 
 
 		// Use this for initialization
@@ -193,12 +195,9 @@ public class DesertGenerator : MonoBehaviour
 				GameObject tile;
 				//set up good variables
 				goods = (GoodItem[])Enum.GetValues (typeof(GoodItem));
-				Debug.Log (goods.Length + " num of goods iin goods");
-				foreach (var value in Enum.GetValues(typeof(DesertGenerator.GoodItem)))
-						Debug.Log (value.ToString () + " enum get vals");
-				foreach (var val in goods)
-						Debug.Log (val.ToString () + " in goods");
-				goodsCounter = 0;
+		      
+
+
 				//outer loop, go by columns
 				for (int i=0; i<numTilesHeight; i++) {
 						for (int j=0; j<numTilesWidth; j++) {
@@ -249,18 +248,16 @@ public class DesertGenerator : MonoBehaviour
 		void assignAdjacentGoods (int y, int x, GameObject tile)
 		{
 				Vector3 goodTilePos = new Vector3 (0, 0, 0);
-				Color goodSpriteColor;
-				int goodType = getAdjGoodTypeFromCoordinates (y, x);
 
-				if (goodType > -1)
-						goodSpriteColor = typesToColors [goodType];
-				else { //no adjacent good tile
+			
+				int goodTypeAsInt = getAdjGoodTypeFromCoordinates (y, x);
+				if (goodTypeAsInt == INTERIOR_TILE_INDEX) { //no adjacent good tile
 						tile.GetComponent<DesertTile> ().adjGoodLocation = INTERIOR_TILE_INDEX;
 						tile.GetComponent<DesertTile> ().adjGood = null;
 						return;
 				}
 
-				switch (goodType) {
+				switch (goodTypeAsInt) {
 				case((int)GoodType.Spice):
 						tile.GetComponent<DesertTile> ().adjGoodLocation = NORTH_INDEX;
 						goodTilePos = tile.GetComponent<Transform> ().position;
@@ -283,7 +280,7 @@ public class DesertGenerator : MonoBehaviour
 						break;
 			
 				}
-				makeAndAssignGood (tile, goodTilePos, goodSpriteColor);
+				makeAndAssignGood (tile, goodTilePos, goodTypeAsInt);
 		}
 
 		int getAdjGoodTypeFromCoordinates (int y, int x)
@@ -296,7 +293,7 @@ public class DesertGenerator : MonoBehaviour
 						return (int)GoodType.Gem;
 				if (fourthGoodType (y, x))
 						return (int)GoodType.Textile;
-				return -1;
+				return INTERIOR_TILE_INDEX;
 		}
 
 		bool firstGoodType (int y, int x)
@@ -319,18 +316,21 @@ public class DesertGenerator : MonoBehaviour
 				return x == numTilesWidth - 1 && y % 2 == 1;
 		}
 
-		void makeAndAssignGood (GameObject tile, Vector3 goodTilePos, Color goodSpriteColor)
+		void makeAndAssignGood (GameObject tile, Vector3 goodTilePos, int goodTypeAsInt)
 		{
 				
 				GameObject goodTile = (GameObject)Instantiate (good);
-				goodTile.GetComponent<Good> ().good = goods [goodsCounter];
-				Debug.Log (goodTile.GetComponent<Good> ().good.ToString ());
+				int indexOfGoodItem = (numGoodsPerType * goodTypeAsInt) + goodCounters [goodTypeAsInt];
+				goodTile.GetComponent<Good> ().good = goods [indexOfGoodItem];
+	
+				Color goodSpriteColor = typesToColors [goodTypeAsInt];
 				goodTile.GetComponent<SpriteRenderer> ().sprite = GetComponent<DesertTileIndex> ().goodTileSprites [goodsCounter];
 				goodSpriteColor.a = 255.0f;
 				goodTile.GetComponent<SpriteRenderer> ().color = goodSpriteColor;
 				goodTile.GetComponent<Transform> ().position = goodTilePos;
 				tile.GetComponent<DesertTile> ().adjGood = goodTile;
-				goodsCounter += (goodsCounter == numGoodsPerType - 1 ? -(numGoodsPerType - 1) : 1);
+				
+				goodCounters [goodTypeAsInt]++;
 
 		}
 	

@@ -21,7 +21,7 @@ public class Mercenary : Event
 		string cannotHireMessage;
 		bool showHireSelectionButtons = false;
 		bool showGoodSelectionButtons = false;
-		bool eventTileAlreadyActivated = false;
+		bool mercenaryHasBeenInitialized = false;
 		Collection<DesertGenerator.GoodItem> goodsPlayerCanPay;
 
 		void initializeMercenary ()
@@ -39,11 +39,11 @@ public class Mercenary : Event
 		//
 		public override void activateEvent (GameObject desertExplorer)
 		{
-				if (!eventTileAlreadyActivated) {
+				if (!mercenaryHasBeenInitialized) {
 						pickDesiredGoodTypeGivenCurrentLocation (desertTileWhereLocated);
 						initializeMercenary ();
 						reActivateEvent (desertExplorer);
-						eventTileAlreadyActivated = true;
+					
 				} 
 			
 		}
@@ -65,14 +65,14 @@ public class Mercenary : Event
 	
 		bool roomAtTileWhereLocated ()
 		{
-				return true;
-				//return desertTileWhereLocated.GetComponent<DesertTile> ().roomForMoreOccupants ();
+				
+				return desertTileWhereLocated.GetComponent<DesertTile> ().roomForMoreOccupants ();
 		}
 
 		bool checkIfPlayerHasSufficientFunds (GameObject player)
 		{
-				return true;
-				//return player.GetComponent<PlayerInventory> ().hasGoods (desiredGood, requiredNumberOfGood);
+				
+				return player.GetComponent<PlayerInventory> ().hasGoodsOfGivenType (desiredGoodType, requiredNumberOfGood);
 		}
 
 		protected override void takeEffect ()
@@ -126,6 +126,7 @@ public class Mercenary : Event
 				newPlayer.GetComponent<PlayerInventory> ().removeGoods (payment, requiredNumberOfGood);
 				if (firstTimeHired ()) {
 						setupMercenaryForExploration ();
+						mercenaryHasBeenInitialized = true;
 				}
 				assignToNewPlayer (newPlayer);
 
