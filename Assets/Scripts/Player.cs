@@ -15,7 +15,6 @@ public class Player : MonoBehaviour
 		public GameObject meepleSource;
 		Collection<GameObject> eventsExperiencedThisTurn;
 		public string id;
-		//public int moveableDesertExplorers;
 		int moveableDesertExplorers;
 		public bool hasMovedAnExplorerThisTurn = false;
 		public bool canMoveAgainThisRound = true;
@@ -38,7 +37,8 @@ public class Player : MonoBehaviour
 				} else {
 						//this part will eventually be removed, since the controller will handle this all. 
 						//we leabe it here now just for test purposes
-						GameObject.Find ("Desert").GetComponent<DesertState> ().changePlayerWhoseTurnItIs (gameObject);
+
+						//GameObject.Find ("Desert").GetComponent<DesertState> ().changePlayerWhoseTurnItIs (gameObject);
 				}
 		}
 
@@ -51,6 +51,7 @@ public class Player : MonoBehaviour
 		void Start ()
 		{
 				col = GetComponent<SpriteRenderer> ().color;
+				fColor.a = 255.0f;
 				eventsExperiencedThisTurn = new Collection<GameObject> ();
 		}
 
@@ -107,7 +108,7 @@ public class Player : MonoBehaviour
 				if (newNumMoveables <= 0)
 						setMoveablesToZero ();
 				else { //its posible that we will dip to 0 and then go back to 1 again, because of the sequence of
-			//events when players acquire a mercenary
+						//events when players acquire a mercenary
 						if (moveableDesertExplorers == 0)
 								canMoveAgainThisRound = true;
 						moveableDesertExplorers = newNumMoveables;

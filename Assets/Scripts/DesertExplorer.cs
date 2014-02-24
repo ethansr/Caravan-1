@@ -4,8 +4,9 @@ using System.Collections;
 public class DesertExplorer : MonoBehaviour
 {
 		public GameObject currentTile;
-		float[] alphas = {0.0f, 255.0f};
-		int alphindex = 0;
+		public Color defaultColor;
+		public Color fColor;
+		public int flash = 1;
 		GameObject lastGoodAcquired;
 		GameObject lastEventExperienced;
 		public Vector3 bazaarPosition;
@@ -18,6 +19,8 @@ public class DesertExplorer : MonoBehaviour
 		{
 				desert = GameObject.Find ("Desert");
 				hasMovedThisRound = false;
+				defaultColor = GetComponent<SpriteRenderer> ().color;
+				fColor.a = 255.0f;
 		}
 	
 		//assume that move was successful
@@ -46,7 +49,7 @@ public class DesertExplorer : MonoBehaviour
 		{
 				stopFlashing ();
 				
-		        tellDesertControllerToGetNextPlayer ();
+				tellDesertControllerToGetNextPlayer ();
 				gameObject.GetComponent<Meeple> ().endExploration ();
 		
 		}
@@ -85,11 +88,17 @@ public class DesertExplorer : MonoBehaviour
 		{          
 				if (moving ()) {
 						flashToIndicateMoveState ();
+					
+
 						GameObject newLocation = getNewLocationGivenKeyInput ();
 						if (moveSuccessful (newLocation)) 
 								handleSuccessfulMove (newLocation);
-				} else 
+				} else {
 						stopFlashing ();
+					
+						
+
+				}
 		
 				maintainPosition ();
 
@@ -213,10 +222,12 @@ public class DesertExplorer : MonoBehaviour
 	
 		void flashToIndicateMoveState ()
 		{
-				Color c = GetComponent<SpriteRenderer> ().color;
-				c.a = alphas [alphindex];
-				GetComponent<SpriteRenderer> ().color = c;
-				alphindex += (alphindex < 1 ? 1 : -1);
+				if (flash == 1)
+						GetComponent<SpriteRenderer> ().color = fColor;
+				else 
+						GetComponent<SpriteRenderer> ().color = defaultColor;
+				flash *= -1;
+
 		}
 
 		public void decreaseAvailableWater ()
@@ -227,11 +238,9 @@ public class DesertExplorer : MonoBehaviour
 	
 		void stopFlashing ()
 		{
-				Color c = GetComponent<SpriteRenderer> ().color;
-				c.a = alphas [1];
-				GetComponent<SpriteRenderer> ().color = c;
+				GetComponent<SpriteRenderer> ().color = defaultColor;
 		}
-	
+
 		bool isMover ()
 		{
 				return desert.GetComponent<DesertState> ().movingObject == gameObject;

@@ -10,6 +10,7 @@ public class MeepleSource : DropLocation
 		protected int numSpawned = 0;
 		public GameObject meeple;
 		public GUIText countText;
+		public int meeplesOnSource;
 
 		void SpawnMeeple ()
 		{
@@ -36,18 +37,20 @@ public class MeepleSource : DropLocation
 		}
 
 		void Start ()
-		{
+		{      
 				if (numMeeples > 1) {
 						allowMultipleOccupants = true;
 				}
 				SpawnMeeple ();
-		player.GetComponent<Player> ().meepleSource = gameObject;
+				player.GetComponent<Player> ().meepleSource = gameObject;
 		}
 	
 		void Update ()
 		{
 				countText.transform.position = Camera.main.WorldToViewportPoint (transform.position);
-				countText.text = (numMeeples - numSpawned + 1).ToString ();
+				
+				meeplesOnSource = (occupant ? numMeeples - numSpawned + 1 : 0);
+				countText.text = meeplesOnSource.ToString ();
 				if (!occupant) {
 						SpawnMeeple ();
 				}

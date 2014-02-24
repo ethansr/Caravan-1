@@ -29,9 +29,9 @@ public class DesertTile : MonoBehaviour
 		float[] alphas = {0.0f, 255.0f};
 		int alphindex = 0;
 		Color defaultCol;
-	
-	
-	
+
+
+
 		public struct RelativePosition
 		{
 				public int y;

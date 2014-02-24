@@ -6,12 +6,14 @@ public class GameController : MonoBehaviour {
 	public GameObject[] players;
 	public int indexOfNextPlayer;
 	public static int numPlayers = 4;
+	public static int numMeeplesPerPlayer=5;
 
 	// Use this for initialization
 	void Start () {
 	
 		//for testing
 		gameObject.GetComponent<DesertMovementController> ().beginDesertMovementPhase ();
+
 	}
 	
 	// Update is called once per frame

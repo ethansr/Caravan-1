@@ -181,6 +181,7 @@ public class Mercenary : Event
 				Color playersColor = newPlayer.GetComponent<Player> ().meepleSource.GetComponent<SpriteRenderer> ().color;
 				playersColor = darken (playersColor);
 				mercenary.GetComponent<SpriteRenderer> ().color = playersColor;
+				mercenary.GetComponent<DesertExplorer> ().defaultColor = playersColor;
 
 		}
 
