@@ -316,11 +316,12 @@ public class DesertTile : MonoBehaviour
 		void OnMouseUpAsButton ()
 		{
 				if (flipped) {
-						if (!occupied () || isBazaar ()) {
+						if (!occupied () && !isBazaar ()) {
 								GameObject playerWhoseTurnItIs = desert.GetComponent<DesertState> ().playerWhoseTurnItIs;
-								if (playerWhoseTurnItIs) {//if new player clicks on tile
+				if (playerWhoseTurnItIs&&playerHasntMovedExplorerThisTurn(playerWhoseTurnItIs)) {//if new player clicks on tile
 										if (playerWhoseTurnItIs != playerWhoIsRotatingTile) {
 												playerWhoIsRotatingTile = playerWhoseTurnItIs;
+						                        playerWhoseTurnItIs.GetComponent<Player>().hasRotatedATileThisTurn=true;
 												makeTileRotatable ();
 										} else { //same user double clicks on tile again to stop rotating
 												playerWhoIsRotatingTile = null;
@@ -329,6 +330,10 @@ public class DesertTile : MonoBehaviour
 								}
 						}
 				}
+		}
+
+	bool playerHasntMovedExplorerThisTurn(GameObject player){
+		return !player.GetComponent<Player>().hasMovedAnExplorerThisTurn;
 		}
 	
 		void makeTileRotatable ()

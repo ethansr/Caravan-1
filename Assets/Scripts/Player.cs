@@ -17,6 +17,9 @@ public class Player : MonoBehaviour
 		public string id;
 		int moveableDesertExplorers;
 		public bool hasMovedAnExplorerThisTurn = false;
+	    
+	    public bool hasRotatedATileThisTurn = false;
+	    
 		public bool canMoveAgainThisRound = true;
 		public Collection<GameObject> exploringMeeples;
 
@@ -76,8 +79,11 @@ public class Player : MonoBehaviour
 		public void finishEndTurn ()
 		{
 				eventsExperiencedThisTurn.Clear ();
+
 				hasMovedAnExplorerThisTurn = false;
-		
+
+		        hasRotatedATileThisTurn = false;
+
 				updateWhetherCanMoveAgainThisRound ();
 		
 				GameObject.Find ("GameController").GetComponent<DesertMovementController> ().updatePlayer ();

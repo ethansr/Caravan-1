@@ -74,7 +74,7 @@ public class DesertExplorer : MonoBehaviour
 	
 		void OnMouseUpAsButton ()
 		{  
-				if (isMyPlayersTurn () && currentTile && firstExplorerMovedThisTurn ()) {
+				if (isMyPlayersTurn () && currentTile && firstExplorerMovedThisTurn ()&&playerHasntMovedTileThisTurn()) {
 
 						makeMover ();
 				}     
@@ -91,6 +91,12 @@ public class DesertExplorer : MonoBehaviour
 		{
 				GameObject myPlayer = gameObject.GetComponent<Meeple> ().player;
 				return !myPlayer.GetComponent<Player> ().hasMovedAnExplorerThisTurn;
+		}
+
+
+	bool playerHasntMovedTileThisTurn(){
+		GameObject myPlayer = gameObject.GetComponent<Meeple> ().player;
+		return !myPlayer.GetComponent<Player> ().hasRotatedATileThisTurn;
 		}
 	
 		void Update ()
