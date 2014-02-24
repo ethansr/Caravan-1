@@ -48,10 +48,19 @@ public class DesertExplorer : MonoBehaviour
 		void returnToSource ()
 		{
 				stopFlashing ();
-				
-				tellDesertControllerToGetNextPlayer ();
+
+				removeSelfFromDesertState ();
+				gameObject.GetComponent<Meeple> ().player.GetComponent<Player> ().endTurn ();
 				gameObject.GetComponent<Meeple> ().endExploration ();
 		
+		}
+
+		//this method is here strictly so that in the case where there is an event on the tile
+		//just before the bazaar, the meeple leaving doesnt experience the event as he does
+		void removeSelfFromDesertState ()
+		{
+				GameObject.Find ("Desert").GetComponent<DesertState> ().movingObject = null;
+
 		}
 		//assume that move was successful
 		public void moveToNewDesertTile (GameObject newLocation)
@@ -120,9 +129,11 @@ public class DesertExplorer : MonoBehaviour
 		//and by the desert generator.
 		public void reactToMovementEnding ()
 		{
-				experienceEventIfHaventAlready ();
+				
 				preventThisExplorerFromMovingAgainThisRound ();
 				decrementPlayersMoveableExplorers ();
+		       
+				experienceEventIfHaventAlready ();
 				
 		}
 
@@ -142,12 +153,13 @@ public class DesertExplorer : MonoBehaviour
 				if (currentTile.GetComponent<DesertTile> ().hasDesertEvent ()) {
 						GameObject newEvent = currentTile.GetComponent<DesertTile> ().getEvent ();
 						if (newEvent != lastEventExperienced && !myPlayerHasExperiencedEvent (newEvent)) {
-								newEvent.GetComponent<Event> ().activateEvent (gameObject);
 								lastEventExperienced = newEvent;
 								updatePlayersEvents (newEvent);
-				      
-						}
-				}
+								newEvent.GetComponent<Event> ().activateEvent (gameObject);
+						} else
+								gameObject.GetComponent<Meeple> ().player.GetComponent<Player> ().finishEndTurn ();
+				} else 
+						gameObject.GetComponent<Meeple> ().player.GetComponent<Player> ().finishEndTurn ();
 		}
 
 		bool myPlayerHasExperiencedEvent (GameObject newEvent)
@@ -193,21 +205,13 @@ public class DesertExplorer : MonoBehaviour
 		
 				decreaseAvailableWater ();
 				//end movement if out of water.
-
+				/*
 				if (!waterAvailable ()) {
+				//remember, one of the consequences herewas that a meeple would then experience the eent
 						tellDesertControllerToGetNextPlayer ();
 
 				}
-		}
-
-		void tellDesertControllerToGetNextPlayer ()
-		{
-				GameObject.Find ("GameController").GetComponent<DesertMovementController> ().updatePlayer ();
-		}
-
-		void setThisPlayersMoveableMeeplesToZero ()
-		{
-				gameObject.GetComponent<Meeple> ().player.GetComponent<Player> ().setMoveablesToZero ();
+				*/
 		}
 
 		void addGoodToPlayerInventory (GameObject goodTile)

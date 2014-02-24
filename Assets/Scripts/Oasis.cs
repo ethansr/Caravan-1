@@ -21,6 +21,7 @@ public class Oasis : Event
 				eventStartTime = Time.time;
 				explorer = desertExplorer;
 				
+
 		}
 
 		void Update ()
@@ -31,6 +32,7 @@ public class Oasis : Event
 				} else if (inControlOfTextBox) {
 						disableEventTextBox ();
 			           inControlOfTextBox=false;
+			           tellPlayerToFinishEndTurn();
 				}
 				
 

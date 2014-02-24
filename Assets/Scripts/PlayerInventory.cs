@@ -90,17 +90,22 @@ public class PlayerInventory : MonoBehaviour
 		{
 				//check new water
 				int newWaterCount = availableWater + change;
+
 				if (newWaterCount > -1)
 						availableWater = newWaterCount;
-				setPlayerCanMoveAgainThisRound (newWaterCount > 0);
+
+				if (!waterAvailable ())
+						gameObject.GetComponent<Player> ().endTurn ();
+				else
+						gameObject.GetComponent<Player> ().updateWhetherCanMoveAgainThisRound ();
 				
-
 		}
-
+		/*
 		void setPlayerCanMoveAgainThisRound (bool canMoveAgain)
-		{
+		{       
 				gameObject.GetComponent<Player> ().canMoveAgainThisRound = canMoveAgain;
 		}
+		*/
 
 
 

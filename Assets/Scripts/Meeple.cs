@@ -23,8 +23,12 @@ public class Meeple : MonoBehaviour
 	
 				gameObject.GetComponent<DesertExplorer> ().moveToNewDesertTile (startingLocation);
 		        
-				if (player)
+				if (player && !gameObject.GetComponent<DesertExplorer> ().isMercenary ()) {
 						player.GetComponent<Player> ().changeMovebleDesertExplorers (1);
+						
+						player.GetComponent<Player> ().exploringMeeples.Add (gameObject);
+			            
+				}
 	
 		}
 
@@ -38,8 +42,10 @@ public class Meeple : MonoBehaviour
 				gameObject.GetComponent<Transform> ().localScale = defaultSize;
 				gameObject.GetComponent<Draggable> ().MoveLocations (null, player.GetComponent<Player> ().meepleSource);
 				
-				if (player)
+				if (player && !gameObject.GetComponent<DesertExplorer> ().isMercenary ()) {
 						player.GetComponent<Player> ().changeMovebleDesertExplorers (-1);
+						player.GetComponent<Player> ().exploringMeeples.Remove (gameObject);
+				}
 		}
 
 	    

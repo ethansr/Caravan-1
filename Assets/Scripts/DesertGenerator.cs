@@ -402,7 +402,14 @@ public class DesertGenerator : MonoBehaviour
 
 
 
+
 				}
+		//plus an aditional one for testing
+		/*
+		GameObject testAdjBazaar = GameObject.FindGameObjectWithTag ("41");
+		GameObject newDesertEvent2 = (GameObject)Instantiate (events [0]);
+		testAdjBazaar.GetComponent<DesertTile> ().setEvent (newDesertEvent2);
+		*/
 
 		}
 
@@ -415,7 +422,7 @@ public class DesertGenerator : MonoBehaviour
 						result = GoodType.Gem;
 				else if (y < a && y >= b)
 						result = GoodType.Textile;
-				else if (y > a && y >= b)
+				else if (y >= a && y > b)
 						result = GoodType.Animal;
 				return result;
 

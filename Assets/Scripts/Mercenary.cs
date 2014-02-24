@@ -61,6 +61,7 @@ public class Mercenary : Event
 						if (inControlOfTextBox) {
 								disableEventTextBox ();
 								inControlOfTextBox = false;
+				                tellPlayerToFinishEndTurn();
 						}
 		
 				}
@@ -170,6 +171,7 @@ public class Mercenary : Event
 		{
 				GameObject oldPlayer = mercenary.GetComponent<Meeple> ().player;
 				bool hasMovedThisTurnForOldPlayer = mercenary.GetComponent<DesertExplorer> ().hasMovedThisRound;
+				//if the mercenary has alreayd moved for this player, then num oveables was already decrementd		
 				if (oldPlayer && !hasMovedThisTurnForOldPlayer)
 						oldPlayer.GetComponent<Player> ().changeMovebleDesertExplorers (-1);
 
@@ -209,6 +211,8 @@ public class Mercenary : Event
 		public void reActivateEvent (GameObject desertExplorer)
 		{
 				inControlOfTextBox = true;
+				
+
 				mercenaryCanBeHired = roomAtTileWhereLocated () && checkIfPlayerHasSufficientFunds (desertExplorer.GetComponent<Meeple> ().player);
 				if (mercenaryCanBeHired)
 						getGoodItemsPlayerCanPay (desertExplorer.GetComponent<Meeple> ().player);		

@@ -93,7 +93,13 @@ public abstract class Event : MonoBehaviour
 		}
 	
 		protected abstract void takeEffect ();
-	
+
+		protected void tellPlayerToFinishEndTurn ()
+		{
+				if (explorer && explorer.GetComponent<Meeple> ().player) {
+						explorer.GetComponent<Meeple> ().player.GetComponent<Player> ().finishEndTurn ();
+				}
+		}
 	
 	
 }

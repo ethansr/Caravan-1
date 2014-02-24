@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
 		int moveableDesertExplorers;
 		public bool hasMovedAnExplorerThisTurn = false;
 		public bool canMoveAgainThisRound = true;
+		public Collection<GameObject> exploringMeeples;
 
 		void OnMouseUp ()
 		{
@@ -42,8 +43,43 @@ public class Player : MonoBehaviour
 				}
 		}
 
-		void endTurn ()
+		public void endTurn ()
+		{      //step 1: make meeple experience event
+				makeMovingExplorerReactToMovementEnding ();
+				//continue if there was no event; or when the event is finished
+				
+
+				
+				
+
+		}
+
+		//cases: this player took his turn, but didn't actually set one of his guys to be moving
+		//(so the over is null, another meeple, a tile). in that case this guy must finish end turn.
+		//otherwise the turn ends with a meeple that was moving
+		//so we need to experience the event and then when the evvent is finished then finishmovement
+		//note that if the explorer returns to the bazaar then the mover is set tonull and so the reacttomoveneding wont be called
+		void makeMovingExplorerReactToMovementEnding ()
 		{
+				GameObject desert = GameObject.Find ("Desert");
+				GameObject currentMovingObject = desert.GetComponent<DesertState> ().movingObject;
+				if (currentMovingObject && desert.GetComponent<DesertState> ().movingObjectIsExplorer ()) {
+						if (currentMovingObject.GetComponent<Meeple> ().player == gameObject)
+								currentMovingObject.GetComponent<DesertExplorer> ().reactToMovementEnding ();
+						else 
+								finishEndTurn ();
+				} else
+						finishEndTurn ();
+
+		}
+
+		public void finishEndTurn ()
+		{
+				eventsExperiencedThisTurn.Clear ();
+				hasMovedAnExplorerThisTurn = false;
+		
+				updateWhetherCanMoveAgainThisRound ();
+		
 				GameObject.Find ("GameController").GetComponent<DesertMovementController> ().updatePlayer ();
 
 		}
@@ -53,6 +89,7 @@ public class Player : MonoBehaviour
 				col = GetComponent<SpriteRenderer> ().color;
 				fColor.a = 255.0f;
 				eventsExperiencedThisTurn = new Collection<GameObject> ();
+				exploringMeeples = new Collection<GameObject> ();
 		}
 
 		void Update ()
@@ -66,7 +103,8 @@ public class Player : MonoBehaviour
 				//but for now I'll have the mercenary set it to true...
 				//canMoveAgainThisRound = (moveableDesertExplorers > 0);
 	
-				Debug.Log (id + " " + moveableDesertExplorers + " " + canMoveAgainThisRound);
+				Debug.Log (id + " " + moveableDesertExplorers + " " + canMoveAgainThisRound + " " + exploringMeeples.Count ());
+
 				
 
 		}
@@ -91,43 +129,42 @@ public class Player : MonoBehaviour
 				eventsExperiencedThisTurn.Add (eventExperienced);
 		}
 
-		public void reactToTurnEnding ()
-		{
-				eventsExperiencedThisTurn.Clear ();
-				hasMovedAnExplorerThisTurn = false;
-		}
-
 		public bool alreadyExperiencedThisEventThisTurn (GameObject candidateEvent)
 		{
 				return eventsExperiencedThisTurn.Contains (candidateEvent);
+		}
+	   
+		public void updateWhetherCanMoveAgainThisRound ()
+		{
+				canMoveAgainThisRound = (gameObject.GetComponent<PlayerInventory> ().waterAvailable () && moveableDesertExplorers > 0);
+
 		}
 
 		public void changeMovebleDesertExplorers (int change)
 		{
 				int newNumMoveables = moveableDesertExplorers + change;
-				if (newNumMoveables <= 0)
-						setMoveablesToZero ();
-				else { //its posible that we will dip to 0 and then go back to 1 again, because of the sequence of
-						//events when players acquire a mercenary
-						if (moveableDesertExplorers == 0)
-								canMoveAgainThisRound = true;
+				if (newNumMoveables > -1)
 						moveableDesertExplorers = newNumMoveables;
-				}
+				else
+						moveableDesertExplorers = 0;
+			
+				updateWhetherCanMoveAgainThisRound ();
 				
 		}
 
 		public void setMoveablesToZero ()
 		{
 				moveableDesertExplorers = 0;
-				preventFromTakingAnotherTurnThisRound ();
+				updateWhetherCanMoveAgainThisRound ();
+			
 		}
 
-		public void preventFromTakingAnotherTurnThisRound ()
+		void tellDesertControllerToGetNextPlayer ()
 		{
-
-				canMoveAgainThisRound = false;
-
+				GameObject.Find ("GameController").GetComponent<DesertMovementController> ().updatePlayer ();
 		}
+
+		
 	    
 	  
 		

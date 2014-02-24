@@ -75,8 +75,9 @@ public class DesertMovementController : Event
 		{
 				Debug.Log ("End movement phase");
 				resetDesertState ();
-				resetPlayerMoveVariablesAndCheckForNoWater ();
-				allExplorersCanMove ();
+		//move these to begin movement phase
+				//resetPlayerMoveVariablesAndCheckForNoWater ();
+				//allExplorersCanMove ();
 
 				//for testing
 				//beginDesertMovementPhase ();

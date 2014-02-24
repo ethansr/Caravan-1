@@ -20,6 +20,8 @@ public class Robbery : Event
 				tookEffect = false;
 				eventStartTime = Time.time;
 				explorer = desertExplorer;
+
+
 		
 		}
 	
@@ -31,6 +33,7 @@ public class Robbery : Event
 				} else if (inControlOfTextBox) {
 						disableEventTextBox ();
 						inControlOfTextBox = false;
+			            tellPlayerToFinishEndTurn();
 				}
 		
 		
