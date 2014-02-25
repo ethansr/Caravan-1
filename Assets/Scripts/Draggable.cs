@@ -5,6 +5,7 @@ public class Draggable : MonoBehaviour {
 	protected GameObject dropTarget;
 	protected GameObject currentLocation;
 	protected int numActiveTargets = 0;
+	public static float iTweenTime = 1.0f;
 	
 	//
 	public void MoveLocations(GameObject source, GameObject target) {
@@ -15,7 +16,7 @@ public class Draggable : MonoBehaviour {
 		//always put ourselves in new location
 		target.GetComponent<DropLocation>().SetOccupant(gameObject);
 		currentLocation = target;
-		iTween.MoveTo(gameObject, target.transform.position, 1.0f);
+		iTween.MoveTo(gameObject, target.transform.position, iTweenTime);
 	}
 	//don't delete this; necessary for the send message method in dragmanager to function
 	public void StartDrag(){

@@ -9,13 +9,19 @@ public class DesertMovementController : Event
 {
 		
 		string movementEndedMessage = "We have finished exploring for now...";
-		string movementEndPartTwoMessage = "Your explorers are checking their supplies.";
+		string movementEndPartTwoMessage = "Explorers in the bazaar have returned to their duties... " + System.Environment.NewLine + "Those in the desert are checking their supplies.";
 		string needToTradeGoodsForMeepleMessage = " you must give up goods for an Explorer.";
 		string partTwo = "Your explorers have chosen who to send," + System.Environment.NewLine + "and which good to sacrifice to the desert.";
 		bool inMovementPhase = false;
 		bool showingEndOfMovePhaseScreen = false;
 		bool showingPlayerMustTradeGoodsForExplorerScreen = false;
 		Collection<GameObject> playersWhoMustTradeGoodsForExplorer = new Collection<GameObject> ();
+		float buttonWidth = 100;
+		float buttonHeight = 30;
+		float buttonStartX = 1200;
+		float buttonY = 50;
+		float sendToSourceDelayStart;
+		bool waitingOnExplorerReturn = false;
 		
 		public void beginDesertMovementPhase ()
 		{
@@ -36,6 +42,7 @@ public class DesertMovementController : Event
 								explorer.GetComponent<DesertExplorer> ().missThisTurn ();
 						} else {
 								explorer.GetComponent<DesertExplorer> ().hasMovedThisRound = false;
+				          
 								explorer.GetComponent<Meeple> ().player.GetComponent<Player> ().moveableDesertExplorers++;
 						}
 
@@ -106,29 +113,45 @@ public class DesertMovementController : Event
 
 		void endDesertMovementPhase ()
 		{
-				announceEndOfMovePhase ();
+				sendExplorersOnBazaarBackToSource ();
+		        
+				eventStartTime = Time.time;
+				waitingOnExplorerReturn = true;
+				
 
+		}
+
+		void announceEndOfMovePhaseAfterDelay ()
+		{      
+				if ((Time.time - eventStartTime) >= Draggable.iTweenTime) {
+			
+						announceEndOfMovePhase ();
+			
+				}
 		}
 
 		void announceEndOfMovePhase ()
 		{        	
 				showingEndOfMovePhaseScreen = true;
 				effectOccurring = true;
+
 				inControlOfTextBox = true;
 				tookEffect = false;
 				eventStartTime = Time.time;
+				waitingOnExplorerReturn = false;
+			
 		
 		}
 
 		public override void activateEvent (GameObject aNullValueUseTheCollection)
-		{ 
+		{       
 				effectOccurring = true;
 				showingEndOfMovePhaseScreen = false;
 				showingPlayerMustTradeGoodsForExplorerScreen = true;
 				inControlOfTextBox = true;
 				tookEffect = false;
 				eventStartTime = Time.time;
-
+			
 				string playerIds = "";
 				foreach (GameObject player in playersWhoMustTradeGoodsForExplorer)
 						playerIds = playerIds + player.GetComponent<Player> ().id + ", ";
@@ -138,6 +161,9 @@ public class DesertMovementController : Event
 	
 		void Update ()
 		{
+				if (waitingOnExplorerReturn) {
+						announceEndOfMovePhaseAfterDelay ();
+				}
 				if (effectOccurring) {
 						if (showingEndOfMovePhaseScreen) {
 								displayResultOfTwoCaseEvent (true, movementEndedMessage, movementEndPartTwoMessage, "");
@@ -158,14 +184,19 @@ public class DesertMovementController : Event
 			
 				if (showingEndOfMovePhaseScreen) {
 						
+					
 						
 						checkForPlayersWhoNeedToReturnMeepleToSourceForGood ();
+		
+						
 					
 				}
-				if (showingPlayerMustTradeGoodsForExplorerScreen)
+				if (showingPlayerMustTradeGoodsForExplorerScreen) {
 						takeRandomGoodFromPlayersAndMoveRandomMeepleToSource ();
+						
+				}
+		               
 
-			
 
 		}
 
@@ -175,11 +206,12 @@ public class DesertMovementController : Event
 						player.GetComponent<Player> ().returnRandomExplorerToSource ();
 						player.GetComponent<PlayerInventory> ().removeRandomGood ();
 				}
-				
+
 		}
 
 		void checkForPlayersWhoNeedToReturnMeepleToSourceForGood ()
 		{
+				
 				GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
 				foreach (GameObject player in players) {
 						if (!player.GetComponent<PlayerInventory> ().waterAvailable ())
@@ -189,6 +221,7 @@ public class DesertMovementController : Event
 				//if some player had no water activate event
 				if (somePlayersNeedToTradeGoodsForExplorer ())
 						activateEvent (null);
+				
 			
 			
 		}
@@ -214,6 +247,7 @@ public class DesertMovementController : Event
 				resetDesertState ();
 				playersWhoMustTradeGoodsForExplorer.Clear ();
 				inMovementPhase = false;
+				
 				Debug.Log ("closed movement phase");
 				//only for testing carry-over events
 				beginDesertMovementPhase ();
@@ -226,9 +260,37 @@ public class DesertMovementController : Event
 				desert.GetComponent<DesertState> ().movingObject = null;
 				desert.GetComponent<DesertState> ().playerWhoseTurnItIs = null;
 
+		}
 
-	
+		void sendExplorersOnBazaarBackToSource ()
+		{
+				GameObject[] explorers = GameObject.FindGameObjectsWithTag ("explorer");
+				foreach (GameObject explorer in explorers) {
+						if (explorer.GetComponent<DesertExplorer> ().onBazaar ()) {
+								explorer.GetComponent<Meeple> ().endExploration ();
+						}
 
-		
+				}
+
+				
+
+
+		}
+
+		void OnGUI ()
+		{
+				
+				if (inMovementPhase) {
+						if (GUI.Button (new Rect (buttonStartX, buttonY, buttonWidth, buttonHeight), "End Movement")) {
+								endDesertMovementPhase ();
+				
+						}
+
+
+
+
+				}
+
+
 		}
 }

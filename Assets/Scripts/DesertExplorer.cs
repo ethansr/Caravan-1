@@ -316,6 +316,19 @@ public class DesertExplorer : MonoBehaviour
 				
 				missNextTurn = false;
 		}
+
+		//should we use this?
+		public void resetEventAnddGoodVariablesForNextTurn ()
+		{
+				lastEventExperienced = null;
+				lastGoodAcquired = null;
+		}
+
+		public bool onBazaar ()
+		{
+				return currentTile.GetComponent<DesertTile> ().isBazaar ();
+
+		}
 	
 	
 	

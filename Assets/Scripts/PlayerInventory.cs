@@ -59,20 +59,41 @@ public class PlayerInventory : MonoBehaviour
 				Debug.Log (amountOfEachGoodItem [good].ToString () + " " + good.ToString ());
 		}
 
+		public void increaseGood (DesertGenerator.GoodItem good, int numOf)
+		{
+				int newAmount = amountOfEachGoodItem [good] + numOf;
+				amountOfEachGoodItem [good] = newAmount;
+				//also decrement num type of each good
+				int typeOfGoodItem = (int)DesertGenerator.typeOfGoodItem (good);
+				newAmount = amountOfEachGoodType [(int)DesertGenerator.typeOfGoodItem (good)] + numOf;
+				amountOfEachGoodType [typeOfGoodItem] = newAmount;
+				Debug.Log (amountOfEachGoodItem [good].ToString () + " " + good.ToString ());
+
+		}
+
 		public bool hasGoodsOfGivenType (DesertGenerator.GoodType goodType, int numOf)
 		{
 				return amountOfEachGoodType [(int)goodType] >= numOf;
 		}
 
+		public bool hasNumberOfGivenGoodItem (DesertGenerator.GoodItem good, int numOf)
+		{
+
+				return amountOfEachGoodItem [good] >= numOf;
+
+		}
+
 		public void removeGoods (DesertGenerator.GoodItem good, int numOf)
 		{       
 				int newAmount = amountOfEachGoodItem [good] - numOf;
-				amountOfEachGoodItem [good] = newAmount;
-				//also decrement num type of each good
-				int typeOfGoodItem = (int)DesertGenerator.typeOfGoodItem (good);
-				newAmount = amountOfEachGoodType [(int)DesertGenerator.typeOfGoodItem (good)] - numOf;
-				amountOfEachGoodType [typeOfGoodItem] = newAmount;
-				Debug.Log (amountOfEachGoodItem [good].ToString () + " " + good.ToString ());
+				if (newAmount > -1) {
+						amountOfEachGoodItem [good] = newAmount;
+						//also decrement num type of each good
+						int typeOfGoodItem = (int)DesertGenerator.typeOfGoodItem (good);
+						newAmount = amountOfEachGoodType [(int)DesertGenerator.typeOfGoodItem (good)] - numOf;
+						amountOfEachGoodType [typeOfGoodItem] = newAmount;
+						Debug.Log (amountOfEachGoodItem [good].ToString () + " " + good.ToString ());
+				}
 		}
 
 		public Collection<DesertGenerator.GoodItem> getAllGoodItemsOfType (DesertGenerator.GoodType goodType)
@@ -101,8 +122,8 @@ public class PlayerInventory : MonoBehaviour
 				else 
 						newWaterCount = 0;
 				
-		       //SHOULD WE WRAP THIS IN MOVEMENT PHASE check???
-		//assume that water is only decremented by the movement phase
+				//SHOULD WE WRAP THIS IN MOVEMENT PHASE check???
+				//assume that water is only decremented by the movement phase
 				if (!waterAvailable ())
 						gameObject.GetComponent<Player> ().endTurn ();
 				

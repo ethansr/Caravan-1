@@ -86,7 +86,9 @@ public abstract class Event : MonoBehaviour
 								}
 						} else
 								writeToEventText (resultFalseMessage);
+
 						tookEffect = true;
+
 				} else {
 								
 						clearEventText ();
