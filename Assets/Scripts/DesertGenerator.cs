@@ -9,8 +9,8 @@ public class DesertGenerator : MonoBehaviour
 		//to be changed as well.
 		public static float numUnitsDesertWidth = 99.8f;
 		public static float numUnitsDesertHeight = 56.2f;
-		public static float numUnitsDesertTileWidth = 13.6f;
-		public static float numUnitsDesertTileHeight = 19.7f;
+		public static float numUnitsDesertTileWidth = 48.0f;
+		public static float numUnitsDesertTileHeight = 48.0f;
 
 		//generate 9*9 grid of desert tiles
 		static int  numTilesWidth = 9;
@@ -129,7 +129,7 @@ public class DesertGenerator : MonoBehaviour
 		public enum GoodItem
 		{
 				Nutmeg=0,
-				Cinnamon=1,
+				Cumin=1,
 				Saffron=2,
 				Clove=3,
 
@@ -140,11 +140,11 @@ public class DesertGenerator : MonoBehaviour
 
 				Turqouise=8,
 				Amethyst=9,
-				Ruby=10,
-				Topaz=11,
+				Emerald=10,
+				Carnelian=11,
 
 				AnimalSkin=12,
-				PaintedCloth=13,
+				Linen=13,
 				Wool=14,
 				Silk=15
 		}
@@ -322,16 +322,28 @@ public class DesertGenerator : MonoBehaviour
 				GameObject goodTile = (GameObject)Instantiate (good);
 				int indexOfGoodItem = (numGoodsPerType * goodTypeAsInt) + goodCounters [goodTypeAsInt];
 				goodTile.GetComponent<Good> ().good = goods [indexOfGoodItem];
-	
+				assignGoodTileSprite (goodTile, indexOfGoodItem);
+			
+				/*
 				Color goodSpriteColor = typesToColors [goodTypeAsInt];
 				goodTile.GetComponent<SpriteRenderer> ().sprite = GetComponent<DesertTileIndex> ().goodTileSprites [indexOfGoodItem];
 				goodSpriteColor.a = 255.0f;
 				goodTile.GetComponent<SpriteRenderer> ().color = goodSpriteColor;
+                */
+
 				goodTile.GetComponent<Transform> ().position = goodTilePos;
 				tile.GetComponent<DesertTile> ().adjGood = goodTile;
 				
 				goodCounters [goodTypeAsInt]++;
 
+		}
+
+		void assignGoodTileSprite (GameObject goodTile, int indexOfGoodItem)
+		{
+				goodTile.GetComponent<SpriteRenderer> ().sprite = GetComponent<DesertTileIndex> ().goodTileSprites [indexOfGoodItem];
+				Color goodSpriteColor = goodTile.GetComponent<SpriteRenderer> ().color;
+				goodSpriteColor.a = 255.0f;
+				goodTile.GetComponent<SpriteRenderer> ().color = goodSpriteColor;
 		}
 	
 		bool center (int y, int x)
@@ -404,8 +416,8 @@ public class DesertGenerator : MonoBehaviour
 
 
 				}
-		//plus an aditional one for testing
-		/*
+				//plus an aditional one for testing
+				/*
 		GameObject testAdjBazaar = GameObject.FindGameObjectWithTag ("41");
 		GameObject newDesertEvent2 = (GameObject)Instantiate (events [0]);
 		testAdjBazaar.GetComponent<DesertTile> ().setEvent (newDesertEvent2);
