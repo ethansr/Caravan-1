@@ -131,6 +131,9 @@ public class DesertTile : MonoBehaviour
 	
 		public bool roomForMoreOccupants ()
 		{
+				if (isBazaar ())
+						return true;
+
 				return occupants.Count () < maxAllowedOccupants;
 		}
 	
@@ -318,10 +321,10 @@ public class DesertTile : MonoBehaviour
 				if (flipped) {
 						if (!occupied () && !isBazaar ()) {
 								GameObject playerWhoseTurnItIs = desert.GetComponent<DesertState> ().playerWhoseTurnItIs;
-				if (playerWhoseTurnItIs&&playerHasntMovedExplorerThisTurn(playerWhoseTurnItIs)) {//if new player clicks on tile
+								if (playerWhoseTurnItIs && playerHasntMovedExplorerThisTurn (playerWhoseTurnItIs)) {//if new player clicks on tile
 										if (playerWhoseTurnItIs != playerWhoIsRotatingTile) {
 												playerWhoIsRotatingTile = playerWhoseTurnItIs;
-						                        playerWhoseTurnItIs.GetComponent<Player>().hasRotatedATileThisTurn=true;
+												playerWhoseTurnItIs.GetComponent<Player> ().hasRotatedATileThisTurn = true;
 												makeTileRotatable ();
 										} else { //same user double clicks on tile again to stop rotating
 												playerWhoIsRotatingTile = null;
@@ -332,8 +335,9 @@ public class DesertTile : MonoBehaviour
 				}
 		}
 
-	bool playerHasntMovedExplorerThisTurn(GameObject player){
-		return !player.GetComponent<Player>().hasMovedAnExplorerThisTurn;
+		bool playerHasntMovedExplorerThisTurn (GameObject player)
+		{
+				return !player.GetComponent<Player> ().hasMovedAnExplorerThisTurn;
 		}
 	
 		void makeTileRotatable ()
@@ -428,9 +432,11 @@ public class DesertTile : MonoBehaviour
 		}
 	
 		public void leaveTile (GameObject explorer, Vector3 explorersPosition)
-		{      
-				occupants.Remove (explorer);
-				availablePositions.Add (explorersPosition);
+		{
+				if (!isBazaar ()) {
+						occupants.Remove (explorer);
+						availablePositions.Add (explorersPosition);
+				}
 		
 		}
 	
@@ -451,9 +457,9 @@ public class DesertTile : MonoBehaviour
 		
 						explorersPosition = availablePositions.First<Vector3> ();
 						availablePositions.Remove (explorersPosition);
-						
+						occupants.Add (explorer);
 				}
-				occupants.Add (explorer);
+				//occupants.Add (explorer);
 				return explorersPosition;
 		
 		}

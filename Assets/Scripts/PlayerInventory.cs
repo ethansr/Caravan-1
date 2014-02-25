@@ -101,7 +101,8 @@ public class PlayerInventory : MonoBehaviour
 				else 
 						newWaterCount = 0;
 				
-
+		       //SHOULD WE WRAP THIS IN MOVEMENT PHASE check???
+		//assume that water is only decremented by the movement phase
 				if (!waterAvailable ())
 						gameObject.GetComponent<Player> ().endTurn ();
 				

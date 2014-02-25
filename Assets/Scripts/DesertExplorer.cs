@@ -28,7 +28,6 @@ public class DesertExplorer : MonoBehaviour
 		public void updateLocation (GameObject newLocation)
 		{      //the only case where we dont leave the tile is when we try moving back to bazaar when we are mercenary.
 				if (!(returnedToBazaar (newLocation) && isMercenary ()))
-						//currentTile.GetComponent<DesertTile> ().leaveTile (gameObject, gameObject.GetComponent<Transform> ().position);
 						leaveCurrentTile ();
 				//...not actually equivalent to if(returned to bazaar and not mercenary, note).
 				if (returnedToBazaar (newLocation)) {  
@@ -55,6 +54,7 @@ public class DesertExplorer : MonoBehaviour
 		{
 				stopFlashing ();
 				removeSelfFromDesertState ();
+			
 				gameObject.GetComponent<Meeple> ().player.GetComponent<Player> ().endTurn ();
 				gameObject.GetComponent<Meeple> ().endExploration ();
 		
@@ -116,8 +116,6 @@ public class DesertExplorer : MonoBehaviour
 				} else {
 						stopFlashing ();
 					
-						
-
 				}
 		
 				

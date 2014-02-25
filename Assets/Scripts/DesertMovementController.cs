@@ -11,12 +11,11 @@ public class DesertMovementController : Event
 		string movementEndedMessage = "We have finished exploring for now...";
 		string movementEndPartTwoMessage = "Your explorers are checking their supplies.";
 		string needToTradeGoodsForMeepleMessage = " you must give up goods for an Explorer.";
-	    string partTwo = "Your explorers have chosen who to send," + System.Environment.NewLine + "and which good to sacrifice to the desert.";
+		string partTwo = "Your explorers have chosen who to send," + System.Environment.NewLine + "and which good to sacrifice to the desert.";
 		bool inMovementPhase = false;
 		bool showingEndOfMovePhaseScreen = false;
 		bool showingPlayerMustTradeGoodsForExplorerScreen = false;
-	    Collection<GameObject> playersWhoMustTradeGoodsForExplorer= new Collection<GameObject> ();
-	    
+		Collection<GameObject> playersWhoMustTradeGoodsForExplorer = new Collection<GameObject> ();
 		
 		public void beginDesertMovementPhase ()
 		{
@@ -51,11 +50,20 @@ public class DesertMovementController : Event
 				GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
 				foreach (GameObject player in players) {
 						player.GetComponent<Player> ().hasMovedAnExplorerThisTurn = false;
+
+
 						//when players necessarily place their meeples on the bazaar during placement phase
 						//this will work; for now at start no player has any moveable meeples so it auto ends.
 						//so for testing user a weaker condition
 
+
+
 						//player.GetComponent<Player> ().updateWhetherCanMoveAgainThisRound ();
+
+						//strictly for testing breaking legs of explorer
+						player.GetComponent<PlayerInventory> ().changeAvailableWater (2);
+
+						//weaker condition; based strictly on available water
 						player.GetComponent<Player> ().canMoveAgainThisRound = player.GetComponent<PlayerInventory> ().waterAvailable ();
 			
 				}
@@ -100,14 +108,6 @@ public class DesertMovementController : Event
 		{
 				announceEndOfMovePhase ();
 
-		}
-	
-		void resetDesertState ()
-		{
-				GameObject desert = GameObject.Find ("Desert");
-				desert.GetComponent<DesertState> ().movingObject = null;
-				desert.GetComponent<DesertState> ().playerWhoseTurnItIs = null;
-		
 		}
 
 		void announceEndOfMovePhase ()
@@ -158,7 +158,7 @@ public class DesertMovementController : Event
 			
 				if (showingEndOfMovePhaseScreen) {
 						
-						resetDesertState ();
+						
 						checkForPlayersWhoNeedToReturnMeepleToSourceForGood ();
 					
 				}
@@ -211,9 +211,24 @@ public class DesertMovementController : Event
 
 		void closeMovementPhase ()
 		{
+				resetDesertState ();
 				playersWhoMustTradeGoodsForExplorer.Clear ();
 				inMovementPhase = false;
 				Debug.Log ("closed movement phase");
+				//only for testing carry-over events
+				beginDesertMovementPhase ();
 				
+		}
+
+		void resetDesertState ()
+		{
+				GameObject desert = GameObject.Find ("Desert");
+				desert.GetComponent<DesertState> ().movingObject = null;
+				desert.GetComponent<DesertState> ().playerWhoseTurnItIs = null;
+
+
+	
+
+		
 		}
 }
