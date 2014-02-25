@@ -7,9 +7,12 @@ public class Robbery : Event
 		public const int numbersThatLoseWater = 6;
 		public const int waterStolen = -1;
 		const string foundRobberMessage = "Robbers attack! Will they triumph???";
-		string wasRobbedMessage = "Robbers steal " + (-1)*waterStolen + " water!!!";
+		string wasRobbedMessage;
+		string tookWaterMessage = "Robbers steal " + (-1) * waterStolen + " water!!!";
+		string missNextTurnMessage = "We broke this explorer's legs. He cannot move next turn.";
 		const string escapedRobbersMessage = "You fight them off... this time.";
 		bool wasRobbed = false;
+		bool hadEnoughWaterToTake;
 	
 		public override void activateEvent (GameObject desertExplorer)
 		{
@@ -20,6 +23,8 @@ public class Robbery : Event
 				tookEffect = false;
 				eventStartTime = Time.time;
 				explorer = desertExplorer;
+				hadEnoughWaterToTake = (explorer.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().howMuchWaterAvailable () + waterStolen > -1);
+				wasRobbedMessage = (hadEnoughWaterToTake ? tookWaterMessage : missNextTurnMessage);
 
 
 		
@@ -33,7 +38,7 @@ public class Robbery : Event
 				} else if (inControlOfTextBox) {
 						disableEventTextBox ();
 						inControlOfTextBox = false;
-			            tellPlayerToFinishEndTurn();
+						tellPlayerToFinishEndTurn ();
 				}
 		
 		
@@ -41,6 +46,9 @@ public class Robbery : Event
 	
 		protected override void takeEffect ()
 		{
-				explorer.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().changeAvailableWater (waterStolen);
+				if (hadEnoughWaterToTake)
+						explorer.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().changeAvailableWater (waterStolen);
+				else
+						explorer.GetComponent<DesertExplorer> ().makeMissNextTurn ();
 		}
 }

@@ -5,8 +5,8 @@ public abstract class Event : MonoBehaviour
 {   
 	
 		public const int numbersInBagOfChance = 6;
-		public const float secondsWaitForEventResult = 5.0f;
-		public const float secondsWaitForEventResultClear = secondsWaitForEventResult * 2;
+		protected float secondsWaitForEventResult;
+		protected float secondsWaitForEventResultClear;
 		public static GameObject eventText;
 		protected float eventStartTime;
 		protected bool effectOccurring;
@@ -27,6 +27,8 @@ public abstract class Event : MonoBehaviour
 		void Start ()
 		{
 				eventText = GameObject.Find ("EventText");
+				secondsWaitForEventResult = 5.0f;
+				secondsWaitForEventResultClear = secondsWaitForEventResult * 2;
 				disableEventTextBox ();
 				clearEventText ();
 				effectOccurring = false;
@@ -69,19 +71,21 @@ public abstract class Event : MonoBehaviour
 		}
 
 		protected void displayResultOfTwoCaseEvent (bool result, string waitingForResultMessage, string resultTrueMessage, string resultFalseMessage)
-		{
-				
+		{   
+
 				if ((Time.time - eventStartTime) < secondsWaitForEventResult) {
+					
 						writeToEventText (waitingForResultMessage);
 				} else if ((Time.time - eventStartTime) < secondsWaitForEventResultClear) {
+					
 						if (result) {
 								writeToEventText (resultTrueMessage);
 								if (!tookEffect) {
+										
 										takeEffect ();
 								}
 						} else
 								writeToEventText (resultFalseMessage);
-
 						tookEffect = true;
 				} else {
 								

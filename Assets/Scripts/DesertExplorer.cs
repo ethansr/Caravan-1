@@ -14,6 +14,7 @@ public class DesertExplorer : MonoBehaviour
 		GameObject desert;
 		public string id;
 		public bool hasMovedThisRound;
+		public bool missNextTurn = false;
 	
 		void Start ()
 		{
@@ -27,8 +28,8 @@ public class DesertExplorer : MonoBehaviour
 		public void updateLocation (GameObject newLocation)
 		{      //the only case where we dont leave the tile is when we try moving back to bazaar when we are mercenary.
 				if (!(returnedToBazaar (newLocation) && isMercenary ()))
-						currentTile.GetComponent<DesertTile> ().leaveTile (gameObject, gameObject.GetComponent<Transform> ().position);
-
+						//currentTile.GetComponent<DesertTile> ().leaveTile (gameObject, gameObject.GetComponent<Transform> ().position);
+						leaveCurrentTile ();
 				//...not actually equivalent to if(returned to bazaar and not mercenary, note).
 				if (returnedToBazaar (newLocation)) {  
 						if (!isMercenary ())
@@ -37,6 +38,11 @@ public class DesertExplorer : MonoBehaviour
 				} else
 						moveToNewDesertTile (newLocation);
 
+		}
+
+		public void leaveCurrentTile ()
+		{
+				currentTile.GetComponent<DesertTile> ().leaveTile (gameObject, gameObject.GetComponent<Transform> ().position);
 		}
 	
 		bool returnedToBazaar (GameObject newLocation)
@@ -48,7 +54,6 @@ public class DesertExplorer : MonoBehaviour
 		void returnToSource ()
 		{
 				stopFlashing ();
-
 				removeSelfFromDesertState ();
 				gameObject.GetComponent<Meeple> ().player.GetComponent<Player> ().endTurn ();
 				gameObject.GetComponent<Meeple> ().endExploration ();
@@ -74,7 +79,7 @@ public class DesertExplorer : MonoBehaviour
 	
 		void OnMouseUpAsButton ()
 		{  
-				if (isMyPlayersTurn () && currentTile && firstExplorerMovedThisTurn ()&&playerHasntMovedTileThisTurn()) {
+				if (isMyPlayersTurn () && currentTile && firstExplorerMovedThisTurn ()) {
 
 						makeMover ();
 				}     
@@ -93,18 +98,18 @@ public class DesertExplorer : MonoBehaviour
 				return !myPlayer.GetComponent<Player> ().hasMovedAnExplorerThisTurn;
 		}
 
-
-	bool playerHasntMovedTileThisTurn(){
-		GameObject myPlayer = gameObject.GetComponent<Meeple> ().player;
-		return !myPlayer.GetComponent<Player> ().hasRotatedATileThisTurn;
+		bool playerHasntMovedTileThisTurn ()
+		{
+				GameObject myPlayer = gameObject.GetComponent<Meeple> ().player;
+				return !myPlayer.GetComponent<Player> ().hasRotatedATileThisTurn;
 		}
 	
 		void Update ()
-		{          
+		{         
+				
+
 				if (moving ()) {
 						flashToIndicateMoveState ();
-					
-
 						GameObject newLocation = getNewLocationGivenKeyInput ();
 						if (moveSuccessful (newLocation)) 
 								handleSuccessfulMove (newLocation);
@@ -115,10 +120,8 @@ public class DesertExplorer : MonoBehaviour
 
 				}
 		
+				
 				maintainPosition ();
-
-	
-		
 		}
 		//I don't really understand why this is neccessary tbh, but it seems to be.
 		void maintainPosition ()
@@ -133,12 +136,13 @@ public class DesertExplorer : MonoBehaviour
 
 		//called when we run out of water,
 		//and by the desert generator.
+
+
 		public void reactToMovementEnding ()
 		{
-				
 				preventThisExplorerFromMovingAgainThisRound ();
 				decrementPlayersMoveableExplorers ();
-		       
+
 				experienceEventIfHaventAlready ();
 				
 		}
@@ -210,14 +214,7 @@ public class DesertExplorer : MonoBehaviour
 						updateLocation (newLocation);
 		
 				decreaseAvailableWater ();
-				//end movement if out of water.
-				/*
-				if (!waterAvailable ()) {
-				//remember, one of the consequences herewas that a meeple would then experience the eent
-						tellDesertControllerToGetNextPlayer ();
-
-				}
-				*/
+			
 		}
 
 		void addGoodToPlayerInventory (GameObject goodTile)
@@ -302,6 +299,24 @@ public class DesertExplorer : MonoBehaviour
 		{
 				
 				return !(invader.GetComponent<Meeple> ().player.Equals (GetComponent<Meeple> ().player));
+		}
+
+		public void makeMissNextTurn ()
+		{
+				missNextTurn = true;
+
+		}
+
+		public bool mustMissThisTurn ()
+		{
+				return missNextTurn;
+		}
+
+		public void missThisTurn ()
+		{
+				preventThisExplorerFromMovingAgainThisRound ();
+				
+				missNextTurn = false;
 		}
 	
 	

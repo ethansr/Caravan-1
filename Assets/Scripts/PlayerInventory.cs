@@ -45,6 +45,11 @@ public class PlayerInventory : MonoBehaviour
 				return availableWater > 0;
 		}
 
+		public int howMuchWaterAvailable ()
+		{
+				return availableWater;
+		}
+
 		public void increaseGood (DesertGenerator.GoodItem good)
 		{
 				int typeOfGoodItem = (int)DesertGenerator.typeOfGoodItem (good);
@@ -93,19 +98,28 @@ public class PlayerInventory : MonoBehaviour
 
 				if (newWaterCount > -1)
 						availableWater = newWaterCount;
+				else 
+						newWaterCount = 0;
+				
 
 				if (!waterAvailable ())
 						gameObject.GetComponent<Player> ().endTurn ();
-				else
-						gameObject.GetComponent<Player> ().updateWhetherCanMoveAgainThisRound ();
+				
 				
 		}
-		/*
-		void setPlayerCanMoveAgainThisRound (bool canMoveAgain)
-		{       
-				gameObject.GetComponent<Player> ().canMoveAgainThisRound = canMoveAgain;
+
+		public void removeRandomGood ()
+		{
+				foreach (DesertGenerator.GoodItem goodItem in amountOfEachGoodItem.Keys) {
+						if (amountOfEachGoodItem [goodItem] > 0) {
+								removeGoods (goodItem, 1);
+								return;
+						}
+
+
+				}
+
 		}
-		*/
 
 
 

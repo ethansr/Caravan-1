@@ -23,16 +23,9 @@ public class DesertState : MonoBehaviour {
 	//when the player whose turn it is changes any meeples belonging to the player who are moving 
 	//must terinate their movement
 	public void changePlayerWhoseTurnItIs(GameObject newPlayer){
-		/*
-		if (movingObject&&movingObjectIsExplorer()){
-			 if(movingObject.GetComponent<Meeple>().player==playerWhoseTurnItIs)
-				movingObject.GetComponent<DesertExplorer> ().reactToMovementEnding ();
-		}
-		*/
-		//this is new; beware if there are bugs...
+
 		 movingObject = null;
-		//assume that playeers will handle this before switching
-		//if(playerWhoseTurnItIs) playerWhoseTurnItIs.GetComponent<Player> ().reactToTurnEnding ();
+	
 
 		playerWhoseTurnItIs = newPlayer;
 	

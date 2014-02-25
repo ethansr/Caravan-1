@@ -15,11 +15,9 @@ public class Player : MonoBehaviour
 		public GameObject meepleSource;
 		Collection<GameObject> eventsExperiencedThisTurn;
 		public string id;
-		int moveableDesertExplorers;
+		public int moveableDesertExplorers;
 		public bool hasMovedAnExplorerThisTurn = false;
-	    
-	    public bool hasRotatedATileThisTurn = false;
-	    
+		public bool hasRotatedATileThisTurn = false;
 		public bool canMoveAgainThisRound = true;
 		public Collection<GameObject> exploringMeeples;
 
@@ -38,22 +36,13 @@ public class Player : MonoBehaviour
 		{      
 				if (isPlayersTurn ()) {
 						endTurn ();
-				} else {
-						//this part will eventually be removed, since the controller will handle this all. 
-						//we leabe it here now just for test purposes
-
-						//GameObject.Find ("Desert").GetComponent<DesertState> ().changePlayerWhoseTurnItIs (gameObject);
 				}
 		}
 
 		public void endTurn ()
-		{      //step 1: make meeple experience event
+		{      
 				makeMovingExplorerReactToMovementEnding ();
-				//continue if there was no event; or when the event is finished
-				
 
-				
-				
 
 		}
 
@@ -82,7 +71,7 @@ public class Player : MonoBehaviour
 
 				hasMovedAnExplorerThisTurn = false;
 
-		        hasRotatedATileThisTurn = false;
+				hasRotatedATileThisTurn = false;
 
 				updateWhetherCanMoveAgainThisRound ();
 		
@@ -104,15 +93,11 @@ public class Player : MonoBehaviour
 						flashColor ();
 				else
 						GetComponent<SpriteRenderer> ().color = col;
-				//this should wok when people are placing thei explorers during the wp phase,
-				//so that when the movement phase actually starts this will generally be true.
-				//but for now I'll have the mercenary set it to true...
-				//canMoveAgainThisRound = (moveableDesertExplorers > 0);
+
 	
 				Debug.Log (id + " " + moveableDesertExplorers + " " + canMoveAgainThisRound + " " + exploringMeeples.Count ());
 
-				
-
+			
 		}
 
 		public bool isPlayersTurn ()
@@ -162,12 +147,15 @@ public class Player : MonoBehaviour
 		{
 				moveableDesertExplorers = 0;
 				updateWhetherCanMoveAgainThisRound ();
-			
+				
 		}
 
-		void tellDesertControllerToGetNextPlayer ()
+		public void returnRandomExplorerToSource ()
 		{
-				GameObject.Find ("GameController").GetComponent<DesertMovementController> ().updatePlayer ();
+				int randExplorer = (int)UnityEngine.Random.Range (0, exploringMeeples.Count);
+				GameObject explorerToReturn = exploringMeeples.ElementAt (randExplorer);
+				explorerToReturn.GetComponent<DesertExplorer> ().leaveCurrentTile ();
+				explorerToReturn.GetComponent<Meeple> ().endExploration ();
 		}
 
 		
