@@ -6,11 +6,15 @@ public class TradePlacement : DropLocation {
 
 	// Use this for initialization
 	void Start () {
-		GameObject desert = GameObject.Find("Desert");
 
+	}
+
+	public void setGood(DesertGenerator.GoodItem good_item) {
+		GameObject desert = GameObject.Find("Desert");
+		good = good_item;
 		GetComponent<SpriteRenderer> ().sprite = desert.GetComponent<DesertTileIndex> ().goodTileSprites [(int)good];
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 	
