@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class MerchantCard : MonoBehaviour {
-	public DesertGenerator.GoodItem
 	public GameObject first_position;
 	public GameObject second_position;
 	public GameObject third_position;
