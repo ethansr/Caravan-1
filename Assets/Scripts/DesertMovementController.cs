@@ -39,7 +39,7 @@ public class DesertMovementController : Event
 				GameObject[] explorers = GameObject.FindGameObjectsWithTag ("explorer");
 				foreach (GameObject explorer in explorers) {
 						if (explorer.GetComponent<DesertExplorer> ().mustMissThisTurn ()) {
-								explorer.GetComponent<DesertExplorer> ().missThisTurn ();
+								explorer.GetComponent<DesertExplorer> ().makeExplorerMissThisTurn ();
 						} else {
 								explorer.GetComponent<DesertExplorer> ().hasMovedThisRound = false;
 				          

@@ -361,7 +361,7 @@ public class DesertExplorer : MonoBehaviour
 				return missNextTurn;
 		}
 
-		public void missThisTurn ()
+		public void makeExplorerMissThisTurn ()
 		{
 				preventThisExplorerFromMovingAgainThisRound ();
 				
