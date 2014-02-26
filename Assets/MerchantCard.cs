@@ -56,6 +56,15 @@ public class MerchantCard : MonoBehaviour {
 	void OnDoubleClick ()
 	{      
 		GameObject player = GameObject.Find ("GameController").GetComponent<GameController> ().currentPlayer ();
+
+		GameObject ne_card = GameObject.Find("GameController").GetComponent<GameController>().deck.Pop();
+		
+		iTween.MoveTo(ne_card, gameObject.transform.position, 4.0f);
+		
+		
+		iTween.MoveTo(gameObject, (player.transform.position - gameObject.transform.position ) *2, 1.0f);
+
+	
 		PlayerInventory inventory = player.GetComponent<PlayerInventory> ();
 
 		if (third_good == (DesertGenerator.GoodItem)(-1)) {
@@ -64,6 +73,16 @@ public class MerchantCard : MonoBehaviour {
 				inventory.removeGoods(first_good,1);
 				inventory.removeGoods(second_good,1);
 		inventory.AddVictoryPoint ();
+
+
+				
+				GameObject new_card = GameObject.Find("GameController").GetComponent<GameController>().deck.Pop();
+				
+				iTween.MoveTo(new_card, gameObject.transform.position, 1.0f);
+				
+				
+				iTween.MoveTo(gameObject, (player.transform.position - gameObject.transform.position ) *2, 1.0f);
+
 		}
 		
 			}else {
@@ -73,6 +92,17 @@ public class MerchantCard : MonoBehaviour {
 				inventory.removeGoods(third_good,1);
 
 				inventory.AddVictoryPoint ();
+				
+				GameObject new_card = GameObject.Find("GameController").GetComponent<GameController>().deck.Pop();
+				
+
+				iTween.MoveTo(new_card, gameObject.transform.position, 1.0f);
+				
+				
+				iTween.MoveTo(gameObject, (player.transform.position - gameObject.transform.position ) *2, 1.0f);
+
+
+
 				}
 
 			}
