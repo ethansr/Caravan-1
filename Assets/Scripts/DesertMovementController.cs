@@ -192,13 +192,14 @@ public class DesertMovementController : Event
 						takeRandomGoodFromPlayersAndMoveRandomMeepleToSource ();
 						
 				}
-		               
-
-
 		}
 
 		void drainAllRemainingWater ()
 		{
+				GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
+				foreach (GameObject player in players) {
+						player.GetComponent<PlayerInventory> ().drainWater ();
+				}
 
 		}
 
@@ -257,7 +258,7 @@ public class DesertMovementController : Event
 				
 				
 				//only for testing carry-over events
-				beginDesertMovementPhase ();
+				//beginDesertMovementPhase ();
 				
 		}
 
@@ -278,8 +279,6 @@ public class DesertMovementController : Event
 						}
 
 				}
-
-				
 
 
 		}

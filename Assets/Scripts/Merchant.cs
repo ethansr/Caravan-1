@@ -13,12 +13,7 @@ public class Merchant : Event {
 
 	protected override void takeEffect(){
 
-		/*
-		 * game controller get card 
-		 * give card to player private stash
-		 *
-		 * 
-		 * 
+
 		
 	}
 }
