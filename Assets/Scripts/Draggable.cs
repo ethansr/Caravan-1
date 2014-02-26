@@ -17,6 +17,10 @@ public class Draggable : MonoBehaviour {
 		target.GetComponent<DropLocation>().SetOccupant(gameObject);
 		currentLocation = target;
 		iTween.MoveTo(gameObject, target.transform.position, iTweenTime);
+		GameController controller = GameObject.Find ("GameController").GetComponent<GameController> ();
+		if ( GameObject.Find ("GameController").GetComponent<GameController> ().currentPhase == "Placement" && controller.currentPlayer() == gameObject.GetComponent<Meeple>().player ) {
+				controller.getNextPlayer ();
+				}
 	}
 	//don't delete this; necessary for the send message method in dragmanager to function
 	public void StartDrag(){

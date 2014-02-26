@@ -5,27 +5,27 @@ using System.Collections.Generic;
 public class GameController : MonoBehaviour {
 
 	public GameObject[] players;
-	public int indexOfNextPlayer;
+	private int indexOfNextPlayer = 3;
 	public static int numPlayers = 4;
 	public static int numMeeplesPerPlayer=5;
 	public Stack<GameObject> deck = new Stack<GameObject>();
 	public GameObject merchant_card;
+	public string currentPhase;
+
 
 
 
 
 	// Use this for initialization
 	void Start () {
-		BeginMovementPhase ();
 
 		BuildDeck ();
 		ShuffleDeck ();
 
 		DealInitialCards ();
+		BeginPlacementPhase ();
 	
-
-
-
+		//BeginMovementPhase ();
 
 	}
 
@@ -36,9 +36,18 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void BeginPlacementPhase() {
-		//Do Nothing
+		currentPhase = "Placement";
+		indexOfNextPlayer = 0;
+
+		//getNextPlayer ().GetComponent<Player> ().isPlayersTurn ();
 	}
 
+	public void EndPlacementPhase() {
+		indexOfNextPlayer = 0;
+		currentPhase = "Movement";
+		BeginMovementPhase ();
+
+	}
 	void DealInitialCards () {
 		for (int i =0; i < 4; i++) {
 
@@ -117,12 +126,32 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void AssignCardToPlayer(GameObject player) {
+
+		PlayerInventory inventory = player.transform.GetComponent<PlayerInventory> ();
+
+		GameObject card = deck.Pop ();
+		card.GetComponent<MerchantCard>().player = player;
+
+		iTween.MoveTo(card, player.transform.position + Vector3.right * 35, 1.0f);
+
+		
 		// do nothing
 	}
 
+	public GameObject currentPlayer() {
+		return players[indexOfNextPlayer];
+	}
+
 	public GameObject getNextPlayer(){
+		if (indexOfNextPlayer == 3) {
+			indexOfNextPlayer = 0 ;
+		}
+		else {
+
+			indexOfNextPlayer += 1;
+		}
 		GameObject result= players[indexOfNextPlayer];
-		indexOfNextPlayer+=(indexOfNextPlayer==numPlayers-1?-(numPlayers-1):1);
+
 		return result;
 	}
 }

@@ -8,6 +8,8 @@ public class MerchantCard : MonoBehaviour {
 	public GameObject first_position;
 	public GameObject second_position;
 	public GameObject third_position;
+	public GameObject player;
+
 	// Use this for initialization
 	void Start () {
 		SetGoods (first_good, second_good, third_good);
