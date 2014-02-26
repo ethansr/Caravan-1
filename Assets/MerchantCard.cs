@@ -10,6 +10,11 @@ public class MerchantCard : MonoBehaviour {
 	public GameObject third_position;
 	public GameObject player;
 
+	
+	
+	float doubleClickStart = 0;
+	// Use this for initialization
+
 	// Use this for initialization
 	void Start () {
 		SetGoods (first_good, second_good, third_good);
@@ -33,4 +38,39 @@ public class MerchantCard : MonoBehaviour {
 	void Update () {
 	
 	}
+
+
+
+	
+	void OnMouseUp ()
+	{
+		if ((Time.time - doubleClickStart) < 0.3f) {
+			this.OnDoubleClick ();
+			doubleClickStart = -1;
+		} else {
+			doubleClickStart = Time.time;
+		}
+	}
+	
+	//in general double click is how a player ends his turn early (ie before running out of wter)
+	void OnDoubleClick ()
+	{      
+		GameObject player = GameObject.Find ("GameController").GetComponent<GameController> ().currentPlayer ();
+		PlayerInventory inventory = player.GetComponent<PlayerInventory> ();
+
+		//if (third_good == (DesertGenerator.GoodItem)(-1)) {
+
+		if (inventory.amountOfEachGoodItem[first_good] >= 1 && inventory.amountOfEachGoodItem[second_good] >= 1) {
+		inventory.AddVictoryPoint ();
+		}
+		
+		//	}else {
+		//	if (inventory.hasNumberOfGivenGoodItem(first_good,1) && inventory.hasNumberOfGivenGoodItem(second_good, 1) && inventory.hasNumberOfGivenGoodItem(third_good,1) )  {
+		//			inventory.AddVictoryPoint ();
+		//		}
+
+		//	}
+	}
+
+
 }

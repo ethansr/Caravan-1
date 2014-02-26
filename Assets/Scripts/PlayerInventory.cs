@@ -13,8 +13,9 @@ public class PlayerInventory : MonoBehaviour
 		public GUIText waterText;
 		public GUIText goodsText;
 		int[] amountOfEachGoodType = {0,0,0,0};
-		Dictionary<DesertGenerator.GoodItem, int> amountOfEachGoodItem;
+		public Dictionary<DesertGenerator.GoodItem, int> amountOfEachGoodItem;
 		public int wellDepth = 0;
+	public int victory_points = 0;
 
 		//set this to true as the effect of the "invasion" worker placement tile;
 		//I handle setting it back to false after it takes effedct during movement phase
@@ -27,9 +28,10 @@ public class PlayerInventory : MonoBehaviour
 				canInvade = false;
 				amountOfEachGoodItem = new Dictionary<DesertGenerator.GoodItem,int> ();
 
-				foreach (var value in Enum.GetValues(typeof(DesertGenerator.GoodItem))) {
+				foreach (int value in Enum.GetValues(typeof(DesertGenerator.GoodItem))) {
 						DesertGenerator.GoodItem goodItem = (DesertGenerator.GoodItem)value;
 						amountOfEachGoodItem.Add (goodItem, 0);
+						
 				}
 
 				
@@ -41,11 +43,25 @@ public class PlayerInventory : MonoBehaviour
 		void Update ()
 		{
 				waterText.transform.position = Camera.main.WorldToViewportPoint (transform.position);
-				waterText.text = (availableWater).ToString ();
+				waterText.text = (availableWater).ToString () + "\n VP:" + victory_points.ToString() + "\n";
+		bool every_other = false;
+		foreach (int value in Enum.GetValues(typeof(DesertGenerator.GoodItem))) {
+
+			DesertGenerator.GoodItem goodItem = (DesertGenerator.GoodItem)value;
+			string name = Enum.GetName(typeof(DesertGenerator.GoodItem), value);
+
+			if (every_other) {waterText.text += "\n";};
+			every_other = !every_other;
+			waterText.text +=  name + ": " + value.ToString() + "\t";
+		}
 
 
 		}
 
+	public void AddVictoryPoint() {
+		victory_points += 1;
+
+	}
 		public bool waterAvailable ()
 		{
 				return availableWater > 0;

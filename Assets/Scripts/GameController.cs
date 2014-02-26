@@ -44,6 +44,10 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void EndPlacementPhase() {
+		foreach (GameObject player in players) {
+			PlayerInventory inv = player.GetComponent<PlayerInventory>();
+			inv.availableWater += inv.wellDepth;
+				}
 		indexOfNextPlayer = 0;
 		currentPhase = "Movement";
 		BeginMovementPhase ();
@@ -59,7 +63,6 @@ public class GameController : MonoBehaviour {
 	public void ShuffleDeck() {
 		//thanks http://stackoverflow.com/questions/273313/randomize-a-listt-in-c-sharp#answer-1262619
 		System.Random rng = new System.Random(); 
-		print ("got here");
 		while (public_cards.Count != 0) {
 			deck.Push(public_cards.Pop ());
 		}
