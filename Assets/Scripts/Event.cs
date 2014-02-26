@@ -30,6 +30,7 @@ public abstract class Event : MonoBehaviour
 				eventText = GameObject.Find ("EventText");
 				secondsWaitForEventResult = 5.0f;
 				secondsWaitForEventResultClear = secondsWaitForEventResult * 2;
+				adjustEventTextBoxAlpha ();
 				disableEventTextBox ();
 				clearEventText ();
 				effectOccurring = false;
@@ -38,6 +39,14 @@ public abstract class Event : MonoBehaviour
 				anEventIsHappeningInGeneral = false;
 		       
 			
+		}
+
+		void adjustEventTextBoxAlpha ()
+		{
+				Color col = eventText.GetComponent<SpriteRenderer> ().color;
+				col.a = 20.0f;
+				eventText.GetComponent<SpriteRenderer> ().color = col;
+
 		}
 	
 		public static bool drawFromBagOfChance (int numbersChosen)
