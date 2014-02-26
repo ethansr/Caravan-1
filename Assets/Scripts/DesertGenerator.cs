@@ -11,6 +11,7 @@ public class DesertGenerator : MonoBehaviour
 		public static float numUnitsDesertHeight = 56.2f;
 		public static float numUnitsDesertTileWidth = 48.0f;
 		public static float numUnitsDesertTileHeight = 48.0f;
+		Vector3 desertTileLocalScale;
 
 		//generate 9*9 grid of desert tiles
 		static int  numTilesWidth = 9;
@@ -39,7 +40,8 @@ public class DesertGenerator : MonoBehaviour
 	    
 		//use these to determine how many of each type of pathway to make.
 		public int numPathTypes = 7;
-		int[] pathTypeCounts = {40,13,13,6,6,6,6};
+		//REQUIRES: Sum to 81 (9*9)
+		int[] pathTypeCounts = {54,6,6,6,6,6,6};
 		//aligned to indexes of pathTypeCounts
 		public static int NORTH_INDEX = 0;
 		public static int SOUTH_INDEX = 1;
@@ -109,7 +111,7 @@ public class DesertGenerator : MonoBehaviour
 	}
 		; 
 		//the indexes of the quantities of each event are matched to the integer values of the events in the enumeration
-		int[] numbersOfEachEvent = {4, 4, 2, 4};
+		int[] numbersOfEachEvent = {4, 4, 4, 2};
 
 		//is the number of different goods
 		public static int numGoods;
@@ -230,7 +232,7 @@ public class DesertGenerator : MonoBehaviour
 
 		void scaleTile (GameObject tile)
 		{
-				Vector3 desertTileLocalScale = new Vector3 (desertTileXScale, desertTileYScale, tile.GetComponent<Transform> ().localScale.z);
+				desertTileLocalScale = new Vector3 (desertTileXScale, desertTileYScale, tile.GetComponent<Transform> ().localScale.z);
 				tile.GetComponent<Transform> ().localScale = desertTileLocalScale;
 
 		}
@@ -323,14 +325,6 @@ public class DesertGenerator : MonoBehaviour
 				int indexOfGoodItem = (numGoodsPerType * goodTypeAsInt) + goodCounters [goodTypeAsInt];
 				goodTile.GetComponent<Good> ().good = goods [indexOfGoodItem];
 				assignGoodTileSprite (goodTile, indexOfGoodItem);
-			
-				/*
-				Color goodSpriteColor = typesToColors [goodTypeAsInt];
-				goodTile.GetComponent<SpriteRenderer> ().sprite = GetComponent<DesertTileIndex> ().goodTileSprites [indexOfGoodItem];
-				goodSpriteColor.a = 255.0f;
-				goodTile.GetComponent<SpriteRenderer> ().color = goodSpriteColor;
-                */
-
 				goodTile.GetComponent<Transform> ().position = goodTilePos;
 				tile.GetComponent<DesertTile> ().adjGood = goodTile;
 				
@@ -399,6 +393,7 @@ public class DesertGenerator : MonoBehaviour
 				for (int i=0; i<events.Length; i++) {
 						int indexOfNumberOf = i;
 						int numberOf = numbersOfEachEvent [indexOfNumberOf];
+		
 						for (int j=0; j<numberOf; j++) {
 								GameObject candidateTile;
 								do {
@@ -416,12 +411,7 @@ public class DesertGenerator : MonoBehaviour
 
 
 				}
-				//plus an aditional one for testing
-				/*
-		GameObject testAdjBazaar = GameObject.FindGameObjectWithTag ("41");
-		GameObject newDesertEvent2 = (GameObject)Instantiate (events [0]);
-		testAdjBazaar.GetComponent<DesertTile> ().setEvent (newDesertEvent2);
-		*/
+
 
 		}
 

@@ -9,12 +9,13 @@ public class PlayerInventory : MonoBehaviour
 {
 
 		//for testing
-		public int availableWater = 10;
+		public int availableWater;
 		public GUIText waterText;
 		public GUIText goodsText;
 		int[] amountOfEachGoodType = {0,0,0,0};
 		Dictionary<DesertGenerator.GoodItem, int> amountOfEachGoodItem;
 		public int wellDepth = 0;
+		public bool canInvade;
 
 	
 		// Use this for initialization
@@ -27,7 +28,7 @@ public class PlayerInventory : MonoBehaviour
 						amountOfEachGoodItem.Add (goodItem, 0);
 				}
 
-
+				canInvade = false;
 
 		}
 	  
@@ -112,7 +113,7 @@ public class PlayerInventory : MonoBehaviour
 
 		}
 
-		public void changeAvailableWater (int change)
+		public void changeAvailableWaterDuringMovement (int change)
 		{
 				//check new water
 				int newWaterCount = availableWater + change;
@@ -121,13 +122,23 @@ public class PlayerInventory : MonoBehaviour
 						availableWater = newWaterCount;
 				else 
 						newWaterCount = 0;
-				
-				//SHOULD WE WRAP THIS IN MOVEMENT PHASE check???
-				//assume that water is only decremented by the movement phase
+
 				if (!waterAvailable ())
 						gameObject.GetComponent<Player> ().endTurn ();
-				
-				
+			
+		}
+
+		public void changeAvailableWaterDuringPlacementPhase (int change)
+		{
+				//check new water
+				int newWaterCount = availableWater + change;
+		
+				if (newWaterCount > -1)
+						availableWater = newWaterCount;
+				else 
+						newWaterCount = 0;
+
+
 		}
 
 		public void removeRandomGood ()

@@ -61,7 +61,8 @@ public class Mercenary : Event
 						if (inControlOfTextBox) {
 								disableEventTextBox ();
 								inControlOfTextBox = false;
-				                tellPlayerToFinishEndTurn();
+								anEventIsHappeningInGeneral = false;
+								tellPlayerToFinishEndTurn ();
 						}
 		
 				}
@@ -210,6 +211,7 @@ public class Mercenary : Event
 		//assume that whenever this event has been called the new desired good type has been updated
 		public void reActivateEvent (GameObject desertExplorer)
 		{
+				anEventIsHappeningInGeneral = true;
 				inControlOfTextBox = true;
 				
 

@@ -68,7 +68,7 @@ public class DesertMovementController : Event
 						//player.GetComponent<Player> ().updateWhetherCanMoveAgainThisRound ();
 
 						//strictly for testing breaking legs of explorer
-						player.GetComponent<PlayerInventory> ().changeAvailableWater (2);
+						player.GetComponent<PlayerInventory> ().changeAvailableWaterDuringMovement (2);
 
 						//weaker condition; based strictly on available water
 						player.GetComponent<Player> ().canMoveAgainThisRound = player.GetComponent<PlayerInventory> ().waterAvailable ();
@@ -183,12 +183,9 @@ public class DesertMovementController : Event
 		{
 			
 				if (showingEndOfMovePhaseScreen) {
-						
-					
-						
+						drainAllRemainingWater ();
 						checkForPlayersWhoNeedToReturnMeepleToSourceForGood ();
-		
-						
+				
 					
 				}
 				if (showingPlayerMustTradeGoodsForExplorerScreen) {
@@ -197,6 +194,11 @@ public class DesertMovementController : Event
 				}
 		               
 
+
+		}
+
+		void drainAllRemainingWater ()
+		{
 
 		}
 
@@ -214,8 +216,9 @@ public class DesertMovementController : Event
 				
 				GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
 				foreach (GameObject player in players) {
-						if (!player.GetComponent<PlayerInventory> ().waterAvailable ())
-								handlePlayerWithoutWater (player);
+			            
+						if (playerHasNoMeeplesOnSource (player))
+								handlePlayerWithoutSourceMeeples (player);
 				}
 
 				//if some player had no water activate event
@@ -226,14 +229,18 @@ public class DesertMovementController : Event
 			
 		}
 
-		void handlePlayerWithoutWater (GameObject player)
-		{      
+		bool playerHasNoMeeplesOnSource (GameObject player)
+		{
 				int playersMeeplesOnSource = player.GetComponent<Player> ().meepleSource.GetComponent<MeepleSource> ().meeplesOnSource;
-				if (playersMeeplesOnSource == 0) {
-						playersWhoMustTradeGoodsForExplorer.Add (player);
+				return (playersMeeplesOnSource == 0);
+	
+		}
+
+		void handlePlayerWithoutSourceMeeples (GameObject player)
+		{      
+			
+				playersWhoMustTradeGoodsForExplorer.Add (player);
 				
-				}
-		
 		
 		}
 
@@ -248,7 +255,7 @@ public class DesertMovementController : Event
 				playersWhoMustTradeGoodsForExplorer.Clear ();
 				inMovementPhase = false;
 				
-				Debug.Log ("closed movement phase");
+				
 				//only for testing carry-over events
 				beginDesertMovementPhase ();
 				
