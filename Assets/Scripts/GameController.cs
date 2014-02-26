@@ -5,13 +5,14 @@ using System.Collections.Generic;
 public class GameController : MonoBehaviour {
 
 	public GameObject[] players;
-	private int indexOfNextPlayer = 3;
+	private int indexOfNextPlayer = 0;
 	public static int numPlayers = 4;
 	public static int numMeeplesPerPlayer=5;
 	public Stack<GameObject> deck = new Stack<GameObject>();
 	public GameObject merchant_card;
 	public string currentPhase;
 
+	public Stack<GameObject> public_cards = new Stack<GameObject>();
 
 
 
@@ -50,20 +51,29 @@ public class GameController : MonoBehaviour {
 	}
 	void DealInitialCards () {
 		for (int i =0; i < 4; i++) {
-
-						iTween.MoveTo (deck.Pop (), transform.position +  Vector3.right * 10 + Vector3.left * i * 10 + Vector3.up * 10, 1.0f);
+			GameObject card = deck.Pop ();
+			public_cards.Push(card);
+						iTween.MoveTo (card, transform.position +  Vector3.right * 10 + Vector3.left * i * 10 + Vector3.up * 10, 1.0f);
 				}
 	}
 	public void ShuffleDeck() {
 		//thanks http://stackoverflow.com/questions/273313/randomize-a-listt-in-c-sharp#answer-1262619
 		System.Random rng = new System.Random(); 
+		print ("got here");
+		while (public_cards.Count != 0) {
+			deck.Push(public_cards.Pop ());
+		}
+
 		GameObject[] list = deck.ToArray ();
 		int n = deck.Count;  
 		while (n > 1) {  
 			n--;  
 			int k = rng.Next(n + 1);  
-			GameObject value = list[k];  
+			GameObject value = list[k]; 
+			Vector3 temp_position = list[k].transform.position;
+			list[k].transform.position = list[n].transform.position;
 			list[k] = list[n];  
+			list[n].transform.position = temp_position;
 			list[n] = value;  
 		}  
 
