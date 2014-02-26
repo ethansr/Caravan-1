@@ -14,11 +14,10 @@ public class GameController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		gameObject.GetComponent<DesertMovementController> ().beginDesertMovementPhase ();
 		BuildDeck ();
 
-		//for testing
-		gameObject.GetComponent<DesertMovementController> ().beginDesertMovementPhase ();
+	
 
 
 
