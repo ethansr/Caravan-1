@@ -8,21 +8,27 @@ public class GameController : MonoBehaviour {
 	public int indexOfNextPlayer;
 	public static int numPlayers = 4;
 	public static int numMeeplesPerPlayer=5;
-	public Stack<GameObject> merchantCards = new Stack<GameObject>();
-
+	public Stack<GameObject> deck = new Stack<GameObject>();
 	public GameObject merchant_card;
+
+
+
 
 	// Use this for initialization
 	void Start () {
 		BeginMovementPhase ();
 
 		BuildDeck ();
+		ShuffleDeck ();
+
+		DealInitialCards ();
 	
 
 
 
 
 	}
+
 
 	public void BeginMovementPhase(){
 		gameObject.GetComponent<DesertMovementController> ().beginDesertMovementPhase ();
@@ -33,8 +39,32 @@ public class GameController : MonoBehaviour {
 		//Do Nothing
 	}
 
-	void BuildDeck() {
-		int numberOfTwoGoodCards = 24;
+	void DealInitialCards () {
+		for (int i =0; i < 4; i++) {
+
+						iTween.MoveTo (deck.Pop (), transform.position +  Vector3.right * 10 + Vector3.left * i * 10 + Vector3.up * 10, 1.0f);
+				}
+	}
+	public void ShuffleDeck() {
+		//thanks http://stackoverflow.com/questions/273313/randomize-a-listt-in-c-sharp#answer-1262619
+		System.Random rng = new System.Random(); 
+		GameObject[] list = deck.ToArray ();
+		int n = deck.Count;  
+		while (n > 1) {  
+			n--;  
+			int k = rng.Next(n + 1);  
+			GameObject value = list[k];  
+			list[k] = list[n];  
+			list[n] = value;  
+		}  
+
+		deck = new Stack<GameObject> (list);
+		
+	}
+
+
+		void BuildDeck() {
+	int numberOfTwoGoodCards = 24;
 		int numberOfThreeGoodCards = 24;
 		
 		for (int i = 0; i < numberOfTwoGoodCards; i++) {
@@ -49,10 +79,10 @@ public class GameController : MonoBehaviour {
 			int second_good = second_type * 4 + Random.Range(0,3);
 			GameObject card = (GameObject)Instantiate(merchant_card);
 			card.GetComponent<MerchantCard>().SetGoods((DesertGenerator.GoodItem)first_good,(DesertGenerator.GoodItem)second_good, (DesertGenerator.GoodItem)(-1));
-			card.transform.position = card.transform.position + Vector3.left * i * 8 + Vector3.right * 45;
+			//card.transform.position = card.transform.position + Vector3.left * i * 8 + Vector3.right * 45;
 
 
-			merchantCards.Push (card);
+			deck.Push (card);
 			
 		}
 
@@ -73,9 +103,9 @@ public class GameController : MonoBehaviour {
 			int third_good = third_type * 4 + Random.Range (0,3);
 			GameObject card = (GameObject)Instantiate(merchant_card);
 			card.GetComponent<MerchantCard>().SetGoods((DesertGenerator.GoodItem)first_good,(DesertGenerator.GoodItem)second_good, (DesertGenerator.GoodItem)third_good);
-			card.transform.position = card.transform.position + Vector3.left * i * 8 + Vector3.right * 45 ;
-			card.transform.position = card.transform.position + Vector3.down * 16;
-			merchantCards.Push (card);
+			//card.transform.position = card.transform.position + Vector3.left * i * 8 + Vector3.right * 45 ;
+			//card.transform.position = card.transform.position + Vector3.down * 16;
+			deck.Push (card);
 			
 		}
 

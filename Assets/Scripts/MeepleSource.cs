@@ -11,10 +11,11 @@ public class MeepleSource : DropLocation
 		public GameObject meeple;
 		public GUIText countText;
 		public int meeplesOnSource;
+		bool ready = false;
 
 		void SpawnMeeple ()
 		{
-				if (numSpawned < numMeeples) {
+				if (ready && numSpawned < numMeeples) {
 						GameObject inst = (GameObject)Instantiate (meeple, transform.position, Quaternion.identity);
 						setColor (inst);
 						setPlayer (inst);
@@ -24,6 +25,9 @@ public class MeepleSource : DropLocation
 				}
 		}
 
+	public void Ready() {
+		ready = true;
+	}
 		void setColor (GameObject meeple)
 		{
 				Color colour = meeple.GetComponent<SpriteRenderer> ().color;
