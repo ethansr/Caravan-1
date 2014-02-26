@@ -12,13 +12,14 @@ public class Merchant : Event {
 	}
 
 	protected override void takeEffect(){
-
+		GameController controller = GameObject.Find ("GameController").GetComponent<GameController>();
+		controller.AssignCardToPlayer(explorer.GetComponent<Meeple>().player);
 		/*
 		 * game controller get card 
 		 * give card to player private stash
 		 *
 		 * 
 		 * 
-		
+		*/
 	}
 }

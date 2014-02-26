@@ -14,14 +14,23 @@ public class GameController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		gameObject.GetComponent<DesertMovementController> ().beginDesertMovementPhase ();
-		BuildDeck ();
+		BeginMovementPhase ();
 
+		BuildDeck ();
 	
 
 
 
 
+	}
+
+	void BeginMovementPhase(){
+		gameObject.GetComponent<DesertMovementController> ().beginDesertMovementPhase ();
+
+	}
+
+	void BeginPlacementPhase() {
+		//Do Nothing
 	}
 
 	void BuildDeck() {
@@ -75,6 +84,10 @@ public class GameController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+	}
+
+	public void AssignCardToPlayer(GameObject player) {
+		// do nothing
 	}
 
 	public GameObject getNextPlayer(){
