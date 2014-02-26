@@ -10,7 +10,7 @@ public class DropLocation : MonoBehaviour
 
 
 		//returns true if this droplocation doesn't have an occupant already or if it allows multiple occupants
-		bool CanOccupy (GameObject potentialOccupant)
+		protected bool CanOccupy (GameObject potentialOccupant)
 		{
 				return (!occupant || allowMultipleOccupants);
 		}

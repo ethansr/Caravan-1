@@ -67,7 +67,7 @@ public class MeepleSource : DropLocation
 				}
 		}
 
-		bool CanOccupy (GameObject potentialOccupant)
+		protected  bool CanOccupy (GameObject potentialOccupant)
 		{
 				GameObject occupantPlayer = potentialOccupant.GetComponent<Meeple> ().player;
 				return (occupantPlayer == player);

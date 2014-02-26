@@ -5,27 +5,28 @@ using System.Collections.Generic;
 public class GameController : MonoBehaviour {
 
 	public GameObject[] players;
-	public int indexOfNextPlayer;
+	private int indexOfNextPlayer = 0;
 	public static int numPlayers = 4;
 	public static int numMeeplesPerPlayer=5;
 	public Stack<GameObject> deck = new Stack<GameObject>();
 	public GameObject merchant_card;
+	public string currentPhase;
+
+	public Stack<GameObject> public_cards = new Stack<GameObject>();
 
 
 
 
 	// Use this for initialization
 	void Start () {
-		BeginMovementPhase ();
 
 		BuildDeck ();
 		ShuffleDeck ();
 
 		DealInitialCards ();
+		BeginPlacementPhase ();
 	
-
-
-
+		//BeginMovementPhase ();
 
 	}
 
@@ -36,25 +37,46 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void BeginPlacementPhase() {
-		//Do Nothing
+		currentPhase = "Placement";
+		indexOfNextPlayer = 0;
+
+		//getNextPlayer ().GetComponent<Player> ().isPlayersTurn ();
 	}
 
+	public void EndPlacementPhase() {
+		foreach (GameObject player in players) {
+			PlayerInventory inv = player.GetComponent<PlayerInventory>();
+			inv.availableWater += inv.wellDepth;
+				}
+		indexOfNextPlayer = 0;
+		currentPhase = "Movement";
+		BeginMovementPhase ();
+
+	}
 	void DealInitialCards () {
 		for (int i =0; i < 4; i++) {
-
-						iTween.MoveTo (deck.Pop (), transform.position +  Vector3.right * 10 + Vector3.left * i * 10 + Vector3.up * 10, 1.0f);
+			GameObject card = deck.Pop ();
+			public_cards.Push(card);
+						iTween.MoveTo (card, transform.position +  Vector3.right * 10 + Vector3.left * i * 10 + Vector3.up * 10, 1.0f);
 				}
 	}
 	public void ShuffleDeck() {
 		//thanks http://stackoverflow.com/questions/273313/randomize-a-listt-in-c-sharp#answer-1262619
 		System.Random rng = new System.Random(); 
+		while (public_cards.Count != 0) {
+			deck.Push(public_cards.Pop ());
+		}
+
 		GameObject[] list = deck.ToArray ();
 		int n = deck.Count;  
 		while (n > 1) {  
 			n--;  
 			int k = rng.Next(n + 1);  
-			GameObject value = list[k];  
+			GameObject value = list[k]; 
+			Vector3 temp_position = list[k].transform.position;
+			list[k].transform.position = list[n].transform.position;
 			list[k] = list[n];  
+			list[n].transform.position = temp_position;
 			list[n] = value;  
 		}  
 
@@ -117,12 +139,32 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void AssignCardToPlayer(GameObject player) {
+
+		PlayerInventory inventory = player.transform.GetComponent<PlayerInventory> ();
+
+		GameObject card = deck.Pop ();
+		card.GetComponent<MerchantCard>().player = player;
+
+		iTween.MoveTo(card, player.transform.position + Vector3.right * 35, 1.0f);
+
+		
 		// do nothing
 	}
 
+	public GameObject currentPlayer() {
+		return players[indexOfNextPlayer];
+	}
+
 	public GameObject getNextPlayer(){
+		if (indexOfNextPlayer == 3) {
+			indexOfNextPlayer = 0 ;
+		}
+		else {
+
+			indexOfNextPlayer += 1;
+		}
 		GameObject result= players[indexOfNextPlayer];
-		indexOfNextPlayer+=(indexOfNextPlayer==numPlayers-1?-(numPlayers-1):1);
+
 		return result;
 	}
 }
