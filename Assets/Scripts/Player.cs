@@ -34,14 +34,17 @@ public class Player : MonoBehaviour
 		//in general double click is how a player ends his turn early (ie before running out of wter)
 		void OnDoubleClick ()
 		{      
+		endTurn ();
+		GameObject.Find ("Desert").GetComponent<DesertState> ().playerWhoseTurnItIs = GameObject.Find ("GameController").GetComponent<GameController> ().getNextPlayer();
+		/*
 			if (GameObject.Find ("GameController").GetComponent<GameController> ().currentPhase == "Movement") {
-						if (isPlayersTurn ()) {
-								endTurn ();
-						}
+					//	if (isPlayersTurn ()) {
+					//	}
 
 				} else {
 					GameObject.Find ("GameController").GetComponent<GameController> ().getNextPlayer();
 				}
+				*/
 		}
 
 		public void endTurn ()
@@ -116,8 +119,9 @@ public class Player : MonoBehaviour
 
 		public bool isPlayersTurn ()
 		{
-				//return GameObject.Find ("Desert").GetComponent<DesertState> ().playerWhoseTurnItIs == gameObject;
-		return GameObject.Find ("GameController").GetComponent<GameController> ().currentPlayer () == gameObject;
+				return GameObject.Find ("Desert").GetComponent<DesertState> ().playerWhoseTurnItIs == gameObject ||
+			GameObject.Find ("GameController").GetComponent<GameController>().currentPlayer() == gameObject;
+		//return GameObject.Find ("GameController").GetComponent<GameController> ().currentPlayer () == gameObject;
 
 		}
 
