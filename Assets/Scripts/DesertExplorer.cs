@@ -34,11 +34,14 @@ public class DesertExplorer : MonoBehaviour
 						if (!isMercenary ())
 								returnToSource ();
 						//(else, if the mercenary tries to move to bazaar, don't move).
-				} else
+				} else {
 						moveToNewDesertTile (newLocation);
-
+						if (isAnEventToExperienceOnCurrentLocation ())
+								experienceEvent ();
+				}
+		
 		}
-
+	
 		public void leaveCurrentTile ()
 		{
 				currentTile.GetComponent<DesertTile> ().leaveTile (gameObject, gameObject.GetComponent<Transform> ().position);
@@ -54,7 +57,6 @@ public class DesertExplorer : MonoBehaviour
 		{
 				stopFlashing ();
 				removeSelfFromDesertState ();
-			
 				gameObject.GetComponent<Meeple> ().player.GetComponent<Player> ().endTurn ();
 				gameObject.GetComponent<Meeple> ().endExploration ();
 		
@@ -108,7 +110,7 @@ public class DesertExplorer : MonoBehaviour
 		{         
 				
 
-				if (moving ()) {
+				if (!Event.anEventIsHappeningInGeneral && moving ()) {
 						flashToIndicateMoveState ();
 						GameObject newLocation = getNewLocationGivenKeyInput ();
 						if (moveSuccessful (newLocation)) 
@@ -140,11 +142,43 @@ public class DesertExplorer : MonoBehaviour
 		{
 				preventThisExplorerFromMovingAgainThisRound ();
 				decrementPlayersMoveableExplorers ();
-
-				experienceEventIfHaventAlready ();
+				
+				if (isAnEventToExperienceOnCurrentLocation ()) {
+						tellEventToEndTurnWhenFinished ();
+						experienceEvent ();
+				} else
+						endPlayersTurn ();
 				
 		}
+	    
+		bool isAnEventToExperienceOnCurrentLocation ()
+		{
+				return (finishedOnEventTile () && haventAlreadyExperienceEvent ());
+		}
 
+		void tellEventToEndTurnWhenFinished ()
+		{
+				GameObject newEvent = currentTile.GetComponent<DesertTile> ().getEvent ();
+				newEvent.GetComponent<Event> ().endPlayersTurn = true;
+		}
+	
+		bool finishedOnEventTile ()
+		{
+				return currentTile.GetComponent<DesertTile> ().hasDesertEvent ();
+		}
+
+		bool haventAlreadyExperienceEvent ()
+		{
+				GameObject newEvent = currentTile.GetComponent<DesertTile> ().getEvent ();
+				return (newEvent != lastEventExperienced && !myPlayerHasExperiencedEvent (newEvent));
+			
+		}
+
+		void endPlayersTurn ()
+		{
+				gameObject.GetComponent<Meeple> ().player.GetComponent<Player> ().finishEndTurn ();
+		}
+		
 		void preventThisExplorerFromMovingAgainThisRound ()
 		{
 				hasMovedThisRound = true;
@@ -156,6 +190,15 @@ public class DesertExplorer : MonoBehaviour
 		
 		}
 
+		void experienceEvent ()
+		{
+				GameObject newEvent = currentTile.GetComponent<DesertTile> ().getEvent ();
+				lastEventExperienced = newEvent;
+				updatePlayersEvents (newEvent);
+				newEvent.GetComponent<Event> ().activateEvent (gameObject);
+
+		}
+		/*
 		void experienceEventIfHaventAlready ()
 		{
 				if (currentTile.GetComponent<DesertTile> ().hasDesertEvent ()) {
@@ -169,6 +212,7 @@ public class DesertExplorer : MonoBehaviour
 				} else 
 						gameObject.GetComponent<Meeple> ().player.GetComponent<Player> ().finishEndTurn ();
 		}
+		*/
 
 		bool myPlayerHasExperiencedEvent (GameObject newEvent)
 		{
@@ -181,7 +225,7 @@ public class DesertExplorer : MonoBehaviour
 		}
 	
 		GameObject getNewLocationGivenKeyInput ()
-		{
+		{       
 				if (Input.GetKeyDown (KeyCode.UpArrow)) {
 						return currentTile.GetComponent<DesertTile> ().MoveVertical (-1);
 				} else if (Input.GetKeyDown (KeyCode.DownArrow)) {
@@ -237,7 +281,7 @@ public class DesertExplorer : MonoBehaviour
 
 		public void decreaseAvailableWater ()
 		{
-				gameObject.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().changeAvailableWater (-1);
+				gameObject.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().changeAvailableWaterDuringMovement (-1);
 
 		}
 	
@@ -272,18 +316,33 @@ public class DesertExplorer : MonoBehaviour
 		//if the mercenary is the sole occupant of this tile, he will accept the invader no matter what
 		public bool acceptInvader (GameObject invader)
 		{      
-				if (!isMercenary ())
-						return (!isForeign (invader));
+				if (!isMercenary ()) {
+						if (playerHasInvaderPower (invader)) {
+								invader.GetComponent<Invader> ().prepareForInvasion ();
+								return true;
+						} else 
+								return (!isForeign (invader));
+				}
                 
 				return true;
 		}
 	
 		public void handleInvader (GameObject invader)
-		{      
+		{
+				
 
 				if (isMercenary () && isForeign (invader)) 
 						GetComponent<MercenaryExplorer> ().activateEvent (invader);
+				else
+						invader.GetComponent<Invader> ().activateEvent (gameObject);
 			
+
+		}
+
+		bool playerHasInvaderPower (GameObject invader)
+		{
+
+				return (invader.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().canInvade);
 
 		}
 

@@ -3,7 +3,7 @@ using System.Collections;
 
 public abstract class Event : MonoBehaviour
 {   
-	
+		public static bool anEventIsHappeningInGeneral;
 		public const int numbersInBagOfChance = 6;
 		protected float secondsWaitForEventResult;
 		protected float secondsWaitForEventResultClear;
@@ -16,6 +16,7 @@ public abstract class Event : MonoBehaviour
 		protected float delayStartTime;
 		protected float eventTextBoxDisplayDelay = 2.0f;
 		protected bool inControlOfTextBox;
+		public bool endPlayersTurn;
 	
 		public abstract void activateEvent (GameObject desertExplorer);
 
@@ -25,7 +26,7 @@ public abstract class Event : MonoBehaviour
 		}
 	
 		void Start ()
-		{
+		{      
 				eventText = GameObject.Find ("EventText");
 				secondsWaitForEventResult = 5.0f;
 				secondsWaitForEventResultClear = secondsWaitForEventResult * 2;
@@ -34,6 +35,7 @@ public abstract class Event : MonoBehaviour
 				effectOccurring = false;
 				tookEffect = false;
 				inControlOfTextBox = false;
+				anEventIsHappeningInGeneral = false;
 		       
 			
 		}
@@ -102,7 +104,8 @@ public abstract class Event : MonoBehaviour
 
 		protected void tellPlayerToFinishEndTurn ()
 		{
-				if (explorer && explorer.GetComponent<Meeple> ().player) {
+				if (explorer && explorer.GetComponent<Meeple> ().player && endPlayersTurn) {
+						endPlayersTurn = false;
 						explorer.GetComponent<Meeple> ().player.GetComponent<Player> ().finishEndTurn ();
 				}
 		}

@@ -16,6 +16,7 @@ public class Robbery : Event
 	
 		public override void activateEvent (GameObject desertExplorer)
 		{
+				anEventIsHappeningInGeneral = true;
 		
 				wasRobbed = drawFromBagOfChance (numbersThatLoseWater);
 				effectOccurring = true;
@@ -38,6 +39,7 @@ public class Robbery : Event
 				} else if (inControlOfTextBox) {
 						disableEventTextBox ();
 						inControlOfTextBox = false;
+						anEventIsHappeningInGeneral = false;
 						tellPlayerToFinishEndTurn ();
 				}
 		
@@ -47,7 +49,7 @@ public class Robbery : Event
 		protected override void takeEffect ()
 		{
 				if (hadEnoughWaterToTake)
-						explorer.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().changeAvailableWater (waterStolen);
+						explorer.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().changeAvailableWaterDuringMovement (waterStolen);
 				else
 						explorer.GetComponent<DesertExplorer> ().makeMissNextTurn ();
 		}

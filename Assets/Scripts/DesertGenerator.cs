@@ -11,6 +11,7 @@ public class DesertGenerator : MonoBehaviour
 		public static float numUnitsDesertHeight = 56.2f;
 		public static float numUnitsDesertTileWidth = 48.0f;
 		public static float numUnitsDesertTileHeight = 48.0f;
+		Vector3 desertTileLocalScale;
 
 		//generate 9*9 grid of desert tiles
 		static int  numTilesWidth = 9;
@@ -39,8 +40,8 @@ public class DesertGenerator : MonoBehaviour
 	    
 		//use these to determine how many of each type of pathway to make.
 		public int numPathTypes = 7;
-	//REQUIRES: Sum to 81 (9*9)
-		int[] pathTypeCounts = {40,13,13,6,6,6,6};
+		//REQUIRES: Sum to 81 (9*9)
+		int[] pathTypeCounts = {54,6,6,6,6,6,6};
 		//aligned to indexes of pathTypeCounts
 		public static int NORTH_INDEX = 0;
 		public static int SOUTH_INDEX = 1;
@@ -231,7 +232,7 @@ public class DesertGenerator : MonoBehaviour
 
 		void scaleTile (GameObject tile)
 		{
-				Vector3 desertTileLocalScale = new Vector3 (desertTileXScale, desertTileYScale, tile.GetComponent<Transform> ().localScale.z);
+				desertTileLocalScale = new Vector3 (desertTileXScale, desertTileYScale, tile.GetComponent<Transform> ().localScale.z);
 				tile.GetComponent<Transform> ().localScale = desertTileLocalScale;
 
 		}

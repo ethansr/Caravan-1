@@ -68,7 +68,7 @@ public class DesertMovementController : Event
 						//player.GetComponent<Player> ().updateWhetherCanMoveAgainThisRound ();
 
 						//strictly for testing breaking legs of explorer
-						player.GetComponent<PlayerInventory> ().changeAvailableWater (2);
+						player.GetComponent<PlayerInventory> ().changeAvailableWaterDuringMovement (2);
 
 						//weaker condition; based strictly on available water
 						player.GetComponent<Player> ().canMoveAgainThisRound = player.GetComponent<PlayerInventory> ().waterAvailable ();

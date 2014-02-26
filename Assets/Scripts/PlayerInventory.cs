@@ -9,15 +9,13 @@ public class PlayerInventory : MonoBehaviour
 {
 
 		//for testing
-		public int availableWater = 10;
+		public int availableWater;
 		public GUIText waterText;
 		public GUIText goodsText;
 		int[] amountOfEachGoodType = {0,0,0,0};
 		Dictionary<DesertGenerator.GoodItem, int> amountOfEachGoodItem;
 		public int wellDepth = 0;
-
-
-		public bool canInvade = false;
+		public bool canInvade;
 
 	
 		// Use this for initialization
@@ -30,7 +28,7 @@ public class PlayerInventory : MonoBehaviour
 						amountOfEachGoodItem.Add (goodItem, 0);
 				}
 
-
+				canInvade = false;
 
 		}
 	  

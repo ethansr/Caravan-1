@@ -367,7 +367,7 @@ public class DesertTile : MonoBehaviour
 	
 		void changeSpriteAndDecrementRotatingPlayerWater ()
 		{
-				playerWhoIsRotatingTile.GetComponent<PlayerInventory> ().changeAvailableWater (-1);
+				playerWhoIsRotatingTile.GetComponent<PlayerInventory> ().changeAvailableWaterDuringMovement (-1);
 				updateSprite ();
 		}
 	
@@ -404,10 +404,7 @@ public class DesertTile : MonoBehaviour
 				desertEvent = desertEvent_;
 				Vector3 newPos = GetComponent<Transform> ().position;
 				newPos.z = 1.0f;
-				newPos.x -= (tileSideLength / 2 - eventMarkerSideLength / 2);
-				newPos.y -= (tileSideLength / 2 - eventMarkerSideLength / 2);
 				desertEvent.GetComponent<Transform> ().position = newPos;
-		
 				desertEvent.GetComponent<SpriteRenderer> ().enabled = false;
 				hasEvent = true;
 				desertEvent.GetComponent<Event> ().setTileWhereLocated (gameObject);

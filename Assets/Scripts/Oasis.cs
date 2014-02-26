@@ -12,8 +12,8 @@ public class Oasis : Event
 		bool getMoreWater = false;
 	
 		public override void activateEvent (GameObject desertExplorer)
-		{
-		        
+	{      anEventIsHappeningInGeneral = true;
+		
 				getMoreWater = drawFromBagOfChance (numbersThatWinMoreWater);
 				effectOccurring = true;
 				inControlOfTextBox = true;
@@ -32,7 +32,8 @@ public class Oasis : Event
 				} else if (inControlOfTextBox) {
 						disableEventTextBox ();
 			           inControlOfTextBox=false;
-			           tellPlayerToFinishEndTurn();
+			anEventIsHappeningInGeneral = false;
+			tellPlayerToFinishEndTurn();
 				}
 				
 
@@ -40,7 +41,7 @@ public class Oasis : Event
 
 		protected override void takeEffect ()
 		{
-				explorer.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().changeAvailableWater (waterGranted);
+				explorer.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().changeAvailableWaterDuringMovement (waterGranted);
 
 	
 		}
