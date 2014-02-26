@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Draggable : MonoBehaviour {
 	protected GameObject dropTarget;
-	protected GameObject currentLocation;
+	public GameObject currentLocation;
 	protected int numActiveTargets = 0;
 	public static float iTweenTime = 1.0f;
 	
@@ -22,6 +22,8 @@ public class Draggable : MonoBehaviour {
 				controller.getNextPlayer ();
 				}
 	}
+
+
 	//don't delete this; necessary for the send message method in dragmanager to function
 	public void StartDrag(){
 	}

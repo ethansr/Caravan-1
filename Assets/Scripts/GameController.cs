@@ -38,7 +38,19 @@ public class GameController : MonoBehaviour {
 
 	public void BeginPlacementPhase() {
 		currentPhase = "Placement";
+
 		indexOfNextPlayer = 0;
+
+		foreach (Meeple meeple in GameObject.FindObjectsOfType<Meeple>()) {
+			print (meeple);
+
+			Player player = meeple.player.GetComponent<Player>();
+			GameObject meeplesource = player.meepleSource;
+			Draggable drag = meeple.gameObject.GetComponent<Draggable>();
+			if (drag.currentLocation && drag.currentLocation != meeplesource && !meeple.gameObject.CompareTag("explorer") ) {
+			drag.MoveLocations(drag.currentLocation, meeplesource);
+			}
+		}
 
 		//getNextPlayer ().GetComponent<Player> ().isPlayersTurn ();
 	}
