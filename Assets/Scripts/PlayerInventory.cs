@@ -33,6 +33,7 @@ public class PlayerInventory : MonoBehaviour
 
 				canInvade = true;
 
+
 		}
 	  
 		// Update is called once per frame

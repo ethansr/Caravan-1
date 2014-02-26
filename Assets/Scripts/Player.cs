@@ -81,10 +81,19 @@ public class Player : MonoBehaviour
 
 		void Start ()
 		{
-				col = GetComponent<SpriteRenderer> ().color;
-				fColor.a = 255.0f;
-				eventsExperiencedThisTurn = new Collection<GameObject> ();
-				exploringMeeples = new Collection<GameObject> ();
+			col = GetComponent<SpriteRenderer> ().color;
+			fColor.a = 255.0f;
+			eventsExperiencedThisTurn = new Collection<GameObject> ();
+			exploringMeeples = new Collection<GameObject> ();
+
+			meepleSource.transform.position = this.transform.position + Vector3.right * 12;
+			meepleSource.GetComponent<MeepleSource>().Ready ();
+			gameObject.GetComponent<PlayerInventory> ().waterText.transform.position = this.transform.position;
+
+			foreach (int good in Enum.GetValues(typeof(DesertGenerator.GoodItem))){
+
+		}
+			
 		}
 
 		void Update ()
