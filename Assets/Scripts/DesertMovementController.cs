@@ -12,7 +12,7 @@ public class DesertMovementController : Event
 		string movementEndPartTwoMessage = "Explorers in the bazaar have" + System.Environment.NewLine + " returned to their duties... Those in the desert" + System.Environment.NewLine + "are checking their supplies.";
 		string needToTradeGoodsForMeepleMessage = " you must give up goods for an Explorer.";
 		string partTwo = "Your explorers have chosen who to send," + System.Environment.NewLine + "and which good to sacrifice to the desert.";
-		bool inMovementPhase = false;
+		public bool inMovementPhase = false;
 		bool showingEndOfMovePhaseScreen = false;
 		bool showingPlayerMustTradeGoodsForExplorerScreen = false;
 		Collection<GameObject> playersWhoMustTradeGoodsForExplorer = new Collection<GameObject> ();
@@ -28,7 +28,7 @@ public class DesertMovementController : Event
 				if (!inMovementPhase) {
 						inMovementPhase = true;
 						updateExplorerAndPlayerMovementVariablesForThisTurn ();
-						updatePlayer ();
+						getFirstPlayer ();
 			            
 				}
 				
@@ -89,7 +89,12 @@ public class DesertMovementController : Event
 
 		}
 
-		
+		void getFirstPlayer ()
+		{
+				GameObject firstPlayer = gameObject.GetComponent<GameController> ().currentPlayer ();
+				GameObject.Find ("Desert").GetComponent<DesertState> ().changePlayerWhoseTurnItIs (firstPlayer);
+
+		}
 
 
 		//this should only by called by the player.

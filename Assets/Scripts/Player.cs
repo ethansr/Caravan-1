@@ -33,24 +33,32 @@ public class Player : MonoBehaviour
 
 		//in general double click is how a player ends his turn early (ie before running out of wter)
 		void OnDoubleClick ()
-		{      
-		endTurn ();
-		GameObject.Find ("Desert").GetComponent<DesertState> ().playerWhoseTurnItIs = GameObject.Find ("GameController").GetComponent<GameController> ().getNextPlayer();
-		/*
-			if (GameObject.Find ("GameController").GetComponent<GameController> ().currentPhase == "Movement") {
-					//	if (isPlayersTurn ()) {
-					//	}
-
-				} else {
-					GameObject.Find ("GameController").GetComponent<GameController> ().getNextPlayer();
+		{
+				if (isPlayersTurn ()) {
+						if (movementPhase ()) 
+								endTurn ();
+						else
+								GameObject.Find ("GameController").GetComponent<GameController> ().getNextPlayer ();
+	
 				}
-				*/
+				
+
+		}
+
+		bool movementPhase ()
+		{
+				return (GameObject.Find ("GameController").GetComponent<DesertMovementController> ().inMovementPhase);
 		}
 
 		public void endTurn ()
-		{      
-				makeMovingExplorerReactToMovementEnding ();
-
+		{
+				GameObject desert = GameObject.Find ("Desert");
+				GameObject currentMovingObject = desert.GetComponent<DesertState> ().movingObject;
+		        
+				if (wasMovingAnExplorer (currentMovingObject, desert))
+						makeMovingExplorerReactToMovementEnding (currentMovingObject);
+				else
+						finishEndTurn ();
 
 		}
 
@@ -59,17 +67,19 @@ public class Player : MonoBehaviour
 		//otherwise the turn ends with a meeple that was moving
 		//so we need to experience the event and then when the evvent is finished then finishmovement
 		//note that if the explorer returns to the bazaar then the mover is set tonull and so the reacttomoveneding wont be called
-		void makeMovingExplorerReactToMovementEnding ()
+		void makeMovingExplorerReactToMovementEnding (GameObject explorer)
 		{
-				GameObject desert = GameObject.Find ("Desert");
-				GameObject currentMovingObject = desert.GetComponent<DesertState> ().movingObject;
-				if (currentMovingObject && desert.GetComponent<DesertState> ().movingObjectIsExplorer ()) {
-						if (currentMovingObject.GetComponent<Meeple> ().player == gameObject)
-								currentMovingObject.GetComponent<DesertExplorer> ().reactToMovementEnding ();
-						else 
-								finishEndTurn ();
-				} else
-						finishEndTurn ();
+
+				explorer.GetComponent<DesertExplorer> ().reactToMovementEnding ();
+					
+		}
+
+		bool wasMovingAnExplorer (GameObject currentMovingObject, GameObject desert)
+		{
+
+				if (currentMovingObject && desert.GetComponent<DesertState> ().movingObjectIsExplorer ()) 
+						return (currentMovingObject.GetComponent<Meeple> ().player == gameObject);
+				return false;
 
 		}
 
@@ -83,24 +93,24 @@ public class Player : MonoBehaviour
 
 				updateWhetherCanMoveAgainThisRound ();
 		
-				//GameObject.Find ("GameController").GetComponent<DesertMovementController> ().updatePlayer ();
+				GameObject.Find ("GameController").GetComponent<DesertMovementController> ().updatePlayer ();
 
 		}
 
 		void Start ()
 		{
-			col = GetComponent<SpriteRenderer> ().color;
-			fColor.a = 255.0f;
-			eventsExperiencedThisTurn = new Collection<GameObject> ();
-			exploringMeeples = new Collection<GameObject> ();
+				col = GetComponent<SpriteRenderer> ().color;
+				fColor.a = 255.0f;
+				eventsExperiencedThisTurn = new Collection<GameObject> ();
+				exploringMeeples = new Collection<GameObject> ();
 
-			meepleSource.transform.position = this.transform.position + Vector3.right * 12;
-			meepleSource.GetComponent<MeepleSource>().Ready ();
-			gameObject.GetComponent<PlayerInventory> ().waterText.transform.position = this.transform.position;
+				meepleSource.transform.position = this.transform.position + Vector3.right * 12;
+				meepleSource.GetComponent<MeepleSource> ().Ready ();
+				gameObject.GetComponent<PlayerInventory> ().waterText.transform.position = this.transform.position;
 
-			foreach (int good in Enum.GetValues(typeof(DesertGenerator.GoodItem))){
+				foreach (int good in Enum.GetValues(typeof(DesertGenerator.GoodItem))) {
 
-		}
+				}
 			
 		}
 
@@ -120,8 +130,8 @@ public class Player : MonoBehaviour
 		public bool isPlayersTurn ()
 		{
 				return GameObject.Find ("Desert").GetComponent<DesertState> ().playerWhoseTurnItIs == gameObject ||
-			GameObject.Find ("GameController").GetComponent<GameController>().currentPlayer() == gameObject;
-		//return GameObject.Find ("GameController").GetComponent<GameController> ().currentPlayer () == gameObject;
+						GameObject.Find ("GameController").GetComponent<GameController> ().currentPlayer () == gameObject;
+				//return GameObject.Find ("GameController").GetComponent<GameController> ().currentPlayer () == gameObject;
 
 		}
 
