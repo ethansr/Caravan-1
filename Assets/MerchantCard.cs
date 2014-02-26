@@ -58,18 +58,24 @@ public class MerchantCard : MonoBehaviour {
 		GameObject player = GameObject.Find ("GameController").GetComponent<GameController> ().currentPlayer ();
 		PlayerInventory inventory = player.GetComponent<PlayerInventory> ();
 
-		//if (third_good == (DesertGenerator.GoodItem)(-1)) {
+		if (third_good == (DesertGenerator.GoodItem)(-1)) {
 
-		if (inventory.amountOfEachGoodItem[first_good] >= 1 && inventory.amountOfEachGoodItem[second_good] >= 1) {
+			if (inventory.hasNumberOfGivenGoodItem(first_good,1) && inventory.hasNumberOfGivenGoodItem(second_good, 1)) {
+				inventory.removeGoods(first_good,1);
+				inventory.removeGoods(second_good,1);
 		inventory.AddVictoryPoint ();
 		}
 		
-		//	}else {
-		//	if (inventory.hasNumberOfGivenGoodItem(first_good,1) && inventory.hasNumberOfGivenGoodItem(second_good, 1) && inventory.hasNumberOfGivenGoodItem(third_good,1) )  {
-		//			inventory.AddVictoryPoint ();
-		//		}
+			}else {
+			if (inventory.hasNumberOfGivenGoodItem(first_good,1) && inventory.hasNumberOfGivenGoodItem(second_good, 1) && inventory.hasNumberOfGivenGoodItem(third_good,1) )  {
+				inventory.removeGoods(first_good,1);
+				inventory.removeGoods(second_good,1);
+				inventory.removeGoods(third_good,1);
 
-		//	}
+				inventory.AddVictoryPoint ();
+				}
+
+			}
 	}
 
 

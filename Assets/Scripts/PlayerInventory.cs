@@ -52,7 +52,7 @@ public class PlayerInventory : MonoBehaviour
 
 			if (every_other) {waterText.text += "\n";};
 			every_other = !every_other;
-			waterText.text +=  name + ": " + value.ToString() + "\t";
+			waterText.text +=  name + ": " + amountOfEachGoodItem[(DesertGenerator.GoodItem)value].ToString() + "\t";
 		}
 
 
