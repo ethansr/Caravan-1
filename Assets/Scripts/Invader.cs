@@ -65,7 +65,7 @@ public class Invader : Event
 						disableEventTextBox ();
 						inControlOfTextBox = false;
 						anEventIsHappeningInGeneral = false;
-						tellPlayerToFinishEndTurn ();
+						//tellPlayerToFinishEndTurn ();
 				}
 
 

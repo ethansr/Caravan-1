@@ -24,12 +24,12 @@ public class GameController : MonoBehaviour {
 
 	}
 
-	void BeginMovementPhase(){
+	public void BeginMovementPhase(){
 		gameObject.GetComponent<DesertMovementController> ().beginDesertMovementPhase ();
 
 	}
 
-	void BeginPlacementPhase() {
+	public void BeginPlacementPhase() {
 		//Do Nothing
 	}
 

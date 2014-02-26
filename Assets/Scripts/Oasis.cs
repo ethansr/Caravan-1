@@ -33,7 +33,7 @@ public class Oasis : Event
 						disableEventTextBox ();
 			           inControlOfTextBox=false;
 			anEventIsHappeningInGeneral = false;
-			tellPlayerToFinishEndTurn();
+			//tellPlayerToFinishEndTurn();
 				}
 				
 

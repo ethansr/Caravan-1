@@ -51,7 +51,7 @@ public class Mercenary : Event
 		void Update ()
 		{       
 				price = requiredNumberOfGood + " " + desiredGoodType.ToString ();
-				canHireMessage = "You may hire the mercenary for " + price + ". Do you wish to?";
+		canHireMessage = "You may hire the mercenary for " + price + System.Environment.NewLine + ". Do you wish to?";
 				insufficientFundsMessage = "you cannot pay my price of " + price;
 				cannotHireMessage = "Either " + insufficientFundsMessage + System.Environment.NewLine + " or " + noRoomMessage;
 				
@@ -62,7 +62,7 @@ public class Mercenary : Event
 								disableEventTextBox ();
 								inControlOfTextBox = false;
 								anEventIsHappeningInGeneral = false;
-								tellPlayerToFinishEndTurn ();
+								//tellPlayerToFinishEndTurn ();
 						}
 		
 				}

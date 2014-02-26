@@ -142,11 +142,14 @@ public class DesertExplorer : MonoBehaviour
 		{
 				preventThisExplorerFromMovingAgainThisRound ();
 				decrementPlayersMoveableExplorers ();
-				
+
+				/*
 				if (isAnEventToExperienceOnCurrentLocation ()) {
 						tellEventToEndTurnWhenFinished ();
 						experienceEvent ();
-				} else
+				} 
+*/
+
 						endPlayersTurn ();
 				
 		}
@@ -155,12 +158,13 @@ public class DesertExplorer : MonoBehaviour
 		{
 				return (finishedOnEventTile () && haventAlreadyExperienceEvent ());
 		}
-
+	/*
 		void tellEventToEndTurnWhenFinished ()
 		{
 				GameObject newEvent = currentTile.GetComponent<DesertTile> ().getEvent ();
 				newEvent.GetComponent<Event> ().endPlayersTurn = true;
 		}
+		*/
 	
 		bool finishedOnEventTile ()
 		{
@@ -198,21 +202,6 @@ public class DesertExplorer : MonoBehaviour
 				newEvent.GetComponent<Event> ().activateEvent (gameObject);
 
 		}
-		/*
-		void experienceEventIfHaventAlready ()
-		{
-				if (currentTile.GetComponent<DesertTile> ().hasDesertEvent ()) {
-						GameObject newEvent = currentTile.GetComponent<DesertTile> ().getEvent ();
-						if (newEvent != lastEventExperienced && !myPlayerHasExperiencedEvent (newEvent)) {
-								lastEventExperienced = newEvent;
-								updatePlayersEvents (newEvent);
-								newEvent.GetComponent<Event> ().activateEvent (gameObject);
-						} else
-								gameObject.GetComponent<Meeple> ().player.GetComponent<Player> ().finishEndTurn ();
-				} else 
-						gameObject.GetComponent<Meeple> ().player.GetComponent<Player> ().finishEndTurn ();
-		}
-		*/
 
 		bool myPlayerHasExperiencedEvent (GameObject newEvent)
 		{
@@ -314,8 +303,11 @@ public class DesertExplorer : MonoBehaviour
 
 
 		//if the mercenary is the sole occupant of this tile, he will accept the invader no matter what
+	//don't accept an invader on a tile that is already an event tile.
 		public bool acceptInvader (GameObject invader)
-		{      
+		{
+				if (currentTile.GetComponent<DesertTile> ().hasDesertEvent ())
+						return false;
 				if (!isMercenary ()) {
 						if (playerHasInvaderPower (invader)) {
 								invader.GetComponent<Invader> ().prepareForInvasion ();

@@ -19,6 +19,7 @@ public class Robbery : Event
 				anEventIsHappeningInGeneral = true;
 		
 				wasRobbed = drawFromBagOfChance (numbersThatLoseWater);
+
 				effectOccurring = true;
 				inControlOfTextBox = true;
 				tookEffect = false;
@@ -40,7 +41,7 @@ public class Robbery : Event
 						disableEventTextBox ();
 						inControlOfTextBox = false;
 						anEventIsHappeningInGeneral = false;
-						tellPlayerToFinishEndTurn ();
+						//tellPlayerToFinishEndTurn ();
 				}
 		
 		

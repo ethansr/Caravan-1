@@ -110,7 +110,7 @@ public abstract class Event : MonoBehaviour
 		}
 	
 		protected abstract void takeEffect ();
-
+	/*
 		protected void tellPlayerToFinishEndTurn ()
 		{
 				if (explorer && explorer.GetComponent<Meeple> ().player && endPlayersTurn) {
@@ -118,6 +118,7 @@ public abstract class Event : MonoBehaviour
 						explorer.GetComponent<Meeple> ().player.GetComponent<Player> ().finishEndTurn ();
 				}
 		}
-	
+		*/
+
 	
 }

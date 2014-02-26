@@ -197,7 +197,6 @@ public class DesertTile : MonoBehaviour
 						return moveIfPossible (targetX, targetY, direction);
 				} else
 						return null;
-		
 		}
 	
 		public GameObject MoveHorizontal (int direction)

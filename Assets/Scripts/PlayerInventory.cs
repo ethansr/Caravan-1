@@ -31,7 +31,7 @@ public class PlayerInventory : MonoBehaviour
 						amountOfEachGoodItem.Add (goodItem, 0);
 				}
 
-				canInvade = false;
+				canInvade = true;
 
 		}
 	  

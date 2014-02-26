@@ -9,7 +9,7 @@ public class DesertMovementController : Event
 {
 		
 		string movementEndedMessage = "We have finished exploring for now...";
-		string movementEndPartTwoMessage = "Explorers in the bazaar have returned to their duties... " + System.Environment.NewLine + "Those in the desert are checking their supplies.";
+		string movementEndPartTwoMessage = "Explorers in the bazaar have" + System.Environment.NewLine + " returned to their duties... Those in the desert" + System.Environment.NewLine + "are checking their supplies.";
 		string needToTradeGoodsForMeepleMessage = " you must give up goods for an Explorer.";
 		string partTwo = "Your explorers have chosen who to send," + System.Environment.NewLine + "and which good to sacrifice to the desert.";
 		bool inMovementPhase = false;
@@ -59,16 +59,13 @@ public class DesertMovementController : Event
 						player.GetComponent<Player> ().hasMovedAnExplorerThisTurn = false;
 
 
-						//when players necessarily place their meeples on the bazaar during placement phase
-						//this will work; for now at start no player has any moveable meeples so it auto ends.
-						//so for testing user a weaker condition
+						//!!this condition requires that player has at least one meeple on the board;
+						//else it won't recognize that the player can't take a turn.
+						//this should work but for safety I'm going to just make it the weaker condition,
+						//safe from infinite loop since now players can stop move phase.
 
-
-
+	
 						//player.GetComponent<Player> ().updateWhetherCanMoveAgainThisRound ();
-
-						//strictly for testing breaking legs of explorer
-						player.GetComponent<PlayerInventory> ().changeAvailableWaterDuringMovement (2);
 
 						//weaker condition; based strictly on available water
 						player.GetComponent<Player> ().canMoveAgainThisRound = player.GetComponent<PlayerInventory> ().waterAvailable ();
@@ -114,7 +111,7 @@ public class DesertMovementController : Event
 		void endDesertMovementPhase ()
 		{
 				sendExplorersOnBazaarBackToSource ();
-		        
+		   
 				eventStartTime = Time.time;
 				waitingOnExplorerReturn = true;
 				
@@ -255,7 +252,9 @@ public class DesertMovementController : Event
 				resetDesertState ();
 				playersWhoMustTradeGoodsForExplorer.Clear ();
 				inMovementPhase = false;
-				
+
+				//initiate worker placement phase
+				gameObject.GetComponent<GameController> ().BeginPlacementPhase ();
 				
 				//only for testing carry-over events
 				//beginDesertMovementPhase ();
