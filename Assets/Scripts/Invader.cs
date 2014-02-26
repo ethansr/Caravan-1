@@ -8,7 +8,13 @@ public class Invader : Event
 		string invaderMessagePartTwo = "This is our land now....";
 		GameObject tileFromWhichInvaderAttacks;
 
-		public void prepareForInvasion ()
+		public bool entersFromInvadingTile(){
+
+				return !gameObject.GetComponent<DesertExplorer>().currentTile.GetComponent<DesertTile>().isBazaar();
+		}
+
+
+	    public void prepareForInvasion ()
 		{
 				tileFromWhichInvaderAttacks = gameObject.GetComponent<DesertExplorer> ().currentTile;
 

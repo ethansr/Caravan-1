@@ -16,8 +16,8 @@ public class PlayerInventory : MonoBehaviour
 		Dictionary<DesertGenerator.GoodItem, int> amountOfEachGoodItem;
 		public int wellDepth = 0;
 
-	//set this to true as the effect of the "invasion" worker placement tile;
-	//I handle setting it back to false after it takes effedct during movement phase
+		//set this to true as the effect of the "invasion" worker placement tile;
+		//I handle setting it back to false after it takes effedct during movement phase
 		public bool canInvade;
 
 	
@@ -113,6 +113,12 @@ public class PlayerInventory : MonoBehaviour
 				}
 				return result;
 		                                                                    
+
+		}
+
+		public void drainWater ()
+		{
+				availableWater = 0;
 
 		}
 
