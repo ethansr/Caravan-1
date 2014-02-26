@@ -8,13 +8,13 @@ public class Invader : Event
 		string invaderMessagePartTwo = "This is our land now....";
 		GameObject tileFromWhichInvaderAttacks;
 
-		public bool entersFromInvadingTile(){
+		public bool entersFromInvadingTile ()
+		{
 
-				return !gameObject.GetComponent<DesertExplorer>().currentTile.GetComponent<DesertTile>().isBazaar();
+				return !gameObject.GetComponent<DesertExplorer> ().currentTile.GetComponent<DesertTile> ().isBazaar ();
 		}
 
-
-	    public void prepareForInvasion ()
+		public void prepareForInvasion ()
 		{
 				tileFromWhichInvaderAttacks = gameObject.GetComponent<DesertExplorer> ().currentTile;
 
@@ -45,7 +45,7 @@ public class Invader : Event
 				GameObject tileOfVictim = explorer.GetComponent<DesertExplorer> ().currentTile;
 			
 		
-				explorer.GetComponent<DesertExplorer> ().updateLocation (tileFromWhichInvaderAttacks);
+				
 				gameObject.GetComponent<DesertExplorer> ().updateLocation (tileOfVictim);
 
 		}
@@ -65,6 +65,7 @@ public class Invader : Event
 						disableEventTextBox ();
 						inControlOfTextBox = false;
 						anEventIsHappeningInGeneral = false;
+						explorer.GetComponent<DesertExplorer> ().updateLocation (tileFromWhichInvaderAttacks);
 						//tellPlayerToFinishEndTurn ();
 				}
 

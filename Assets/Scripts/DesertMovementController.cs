@@ -66,7 +66,7 @@ public class DesertMovementController : Event
 
 	
 						//player.GetComponent<Player> ().updateWhetherCanMoveAgainThisRound ();
-
+			          
 						//weaker condition; based strictly on available water
 						player.GetComponent<Player> ().canMoveAgainThisRound = player.GetComponent<PlayerInventory> ().waterAvailable ();
 			
@@ -254,6 +254,7 @@ public class DesertMovementController : Event
 				inMovementPhase = false;
 
 				//initiate worker placement phase
+	
 				gameObject.GetComponent<GameController> ().BeginPlacementPhase ();
 				
 				//only for testing carry-over events
