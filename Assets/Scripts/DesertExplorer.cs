@@ -301,6 +301,9 @@ public class DesertExplorer : MonoBehaviour
 		{       
 				if (!isForeign (invader))
 						return true;
+		        //mercenary doesn't have invasion power.
+		        if (isMercenary (invader))
+						return false;
 				//is foreign; if current tile has event return false.
 				if (currentTile.GetComponent<DesertTile> ().hasDesertEvent ())
 						return false;
