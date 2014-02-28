@@ -266,6 +266,7 @@ public class DesertMovementController : Event
 		{
 				resetDesertState ();
 				playersWhoMustTradeGoodsForExplorer.Clear ();
+
 				inMovementPhase = false;
 
 				//initiate worker placement phase
