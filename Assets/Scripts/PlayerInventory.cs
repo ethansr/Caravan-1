@@ -45,7 +45,6 @@ public class PlayerInventory : MonoBehaviour
 		merchantCardLocations.Add(transform.position + Vector3.right * 35 + Vector3.up * 1.1f);
 		merchantCardLocations.Add (transform.position + Vector3.right * 45 + Vector3.up * 1.1f);
 
-
 		}
 	  
 		// Update is called once per frame
@@ -71,10 +70,12 @@ public class PlayerInventory : MonoBehaviour
 		public void AddCard(GameObject newCard){
 
 			merchantCards.Add(newCard);
-			if (merchantCards.IndexOf (newCard) < merchantCardLocations.Count) {
-				iTween.MoveTo (newCard, merchantCardLocations [merchantCards.IndexOf (newCard)], 1.0f);
-			}
 
+			foreach (GameObject merchCard in merchantCards) {
+						if (merchantCards.IndexOf (merchCard) < merchantCardLocations.Count) {
+								iTween.MoveTo (merchCard, merchantCardLocations [merchantCards.IndexOf (merchCard)], 1.0f);
+						}
+				}
 
 		}
 

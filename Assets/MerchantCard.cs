@@ -77,10 +77,11 @@ public class MerchantCard : MonoBehaviour {
 				inventory.AddVictoryPoint ();
 
 				controller.Discard(gameObject);
-
+				if (!player) {
 				GameObject new_card = GameObject.Find("GameController").GetComponent<GameController>().deck.Pop();
 				
 				iTween.MoveTo(new_card, gameObject.transform.position, 1.0f);
+				}
 				iTween.MoveTo(gameObject, (player.transform.position - gameObject.transform.position ) *2, 1.0f);
 
 		}
@@ -93,10 +94,12 @@ public class MerchantCard : MonoBehaviour {
 
 				inventory.AddVictoryPoint ();
 				controller.Discard(gameObject);
+				if (!player) {
 
-				GameObject new_card = GameObject.Find("GameController").GetComponent<GameController>().deck.Pop();
+				GameObject new_card = controller.deck.Pop();
 
 				iTween.MoveTo(new_card, gameObject.transform.position, 1.0f);
+				}
 				iTween.MoveTo(gameObject, (player.transform.position - gameObject.transform.position ) *2, 1.0f);
 
 
