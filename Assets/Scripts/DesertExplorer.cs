@@ -15,6 +15,8 @@ public class DesertExplorer : MonoBehaviour
 		public string id;
 		public bool hasMovedThisRound;
 		public bool missNextTurn = false;
+		public static Vector3 movingSize;
+		public static Vector3 defaultSize;
 	
 		void Start ()
 		{
@@ -108,10 +110,10 @@ public class DesertExplorer : MonoBehaviour
 	
 		void Update ()
 		{         
-				
+				Debug.Log (currentPos.z);
 
 				if (!Event.anEventIsHappeningInGeneral && moving ()) {
-						flashToIndicateMoveState ();
+						graphicallyIndicateMoveState ();
 						GameObject newLocation = getNewLocationGivenKeyInput ();
 						if (moveSuccessful (newLocation)) 
 								handleSuccessfulMove (newLocation);
@@ -123,9 +125,10 @@ public class DesertExplorer : MonoBehaviour
 				
 				maintainPosition ();
 		}
-		//I don't really understand why this is neccessary tbh, but it seems to be.
+		
 		void maintainPosition ()
 		{
+				
 				GetComponent<Transform> ().position = currentPos;
 		}
 	
@@ -142,15 +145,9 @@ public class DesertExplorer : MonoBehaviour
 		{
 				preventThisExplorerFromMovingAgainThisRound ();
 				decrementPlayersMoveableExplorers ();
+				GetComponent<Transform> ().localScale = defaultSize;
 
-				/*
-				if (isAnEventToExperienceOnCurrentLocation ()) {
-						tellEventToEndTurnWhenFinished ();
-						experienceEvent ();
-				} 
-*/
-
-						endPlayersTurn ();
+				endPlayersTurn ();
 				
 		}
 	    
@@ -158,13 +155,6 @@ public class DesertExplorer : MonoBehaviour
 		{
 				return (finishedOnEventTile () && haventAlreadyExperienceEvent ());
 		}
-	/*
-		void tellEventToEndTurnWhenFinished ()
-		{
-				GameObject newEvent = currentTile.GetComponent<DesertTile> ().getEvent ();
-				newEvent.GetComponent<Event> ().endPlayersTurn = true;
-		}
-		*/
 	
 		bool finishedOnEventTile ()
 		{
@@ -258,13 +248,15 @@ public class DesertExplorer : MonoBehaviour
 				return gameObject.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().waterAvailable ();
 		}
 	
-		void flashToIndicateMoveState ()
+		void graphicallyIndicateMoveState ()
 		{
 				if (flash == 1)
 						GetComponent<SpriteRenderer> ().color = fColor;
 				else 
 						GetComponent<SpriteRenderer> ().color = defaultColor;
 				flash *= -1;
+		        
+				
 
 		}
 
@@ -289,6 +281,7 @@ public class DesertExplorer : MonoBehaviour
 				if (!hasMovedThisRound) {
 						desert.GetComponent<DesertState> ().changeMover (gameObject);
 						recordMovementOfExplorerToPlayer ();
+						GetComponent<Transform> ().localScale = movingSize;
 				}
 		       
 				
@@ -303,19 +296,23 @@ public class DesertExplorer : MonoBehaviour
 
 
 		//if the mercenary is the sole occupant of this tile, he will accept the invader no matter what
-	//don't accept an invader on a tile that is already an event tile.
+		//don't accept an invader on a tile that is already an event tile.
 		public bool acceptInvader (GameObject invader)
-		{
+		{       
+				if (!isForeign (invader))
+						return true;
+				//is foreign; if current tile has event return false.
 				if (currentTile.GetComponent<DesertTile> ().hasDesertEvent ())
 						return false;
+				//foreign and tile does not have event
 				if (!isMercenary ()) {
 						if (playerHasInvaderPower (invader)) {
 								invader.GetComponent<Invader> ().prepareForInvasion ();
 								return true;
 						} else 
-								return (!isForeign (invader));
+								return false;
 				}
-                
+                //mercenary and tile does not have event
 				return true;
 		}
 	

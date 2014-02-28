@@ -42,7 +42,8 @@ public class DesertMovementController : Event
 								explorer.GetComponent<DesertExplorer> ().makeExplorerMissThisTurn ();
 						} else {
 								explorer.GetComponent<DesertExplorer> ().hasMovedThisRound = false;
-				          
+				               //this should also sum the increment by a mercenary... need to check this.
+				//might double up again.
 								explorer.GetComponent<Meeple> ().player.GetComponent<Player> ().moveableDesertExplorers++;
 						}
 

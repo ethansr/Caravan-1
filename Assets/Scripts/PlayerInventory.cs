@@ -25,7 +25,7 @@ public class PlayerInventory : MonoBehaviour
 		// Use this for initialization
 		void Start ()
 		{
-				canInvade = false;
+				canInvade = true;
 				amountOfEachGoodItem = new Dictionary<DesertGenerator.GoodItem,int> ();
 
 				foreach (int value in Enum.GetValues(typeof(DesertGenerator.GoodItem))) {
