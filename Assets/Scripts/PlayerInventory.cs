@@ -15,16 +15,23 @@ public class PlayerInventory : MonoBehaviour
 		int[] amountOfEachGoodType = {0,0,0,0};
 		public Dictionary<DesertGenerator.GoodItem, int> amountOfEachGoodItem;
 		public int wellDepth = 0;
-	public int victory_points = 0;
+		public int victory_points = 0;
+
+	    public List<GameObject> merchantCards;
+	    public List<Vector3> merchantCardLocations = new List<Vector3>();
+
 
 		//set this to true as the effect of the "invasion" worker placement tile;
 		//I handle setting it back to false after it takes effedct during movement phase
 		public bool canInvade;
 
+		public GameController controller;
+
 	
 		// Use this for initialization
 		void Start ()
 		{
+		controller = GameObject.Find ("GameController").GetComponent<GameController> ();
 				canInvade = false;
 				amountOfEachGoodItem = new Dictionary<DesertGenerator.GoodItem,int> ();
 
@@ -35,6 +42,8 @@ public class PlayerInventory : MonoBehaviour
 				}
 
 				
+		merchantCardLocations.Add(transform.position + Vector3.right * 35 + Vector3.up * 1.1f);
+		merchantCardLocations.Add (transform.position + Vector3.right * 45 + Vector3.up * 1.1f);
 
 
 		}
@@ -43,17 +52,26 @@ public class PlayerInventory : MonoBehaviour
 		void Update ()
 		{
 				waterText.transform.position = Camera.main.WorldToViewportPoint (transform.position);
-				waterText.text = (availableWater).ToString () + "\n VP:" + victory_points.ToString() + "\n";
-		bool every_other = false;
-		foreach (int value in Enum.GetValues(typeof(DesertGenerator.GoodItem))) {
+				waterText.text = (availableWater).ToString () + "\n VP:" + victory_points.ToString () + "\n";
+				bool every_other = false;
+				foreach (int value in Enum.GetValues(typeof(DesertGenerator.GoodItem))) {
 
-			DesertGenerator.GoodItem goodItem = (DesertGenerator.GoodItem)value;
-			string name = Enum.GetName(typeof(DesertGenerator.GoodItem), value);
+						DesertGenerator.GoodItem goodItem = (DesertGenerator.GoodItem)value;
+						string name = Enum.GetName (typeof(DesertGenerator.GoodItem), value);
 
-			if (every_other) {waterText.text += "\n";};
-			every_other = !every_other;
-			waterText.text +=  name + ": " + amountOfEachGoodItem[(DesertGenerator.GoodItem)value].ToString() + "\t";
+						if (every_other) {
+								waterText.text += "\n";
+						}
+						;
+						every_other = !every_other;
+						waterText.text += name + ": " + amountOfEachGoodItem [(DesertGenerator.GoodItem)value].ToString () + "\t";
+				}
 		}
+
+		public void AddCard(GameObject newCard){
+
+			merchantCards.Add(newCard);
+			iTween.MoveTo(newCard, merchantCardLocations[merchantCards.IndexOf(newCard)], 1.0f);
 
 
 		}
