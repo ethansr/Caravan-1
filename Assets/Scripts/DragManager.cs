@@ -5,11 +5,13 @@ public class DragManager : MonoBehaviour
 {
 		Camera mainCamera;
 		GameObject beingDragged;
+		GameController controller;
 
 		// Use this for initialization
 		void Start ()
 		{
 				mainCamera = Camera.main;
+				controller = GameObject.Find ("GameController").GetComponent<GameController> ();
 		}
 	
 		// Update is called once per frame
@@ -39,9 +41,12 @@ public class DragManager : MonoBehaviour
 
 	//at present, this method only cares when we're dragging meeples. but we could change it depending on what else
 	//we plan to be dragged
-		bool isThisPlayersTurnToMove (GameObject beingDragged)
-		{ if (isMeeple (beingDragged)) {
-			return beingDragged.GetComponent<Meeple>().player.GetComponent<Player>().isPlayersTurn();
+	bool isThisPlayersTurnToMove (GameObject beingDragged)
+		{ 
+		print (controller.currentPhase);
+		if (isMeeple (beingDragged)) {
+
+			return controller.currentPhase == "Placement" && beingDragged.GetComponent<Meeple>().player.GetComponent<Player>().isPlayersTurn();
 
 				} else
 						return true;
