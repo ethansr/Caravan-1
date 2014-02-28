@@ -9,6 +9,7 @@ public class MerchantCard : MonoBehaviour {
 	public GameObject second_position;
 	public GameObject third_position;
 	public GameObject player;
+	public GameController controller;
 
 	
 	
@@ -18,6 +19,7 @@ public class MerchantCard : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		SetGoods (first_good, second_good, third_good);
+		controller = GameObject.Find ("GameController").GetComponent<GameController> ();
 	}
 
 	public void SetGoods(DesertGenerator.GoodItem first, DesertGenerator.GoodItem second, DesertGenerator.GoodItem third) {
@@ -72,15 +74,14 @@ public class MerchantCard : MonoBehaviour {
 			if (inventory.hasNumberOfGivenGoodItem(first_good,1) && inventory.hasNumberOfGivenGoodItem(second_good, 1)) {
 				inventory.removeGoods(first_good,1);
 				inventory.removeGoods(second_good,1);
-		inventory.AddVictoryPoint ();
+				inventory.AddVictoryPoint ();
 
-
-				
+				controller.Discard(gameObject);
+				if (!player) {
 				GameObject new_card = GameObject.Find("GameController").GetComponent<GameController>().deck.Pop();
 				
 				iTween.MoveTo(new_card, gameObject.transform.position, 1.0f);
-				
-				
+				}
 				iTween.MoveTo(gameObject, (player.transform.position - gameObject.transform.position ) *2, 1.0f);
 
 		}
@@ -92,13 +93,13 @@ public class MerchantCard : MonoBehaviour {
 				inventory.removeGoods(third_good,1);
 
 				inventory.AddVictoryPoint ();
-				
-				GameObject new_card = GameObject.Find("GameController").GetComponent<GameController>().deck.Pop();
-				
+				controller.Discard(gameObject);
+				if (!player) {
+
+				GameObject new_card = controller.deck.Pop();
 
 				iTween.MoveTo(new_card, gameObject.transform.position, 1.0f);
-				
-				
+				}
 				iTween.MoveTo(gameObject, (player.transform.position - gameObject.transform.position ) *2, 1.0f);
 
 

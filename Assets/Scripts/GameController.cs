@@ -12,18 +12,21 @@ public class GameController : MonoBehaviour {
 	public GameObject merchant_card;
 	public string currentPhase;
 
-	public Stack<GameObject> public_cards = new Stack<GameObject>();
+	public List<GameObject> public_cards = new List<GameObject>();
 
+	public Stack<GameObject> disCards = new Stack<GameObject> ();
 
+	public Vector3 deckLocation;
 
 
 	// Use this for initialization
 	void Start () {
 
 		BuildDeck ();
+		deckLocation = deck.Peek ().transform.position;
 		ShuffleDeck ();
 
-		DealInitialCards ();
+		DealPublicCards ();
 		BeginPlacementPhase ();
 	
 		//BeginMovementPhase ();
@@ -66,19 +69,17 @@ public class GameController : MonoBehaviour {
 		BeginMovementPhase ();
 
 	}
-	void DealInitialCards () {
+	public void DealPublicCards () {
 		for (int i =0; i < 4; i++) {
 			GameObject card = deck.Pop ();
-			public_cards.Push(card);
-						iTween.MoveTo (card, transform.position +  Vector3.right * 10 + Vector3.left * i * 10 + Vector3.up * 10, 1.0f);
+			public_cards.Add(card);
+			iTween.MoveTo (card, deckLocation +  Vector3.right * 27 + Vector3.left * i * 10 + Vector3.down * 43, 1.0f);
 				}
 	}
 	public void ShuffleDeck() {
 		//thanks http://stackoverflow.com/questions/273313/randomize-a-listt-in-c-sharp#answer-1262619
 		System.Random rng = new System.Random(); 
-		while (public_cards.Count != 0) {
-			deck.Push(public_cards.Pop ());
-		}
+
 
 		GameObject[] list = deck.ToArray ();
 		int n = deck.Count;  
@@ -86,10 +87,7 @@ public class GameController : MonoBehaviour {
 			n--;  
 			int k = rng.Next(n + 1);  
 			GameObject value = list[k]; 
-			Vector3 temp_position = list[k].transform.position;
-			list[k].transform.position = list[n].transform.position;
 			list[k] = list[n];  
-			list[n].transform.position = temp_position;
 			list[n] = value;  
 		}  
 
@@ -158,12 +156,28 @@ public class GameController : MonoBehaviour {
 		GameObject card = deck.Pop ();
 		card.GetComponent<MerchantCard>().player = player;
 
-		iTween.MoveTo(card, player.transform.position + Vector3.right * 35, 1.0f);
-
+		inventory.AddCard (card);
 		
 		// do nothing
 	}
 
+	public void ReturnPublicCardsToDeck() {
+		foreach (GameObject card in public_cards) {
+			deck.Push(card);
+			iTween.MoveTo (card, deckLocation, 1.0f);
+		}
+		public_cards.Clear();
+
+		}
+
+	public void Discard (GameObject cardToRemove){
+		if (public_cards.Contains(cardToRemove)) { public_cards.Remove(cardToRemove); }
+		foreach (GameObject playerObject in players) {
+			PlayerInventory inventory = playerObject.GetComponent<PlayerInventory>();
+			if (inventory.merchantCards.Contains(cardToRemove)) { inventory.merchantCards.Remove(cardToRemove); }
+		}
+			disCards.Push(cardToRemove);
+		}
 	public GameObject currentPlayer() {
 		return players[indexOfNextPlayer];
 	}
