@@ -42,7 +42,7 @@ public class DesertMovementController : Event
 								explorer.GetComponent<DesertExplorer> ().makeExplorerMissThisTurn ();
 						} else {
 								explorer.GetComponent<DesertExplorer> ().hasMovedThisRound = false;
-				          
+								
 								explorer.GetComponent<Meeple> ().player.GetComponent<Player> ().moveableDesertExplorers++;
 						}
 
@@ -89,10 +89,15 @@ public class DesertMovementController : Event
 
 		}
 
+		//get the current player from game controller;
+		//if that player can't make a move then first player is the first player returned from updatePlayer()
 		void getFirstPlayer ()
 		{
 				GameObject firstPlayer = gameObject.GetComponent<GameController> ().currentPlayer ();
-				GameObject.Find ("Desert").GetComponent<DesertState> ().changePlayerWhoseTurnItIs (firstPlayer);
+				if (firstPlayer.GetComponent<Player> ().canMoveAgainThisRound)
+						GameObject.Find ("Desert").GetComponent<DesertState> ().changePlayerWhoseTurnItIs (firstPlayer);
+				else
+						updatePlayer ();
 
 		}
 
@@ -185,7 +190,7 @@ public class DesertMovementController : Event
 		{
 			
 				if (showingEndOfMovePhaseScreen) {
-						drainAllRemainingWater ();
+						resetAllPlayerMovementVariables ();
 						checkForPlayersWhoNeedToReturnMeepleToSourceForGood ();
 				
 					
@@ -196,11 +201,15 @@ public class DesertMovementController : Event
 				}
 		}
 
-		void drainAllRemainingWater ()
+
+
+		void resetAllPlayerMovementVariables ()
 		{
 				GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
 				foreach (GameObject player in players) {
 						player.GetComponent<PlayerInventory> ().drainWater ();
+						player.GetComponent<Player> ().moveableDesertExplorers = 0;
+						player.GetComponent<Player> ().canMoveAgainThisRound = false;
 				}
 
 		}
@@ -266,6 +275,7 @@ public class DesertMovementController : Event
 		{
 				resetDesertState ();
 				playersWhoMustTradeGoodsForExplorer.Clear ();
+
 				inMovementPhase = false;
 
 				//initiate worker placement phase

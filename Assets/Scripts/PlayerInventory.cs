@@ -31,8 +31,10 @@ public class PlayerInventory : MonoBehaviour
 		// Use this for initialization
 		void Start ()
 		{
-		controller = GameObject.Find ("GameController").GetComponent<GameController> ();
+
+			controller = GameObject.Find ("GameController").GetComponent<GameController> ();
 				canInvade = false;
+
 				amountOfEachGoodItem = new Dictionary<DesertGenerator.GoodItem,int> ();
 
 				foreach (int value in Enum.GetValues(typeof(DesertGenerator.GoodItem))) {

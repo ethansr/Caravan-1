@@ -4,6 +4,7 @@ using System.Collections;
 public class Meeple : MonoBehaviour
 {
 		public GameObject player;
+		Vector3 explorerSize;
 
 		void Start ()
 		{      
@@ -14,8 +15,11 @@ public class Meeple : MonoBehaviour
 
 		public void makeExplorer (GameObject startingLocation)
 		{   
-				Vector3 explorerSize = new Vector3 (1 / 1.5f, 1 / 1.5f, 1);
-
+				explorerSize = new Vector3 (1 / 1.5f, 1 / 1.5f, 1);
+				DesertExplorer.defaultSize = explorerSize;
+				DesertExplorer.movingSize = DesertExplorer.defaultSize * 1.2f;
+		       
+	
 				gameObject.GetComponent<Draggable> ().enabled = false;
 				gameObject.GetComponent<DesertExplorer> ().enabled = true;
 				gameObject.tag = "explorer";
@@ -24,7 +28,9 @@ public class Meeple : MonoBehaviour
 				gameObject.GetComponent<DesertExplorer> ().moveToNewDesertTile (startingLocation);
 		        
 				if (player && !gameObject.GetComponent<DesertExplorer> ().isMercenary ()) {
-						//player.GetComponent<Player> ().changeMovebleDesertExplorers (1);
+						//note: now the desert controller is responsible for at the start of the move phase
+						//summing up all the meeples that were placed in the bazaar tile to the players available meeples to move
+						//(these allso shouldnt be reset to 0 ever, given the mercenary sums them)
 						
 						player.GetComponent<Player> ().exploringMeeples.Add (gameObject);
 			            
