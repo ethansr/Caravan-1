@@ -65,10 +65,10 @@ public class DesertMovementController : Event
 						//safe from infinite loop since now players can stop move phase.
 
 	
-						//player.GetComponent<Player> ().updateWhetherCanMoveAgainThisRound ();
+						player.GetComponent<Player> ().updateWhetherCanMoveAgainThisRound ();
 			          
 						//weaker condition; based strictly on available water
-						player.GetComponent<Player> ().canMoveAgainThisRound = player.GetComponent<PlayerInventory> ().waterAvailable ();
+						//player.GetComponent<Player> ().canMoveAgainThisRound = player.GetComponent<PlayerInventory> ().waterAvailable ();
 			
 				}
 		
@@ -220,23 +220,33 @@ public class DesertMovementController : Event
 				GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
 				foreach (GameObject player in players) {
 			            
-						if (playerHasNoMeeplesOnSource (player))
+						if (allPlayersMeeplesAreExploringAndWellIsEmpty (player))
 								handlePlayerWithoutSourceMeeples (player);
 				}
 
 				//if some player had no water activate event
 				if (somePlayersNeedToTradeGoodsForExplorer ())
 						activateEvent (null);
-				
 			
 			
 		}
 
-		bool playerHasNoMeeplesOnSource (GameObject player)
-		{
-				int playersMeeplesOnSource = player.GetComponent<Player> ().meepleSource.GetComponent<MeepleSource> ().meeplesOnSource;
-				return (playersMeeplesOnSource == 0);
+		bool allPlayersMeeplesAreExploringAndWellIsEmpty (GameObject player)
+		{       
+
+				return (noMeeplesAvailableToMineWater (player) && cannotHarvestMoreWaterFromWell (player));
+			 
 	
+		}
+
+		bool noMeeplesAvailableToMineWater (GameObject player)
+		{
+				return player.GetComponent<Player> ().exploringMeeples.Count == GameController.numMeeplesPerPlayer;
+		}
+
+		bool cannotHarvestMoreWaterFromWell (GameObject player)
+		{
+				return player.GetComponent<PlayerInventory> ().wellDepth == 0;
 		}
 
 		void handlePlayerWithoutSourceMeeples (GameObject player)

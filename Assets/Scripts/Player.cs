@@ -187,10 +187,6 @@ public class Player : MonoBehaviour
 				explorerToReturn.GetComponent<Meeple> ().endExploration ();
 		}
 
-		
-	    
-	  
-		
 
 
 }
