@@ -89,10 +89,15 @@ public class DesertMovementController : Event
 
 		}
 
+	//get the current player from game controller;
+	//if that player can't make a move then first player is the first player returned from updatePlayer()
 		void getFirstPlayer ()
 		{
 				GameObject firstPlayer = gameObject.GetComponent<GameController> ().currentPlayer ();
-				GameObject.Find ("Desert").GetComponent<DesertState> ().changePlayerWhoseTurnItIs (firstPlayer);
+		if (firstPlayer.GetComponent<Player> ().canMoveAgainThisRound)
+						GameObject.Find ("Desert").GetComponent<DesertState> ().changePlayerWhoseTurnItIs (firstPlayer);
+				else
+						updatePlayer ();
 
 		}
 
