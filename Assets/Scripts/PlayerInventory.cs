@@ -71,7 +71,9 @@ public class PlayerInventory : MonoBehaviour
 		public void AddCard(GameObject newCard){
 
 			merchantCards.Add(newCard);
-			iTween.MoveTo(newCard, merchantCardLocations[merchantCards.IndexOf(newCard)], 1.0f);
+			if (merchantCards.IndexOf (newCard) < merchantCardLocations.Count) {
+				iTween.MoveTo (newCard, merchantCardLocations [merchantCards.IndexOf (newCard)], 1.0f);
+			}
 
 
 		}
