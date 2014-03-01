@@ -143,12 +143,16 @@ public class DesertExplorer : MonoBehaviour
 
 		public void reactToMovementEnding ()
 		{
+				closeMovement ();
+
+				endPlayersTurn ();
+		}
+
+		void closeMovement ()
+		{
 				preventThisExplorerFromMovingAgainThisRound ();
 				decrementPlayersMoveableExplorers ();
 				GetComponent<Transform> ().localScale = defaultSize;
-
-				endPlayersTurn ();
-				
 		}
 	    
 		bool isAnEventToExperienceOnCurrentLocation ()
@@ -229,7 +233,12 @@ public class DesertExplorer : MonoBehaviour
 						if (newLocation == lastGoodAcquired)
 								return; 
 						addGoodToPlayerInventory (newLocation);
-						lastGoodAcquired = newLocation;
+						if (GameController.testMeeplesSentBackToBazaarAfterFindingGood && !isMercenary ()) {
+								closeMovement ();
+								leaveCurrentTile ();
+								returnToSource ();
+						} else
+								lastGoodAcquired = newLocation;
 			
 				} else 
 						updateLocation (newLocation);

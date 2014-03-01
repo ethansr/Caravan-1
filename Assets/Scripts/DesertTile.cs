@@ -317,21 +317,29 @@ public class DesertTile : MonoBehaviour
 	
 		void OnMouseUpAsButton ()
 		{
-				if (flipped) {
-						if (!occupied () && !isBazaar ()) {
-								GameObject playerWhoseTurnItIs = desert.GetComponent<DesertState> ().playerWhoseTurnItIs;
+				if (flipped && !isBazaar ()) {
+						GameObject playerWhoseTurnItIs = desert.GetComponent<DesertState> ().playerWhoseTurnItIs;
+						if (!occupied () || occupantsBelongToPlayer (playerWhoseTurnItIs)) {
 								if (playerWhoseTurnItIs && playerHasntMovedExplorerThisTurn (playerWhoseTurnItIs)) {//if new player clicks on tile
-										if (playerWhoseTurnItIs != playerWhoIsRotatingTile) {
+										//if (playerWhoseTurnItIs != playerWhoIsRotatingTile) {
 												playerWhoIsRotatingTile = playerWhoseTurnItIs;
 												playerWhoseTurnItIs.GetComponent<Player> ().hasRotatedATileThisTurn = true;
 												makeTileRotatable ();
-										} else { //same user double clicks on tile again to stop rotating
+										//} else { //same user double clicks on tile again to stop rotating
 												playerWhoIsRotatingTile = null;
 												leaveRotationStateIfNecessary ();
-										}
+										//}
 								}
 						}
 				}
+		}
+
+		bool occupantsBelongToPlayer (GameObject player)
+		{
+				foreach (GameObject explorer in occupants)
+						if (explorer.GetComponent<Meeple> ().player != player)
+								return false;
+				return true;
 		}
 
 		bool playerHasntMovedExplorerThisTurn (GameObject player)

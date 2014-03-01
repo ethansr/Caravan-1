@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class GameController : MonoBehaviour {
 
+	public static bool testMeeplesSentBackToBazaarAfterFindingGood=true;
+
 	public GameObject[] players;
 	private int indexOfNextPlayer = 0;
 	public static int numPlayers = 4;

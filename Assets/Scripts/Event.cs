@@ -28,8 +28,8 @@ public abstract class Event : MonoBehaviour
 		void Start ()
 		{      
 				eventText = GameObject.Find ("EventText");
-				secondsWaitForEventResult = 5.0f;
-				secondsWaitForEventResultClear = secondsWaitForEventResult * 2;
+				secondsWaitForEventResult = 2.0f;
+				secondsWaitForEventResultClear = secondsWaitForEventResult + 2;
 				adjustEventTextBoxAlpha ();
 				disableEventTextBox ();
 				clearEventText ();

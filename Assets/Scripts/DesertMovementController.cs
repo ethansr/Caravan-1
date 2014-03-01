@@ -42,7 +42,7 @@ public class DesertMovementController : Event
 								explorer.GetComponent<DesertExplorer> ().makeExplorerMissThisTurn ();
 						} else {
 								explorer.GetComponent<DesertExplorer> ().hasMovedThisRound = false;
-								
+					
 								explorer.GetComponent<Meeple> ().player.GetComponent<Player> ().moveableDesertExplorers++;
 						}
 
