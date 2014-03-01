@@ -69,7 +69,9 @@ public class DesertMovementController : Event
 			          
 						//weaker condition; based strictly on available water
 						//player.GetComponent<Player> ().canMoveAgainThisRound = player.GetComponent<PlayerInventory> ().waterAvailable ();
-			
+			          
+			//strictly for testing; just easier to go thru various turns.
+			player.GetComponent<PlayerInventory> ().changeAvailableWaterDuringPlacementPhase(100);
 				}
 		
 		}

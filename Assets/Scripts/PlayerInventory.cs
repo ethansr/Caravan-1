@@ -16,15 +16,13 @@ public class PlayerInventory : MonoBehaviour
 		public Dictionary<DesertGenerator.GoodItem, int> amountOfEachGoodItem;
 		public int wellDepth = 0;
 		public int victory_points = 0;
-
-	    public List<GameObject> merchantCards;
-	    public List<Vector3> merchantCardLocations = new List<Vector3>();
+		public List<GameObject> merchantCards;
+		public List<Vector3> merchantCardLocations = new List<Vector3> ();
 
 
 		//set this to true as the effect of the "invasion" worker placement tile;
 		//I handle setting it back to false after it takes effedct during movement phase
 		public bool canInvade;
-
 		public GameController controller;
 
 	
@@ -32,7 +30,7 @@ public class PlayerInventory : MonoBehaviour
 		void Start ()
 		{
 
-			controller = GameObject.Find ("GameController").GetComponent<GameController> ();
+				controller = GameObject.Find ("GameController").GetComponent<GameController> ();
 				canInvade = false;
 
 				amountOfEachGoodItem = new Dictionary<DesertGenerator.GoodItem,int> ();
@@ -44,8 +42,8 @@ public class PlayerInventory : MonoBehaviour
 				}
 
 				
-		merchantCardLocations.Add(transform.position + Vector3.right * 35 + Vector3.up * 1.1f);
-		merchantCardLocations.Add (transform.position + Vector3.right * 45 + Vector3.up * 1.1f);
+				merchantCardLocations.Add (transform.position + Vector3.right * 35 + Vector3.up * 1.1f);
+				merchantCardLocations.Add (transform.position + Vector3.right * 45 + Vector3.up * 1.1f);
 
 		}
 	  
@@ -69,11 +67,12 @@ public class PlayerInventory : MonoBehaviour
 				}
 		}
 
-		public void AddCard(GameObject newCard){
+		public void AddCard (GameObject newCard)
+		{
 
-			merchantCards.Add(newCard);
+				merchantCards.Add (newCard);
 
-			foreach (GameObject merchCard in merchantCards) {
+				foreach (GameObject merchCard in merchantCards) {
 						if (merchantCards.IndexOf (merchCard) < merchantCardLocations.Count) {
 								iTween.MoveTo (merchCard, merchantCardLocations [merchantCards.IndexOf (merchCard)], 1.0f);
 						}
@@ -81,10 +80,12 @@ public class PlayerInventory : MonoBehaviour
 
 		}
 
-	public void AddVictoryPoint() {
-		victory_points += 1;
+		public void AddVictoryPoint ()
+		{
+				victory_points += 1;
 
-	}
+		}
+
 		public bool waterAvailable ()
 		{
 				return availableWater > 0;
