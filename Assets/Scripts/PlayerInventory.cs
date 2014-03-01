@@ -122,6 +122,15 @@ public class PlayerInventory : MonoBehaviour
 				return amountOfEachGoodType [(int)goodType] >= numOf;
 		}
 
+		public bool hasGoods ()
+		{
+				foreach (int i in amountOfEachGoodType)
+						if (i > 0)
+								return true;
+				return false;
+
+		}
+
 		public bool hasNumberOfGivenGoodItem (DesertGenerator.GoodItem good, int numOf)
 		{
 

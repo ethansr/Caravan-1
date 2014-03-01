@@ -82,11 +82,18 @@ public class DesertExplorer : MonoBehaviour
 		}
 	
 		void OnMouseUpAsButton ()
-		{  
-				if (DesertMovementController.inMovementPhase && isMyPlayersTurn () && currentTile && firstExplorerMovedThisTurn ()) {
-
+		{
+				
+				if (DesertMovementController.waitingForPlayersMagicCarpetSelection) {
+			
+						DesertMovementController.explorerToMove = gameObject;
+						
+			
+				} else if (DesertMovementController.inMovementPhase && isMyPlayersTurn () && currentTile && firstExplorerMovedThisTurn ()) {
+					
 						makeMover ();
-				}     
+				}
+
 		}
 
 		bool isMyPlayersTurn ()
@@ -110,19 +117,15 @@ public class DesertExplorer : MonoBehaviour
 	
 		void Update ()
 		{         
-				
-
-				if (!Event.anEventIsHappeningInGeneral && moving ()) {
+				if (moving () || flyingMagicCarpet ())
 						graphicallyIndicateMoveState ();
+				else
+						stopFlashing ();
+				if (!Event.anEventIsHappeningInGeneral && moving ()) {
 						GameObject newLocation = getNewLocationGivenKeyInput ();
 						if (moveSuccessful (newLocation)) 
 								handleSuccessfulMove (newLocation);
-				} else {
-						stopFlashing ();
-					
 				}
-		
-				
 				maintainPosition ();
 		}
 		
@@ -136,7 +139,11 @@ public class DesertExplorer : MonoBehaviour
 		{
 				return (isMyPlayersTurn () && isMover () && waterAvailable ());
 		}
-
+	   
+		bool flyingMagicCarpet ()
+		{
+				return DesertMovementController.explorerToMove == gameObject;
+		}
 		//called when we run out of water,
 		//and by the desert generator.
 
@@ -234,7 +241,7 @@ public class DesertExplorer : MonoBehaviour
 								return; 
 						addGoodToPlayerInventory (newLocation);
 						if (GameController.testMeeplesSentBackToBazaarAfterFindingGood && !isMercenary ()) {
-								closeMovement ();
+								//closeMovement ();
 								leaveCurrentTile ();
 								returnToSource ();
 						} else

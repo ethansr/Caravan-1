@@ -106,17 +106,23 @@ public class DesertTile : MonoBehaviour
 						GetComponent<BoxCollider2D> ().enabled = true;
 				}
 		
-		
+				if (inMovementState ())
+						flashToIndicateMoveState ();
 				if (isInRotationState ()) {
 						rotateByKey ();
 			
-						flashToIndicateMoveState ();
+						//flashToIndicateMoveState ();
 			
 				} else
 			
 						GetComponent<SpriteRenderer> ().color = defaultCol; 
 		
 		
+		}
+
+		bool inMovementState ()
+		{
+				return (isInRotationState () || DesertMovementController.tileToMoveTo == gameObject);
 		}
 	
 		bool isInRotationState ()
@@ -272,6 +278,20 @@ public class DesertTile : MonoBehaviour
 				return targetTile;
 		}
 
+		public GameObject handleOccupiedTile (GameObject invader, GameObject targetTile)
+		{
+				if (!targetTile.GetComponent<DesertTile> ().isBazaar ()) {
+						GameObject headOccupantOfTargetTile = targetTile.GetComponent<DesertTile> ().getHeadOccupant ();
+
+						if (headOccupantOfTargetTile.GetComponent<DesertExplorer> ().acceptInvader (invader)) {
+								headOccupantOfTargetTile.GetComponent<DesertExplorer> ().handleInvader (invader);
+						} else
+								targetTile = null;
+				}
+				return targetTile;
+
+		}
+
 		//... the mercenary is only considered the "head" occupant in case he's the only occupant on the tile.
 		// otherwise if first is the mercenary then if there are more then get the next one
 		GameObject getHeadOccupant ()
@@ -318,17 +338,21 @@ public class DesertTile : MonoBehaviour
 		void OnMouseUpAsButton ()
 		{
 				if (flipped && !isBazaar ()) {
-						GameObject playerWhoseTurnItIs = desert.GetComponent<DesertState> ().playerWhoseTurnItIs;
-						if (!occupied () || occupantsBelongToPlayer (playerWhoseTurnItIs)) {
-								if (playerWhoseTurnItIs && playerHasntMovedExplorerThisTurn (playerWhoseTurnItIs)) {//if new player clicks on tile
-										//if (playerWhoseTurnItIs != playerWhoIsRotatingTile) {
+						if (DesertMovementController.waitingForPlayersMagicCarpetSelection) {
+								DesertMovementController.tileToMoveTo = gameObject;
+						} else {
+								GameObject playerWhoseTurnItIs = desert.GetComponent<DesertState> ().playerWhoseTurnItIs;
+								if (!occupied () || occupantsBelongToPlayer (playerWhoseTurnItIs)) {
+										if (playerWhoseTurnItIs && playerHasntMovedExplorerThisTurn (playerWhoseTurnItIs)) {//if new player clicks on tile
+												//if (playerWhoseTurnItIs != playerWhoIsRotatingTile) {
 												playerWhoIsRotatingTile = playerWhoseTurnItIs;
 												playerWhoseTurnItIs.GetComponent<Player> ().hasRotatedATileThisTurn = true;
 												makeTileRotatable ();
-										//} else { //same user double clicks on tile again to stop rotating
+												/*} else { //same user double clicks on tile again to stop rotating
 												playerWhoIsRotatingTile = null;
 												leaveRotationStateIfNecessary ();
-										//}
+												}*/
+										}
 								}
 						}
 				}
