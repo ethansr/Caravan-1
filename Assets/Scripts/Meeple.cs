@@ -40,12 +40,12 @@ public class Meeple : MonoBehaviour
 
 		public void endExploration ()
 		{
-				Vector3 defaultSize = new Vector3 (1, 1, 1);
+				Vector3 placementSize = new Vector3 (1, 1, 1);
 				gameObject.GetComponent<Draggable> ().enabled = true;
 				gameObject.GetComponent<DesertExplorer> ().hasMovedThisRound = false;
 				gameObject.tag = "Untagged";
 				gameObject.GetComponent<DesertExplorer> ().enabled = false;
-				gameObject.GetComponent<Transform> ().localScale = defaultSize;
+				gameObject.GetComponent<Transform> ().localScale = placementSize;
 				gameObject.GetComponent<Draggable> ().MoveLocations (null, player.GetComponent<Player> ().meepleSource);
 				
 				if (player && !gameObject.GetComponent<DesertExplorer> ().isMercenary ()) {

@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
 
 		bool movementPhase ()
 		{
-				return (GameObject.Find ("GameController").GetComponent<DesertMovementController> ().inMovementPhase);
+				return DesertMovementController.inMovementPhase;
 		}
 
 		public void endTurn ()

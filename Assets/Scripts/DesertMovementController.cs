@@ -12,7 +12,7 @@ public class DesertMovementController : Event
 		string movementEndPartTwoMessage = "Explorers in the bazaar have" + System.Environment.NewLine + " returned to their duties... Those in the desert" + System.Environment.NewLine + "are checking their supplies.";
 		string needToTradeGoodsForMeepleMessage = " you must give up goods for an Explorer.";
 		string partTwo = "Your explorers have chosen who to send," + System.Environment.NewLine + "and which good to sacrifice to the desert.";
-		public bool inMovementPhase = false;
+		public static bool inMovementPhase = false;
 		bool showingEndOfMovePhaseScreen = false;
 		bool showingPlayerMustTradeGoodsForExplorerScreen = false;
 		Collection<GameObject> playersWhoMustTradeGoodsForExplorer = new Collection<GameObject> ();
@@ -102,7 +102,7 @@ public class DesertMovementController : Event
 		}
 
 
-		//this should only by called by the player.
+		//this should only by called by the players during the movement phase
 		public void updatePlayer ()
 		{
 				if (noPlayersCanMakeMove ()) {
@@ -167,23 +167,23 @@ public class DesertMovementController : Event
 		}
 	
 		void Update ()
-		{
-				if (waitingOnExplorerReturn) {
-						announceEndOfMovePhaseAfterDelay ();
-				}
-				if (effectOccurring) {
-						if (showingEndOfMovePhaseScreen) {
-								displayResultOfTwoCaseEvent (true, movementEndedMessage, movementEndPartTwoMessage, "");
-						} else if (showingPlayerMustTradeGoodsForExplorerScreen) {
-								displayResultOfTwoCaseEvent (true, needToTradeGoodsForMeepleMessage, partTwo, "");
+		{       
+						if (waitingOnExplorerReturn) {
+								announceEndOfMovePhaseAfterDelay ();
 						}
+						if (effectOccurring) {
+								if (showingEndOfMovePhaseScreen) {
+										displayResultOfTwoCaseEvent (true, movementEndedMessage, movementEndPartTwoMessage, "");
+								} else if (showingPlayerMustTradeGoodsForExplorerScreen) {
+										displayResultOfTwoCaseEvent (true, needToTradeGoodsForMeepleMessage, partTwo, "");
+								}
 
-				} else if (inControlOfTextBox) {
-						disableEventTextBox ();
-						inControlOfTextBox = false;
-						closeMovementPhase ();
-				}
-
+						} else if (inControlOfTextBox) {
+								disableEventTextBox ();
+								inControlOfTextBox = false;
+								closeMovementPhase ();
+						}
+				
 		}
 
 		protected override void takeEffect ()

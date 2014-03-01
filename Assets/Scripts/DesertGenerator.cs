@@ -40,7 +40,7 @@ public class DesertGenerator : MonoBehaviour
 	    
 		//use these to determine how many of each type of pathway to make.
 		public int numPathTypes = 7;
-		//REQUIRES: Sum to 81 (9*9)
+		
 		int[] pathTypeCounts = {54,6,6,6,6,6,6};
 		//aligned to indexes of pathTypeCounts
 		public static int NORTH_INDEX = 0;
@@ -354,15 +354,21 @@ public class DesertGenerator : MonoBehaviour
 
 		void setPaths (GameObject tile)
 		{
-				int rand;
+				int randomPathType;
 				int typeCount;
+
 				do {
-						rand = (int)UnityEngine.Random.Range (0, pathTypeCounts.Length);
-						typeCount = pathTypeCounts [rand];
+						randomPathType = (int)UnityEngine.Random.Range (0, pathTypeCounts.Length);
+						typeCount = pathTypeCounts [randomPathType];
+
 				} while(typeCount==0);
+
 				typeCount--;
-				pathTypeCounts [rand] = typeCount;
-				int[] pathValues = pathTypes [rand];
+
+				pathTypeCounts [randomPathType] = typeCount;
+
+				int[] pathValues = pathTypes [randomPathType];
+
 				tile.GetComponent<DesertTile> ().setVerticalPaths (pathValues [NORTH_INDEX], pathValues [SOUTH_INDEX]);
 				tile.GetComponent<DesertTile> ().setHorizontalPaths (pathValues [EAST_INDEX], pathValues [WEST_INDEX]);
 		}

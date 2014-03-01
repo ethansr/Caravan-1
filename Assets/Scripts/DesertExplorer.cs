@@ -83,12 +83,12 @@ public class DesertExplorer : MonoBehaviour
 	
 		void OnMouseUpAsButton ()
 		{  
-				if (isMyPlayersTurn () && currentTile && firstExplorerMovedThisTurn ()) {
+				if (DesertMovementController.inMovementPhase && isMyPlayersTurn () && currentTile && firstExplorerMovedThisTurn ()) {
 
 						makeMover ();
 				}     
 		}
-	
+
 		bool isMyPlayersTurn ()
 		{
 				return gameObject.GetComponent<Meeple> ().player.GetComponent<Player> ().isPlayersTurn ();
@@ -110,7 +110,7 @@ public class DesertExplorer : MonoBehaviour
 	
 		void Update ()
 		{         
-				Debug.Log (currentPos.z);
+				
 
 				if (!Event.anEventIsHappeningInGeneral && moving ()) {
 						graphicallyIndicateMoveState ();
@@ -301,8 +301,8 @@ public class DesertExplorer : MonoBehaviour
 		{       
 				if (!isForeign (invader))
 						return true;
-		        //mercenary doesn't have invasion power.
-		        if (isMercenary (invader))
+				//mercenary doesn't have invasion power.
+				if (invader.GetComponent<DesertExplorer> ().isMercenary ())
 						return false;
 				//is foreign; if current tile has event return false.
 				if (currentTile.GetComponent<DesertTile> ().hasDesertEvent ())
@@ -315,7 +315,7 @@ public class DesertExplorer : MonoBehaviour
 						} else 
 								return false;
 				}
-                //mercenary and tile does not have event
+				//mercenary and tile does not have event
 				return true;
 		}
 	
