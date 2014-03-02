@@ -11,6 +11,7 @@ public class Shuffle : DropLocation {
 			GameObject.Find("GameController").GetComponent<GameController>().ShuffleDeck ();
 
 			GameObject.Find("GameController").GetComponent<GameController>().DealPublicCards ();
+			GameObject.Find("GameController").GetComponent<GameController>().getNextPlayer();
 
 		}
 	}
