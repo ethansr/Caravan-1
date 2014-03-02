@@ -51,7 +51,7 @@ public class MagicCarpetLocation : DropLocation
 				DesertGenerator.GoodItem goodGiven = goodToTradeForCarpet.GetComponent<GoodToken> ().good;
 				occupant.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().removeGoods (goodGiven, 1);
 				
-		Object.Destroy (goodToTradeForCarpet);
+				Object.Destroy (goodToTradeForCarpet);
 		               
 		}
 	
