@@ -22,30 +22,23 @@ public class Invader : Event
 
 		public override void activateEvent (GameObject desertExplorer)
 		{
-				anEventIsHappeningInGeneral = true;
-				effectOccurring = true;
-				inControlOfTextBox = true;
-				tookEffect = false;
-				eventStartTime = Time.time;
+				initializeEvent ();
 				explorer = desertExplorer;
 
 		}
 
 		protected override void takeEffect ()
 		{
-				swapLocationsWithVictim ();
+				moveIntoVictimsTile ();
 				removePlayersInvaderAbility ();
 			
 		        
 
 		}
 
-		void swapLocationsWithVictim ()
+		void moveIntoVictimsTile ()
 		{
 				GameObject tileOfVictim = explorer.GetComponent<DesertExplorer> ().currentTile;
-			
-		
-				
 				gameObject.GetComponent<DesertExplorer> ().updateLocation (tileOfVictim);
 
 		}
@@ -62,14 +55,16 @@ public class Invader : Event
 						displayResultOfTwoCaseEvent (true, invaderMessagePartOne, invaderMessagePartTwo, "");
 			
 				} else if (inControlOfTextBox) {
-						disableEventTextBox ();
-						inControlOfTextBox = false;
-						anEventIsHappeningInGeneral = false;
-						explorer.GetComponent<DesertExplorer> ().updateLocation (tileFromWhichInvaderAttacks);
-						//tellPlayerToFinishEndTurn ();
+						closeEvent ();
+						moveVictimToInvadersOldTile ();
+						
 				}
+	
 
+		}
 
-
+		void moveVictimToInvadersOldTile ()
+		{
+				explorer.GetComponent<DesertExplorer> ().updateLocation (tileFromWhichInvaderAttacks);
 		}
 }

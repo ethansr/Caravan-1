@@ -16,7 +16,7 @@ public abstract class Event : MonoBehaviour
 		protected float delayStartTime;
 		protected float eventTextBoxDisplayDelay = 2.0f;
 		protected bool inControlOfTextBox;
-		public bool endPlayersTurn;
+		
 	
 		public abstract void activateEvent (GameObject desertExplorer);
 
@@ -110,15 +110,23 @@ public abstract class Event : MonoBehaviour
 		}
 	
 		protected abstract void takeEffect ();
-	/*
-		protected void tellPlayerToFinishEndTurn ()
+
+		protected void initializeEvent ()
 		{
-				if (explorer && explorer.GetComponent<Meeple> ().player && endPlayersTurn) {
-						endPlayersTurn = false;
-						explorer.GetComponent<Meeple> ().player.GetComponent<Player> ().finishEndTurn ();
-				}
+				anEventIsHappeningInGeneral = true;
+				effectOccurring = true;
+				inControlOfTextBox = true;
+				tookEffect = false;
+				eventStartTime = Time.time;
 		}
-		*/
+
+		protected void closeEvent ()
+		{
+				disableEventTextBox ();
+				inControlOfTextBox = false;
+				anEventIsHappeningInGeneral = false;
+
+		}
 
 	
 }

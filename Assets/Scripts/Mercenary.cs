@@ -51,7 +51,7 @@ public class Mercenary : Event
 		void Update ()
 		{       
 				price = requiredNumberOfGood + " " + desiredGoodType.ToString ();
-		canHireMessage = "You may hire the mercenary for " + price + System.Environment.NewLine + ". Do you wish to?";
+				canHireMessage = "You may hire the mercenary for " + price + System.Environment.NewLine + ". Do you wish to?";
 				insufficientFundsMessage = "you cannot pay my price of " + price;
 				cannotHireMessage = "Either " + insufficientFundsMessage + System.Environment.NewLine + " or " + noRoomMessage;
 				
@@ -59,10 +59,8 @@ public class Mercenary : Event
 						displayResultOfTwoCaseEvent (mercenaryCanBeHired, foundMercenaryMessage, canHireMessage, cannotHireMessage);
 				} else if (!showingButtons ()) { 
 						if (inControlOfTextBox) {
-								disableEventTextBox ();
-								inControlOfTextBox = false;
-								anEventIsHappeningInGeneral = false;
-								//tellPlayerToFinishEndTurn ();
+								closeEvent ();
+							
 						}
 		
 				}
@@ -211,16 +209,11 @@ public class Mercenary : Event
 		//assume that whenever this event has been called the new desired good type has been updated
 		public void reActivateEvent (GameObject desertExplorer)
 		{
-				anEventIsHappeningInGeneral = true;
-				inControlOfTextBox = true;
-				
-
+				initializeEvent ();
 				mercenaryCanBeHired = roomAtTileWhereLocated () && checkIfPlayerHasSufficientFunds (desertExplorer.GetComponent<Meeple> ().player);
 				if (mercenaryCanBeHired)
 						getGoodItemsPlayerCanPay (desertExplorer.GetComponent<Meeple> ().player);		
-				effectOccurring = true;
-				tookEffect = false;
-				eventStartTime = Time.time;
+			
 				explorer = desertExplorer;
 		
 		}

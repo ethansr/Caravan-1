@@ -59,7 +59,9 @@ public class DesertExplorer : MonoBehaviour
 		{
 				stopFlashing ();
 				removeSelfFromDesertState ();
-				gameObject.GetComponent<Meeple> ().player.GetComponent<Player> ().endTurn ();
+				
+				reactToMovementEnding ();
+
 				gameObject.GetComponent<Meeple> ().endExploration ();
 		
 		}
@@ -86,7 +88,7 @@ public class DesertExplorer : MonoBehaviour
 				
 				if (MagicCarpet.waitingForPlayersMagicCarpetSelection) {
 			
-			MagicCarpet.explorerToMove = gameObject;
+						MagicCarpet.explorerToMove = gameObject;
 						
 			
 				} else if (DesertMovementController.inMovementPhase && isMyPlayersTurn () && currentTile && firstExplorerMovedThisTurn ()) {
@@ -142,11 +144,8 @@ public class DesertExplorer : MonoBehaviour
 	   
 		bool flyingMagicCarpet ()
 		{
-		return MagicCarpet.explorerToMove == gameObject;
+				return MagicCarpet.explorerToMove == gameObject;
 		}
-		//called when we run out of water,
-		//and by the desert generator.
-
 
 		public void reactToMovementEnding ()
 		{
@@ -241,7 +240,6 @@ public class DesertExplorer : MonoBehaviour
 								return; 
 						addGoodToPlayerInventory (newLocation);
 						if (GameController.testMeeplesSentBackToBazaarAfterFindingGood && !isMercenary ()) {
-								//closeMovement ();
 								leaveCurrentTile ();
 								returnToSource ();
 						} else
@@ -271,8 +269,7 @@ public class DesertExplorer : MonoBehaviour
 				else 
 						GetComponent<SpriteRenderer> ().color = defaultColor;
 				flash *= -1;
-		        
-				
+			
 
 		}
 

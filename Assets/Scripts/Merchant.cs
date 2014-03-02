@@ -11,11 +11,7 @@ public class Merchant : Event
 		public override void activateEvent (GameObject desertExplorer)
 		{
 
-				anEventIsHappeningInGeneral = true;
-				effectOccurring = true;
-				inControlOfTextBox = true;
-				tookEffect = false;
-				eventStartTime = Time.time;
+				initializeEvent ();
 				explorer = desertExplorer;
 
 
@@ -34,10 +30,8 @@ public class Merchant : Event
 						displayResultOfTwoCaseEvent (true, foundMerchantMessage, partTwo, "");
 				} else if (!showingButtons) { 
 						if (inControlOfTextBox) {
-								disableEventTextBox ();
-								inControlOfTextBox = false;
-								anEventIsHappeningInGeneral = false;
-								//tellPlayerToFinishEndTurn ();
+								closeEvent ();
+								
 						}
 			
 				}

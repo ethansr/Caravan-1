@@ -23,7 +23,7 @@ public class DesertMovementController : Event
 		float sendToSourceDelayStart;
 		bool waitingOnExplorerReturn = false;
 
-	/*
+		/*
 		//magic carpet controller variables
 		public static GameObject playerWithMagicCarpet;
 		//requires:
@@ -141,6 +141,7 @@ public class DesertMovementController : Event
 		void endDesertMovementPhase ()
 		{
 				sendExplorersOnBazaarBackToSource ();
+				resetAllPlayerMovementVariables ();
 		   
 				eventStartTime = Time.time;
 				waitingOnExplorerReturn = true;
@@ -158,7 +159,8 @@ public class DesertMovementController : Event
 		}
 
 		void announceEndOfMovePhase ()
-		{        	
+		{
+				
 				showingEndOfMovePhaseScreen = true;
 				initializeEvent ();
 				waitingOnExplorerReturn = false;
@@ -168,7 +170,6 @@ public class DesertMovementController : Event
 
 		public override void activateEvent (GameObject aNullValueUseTheCollection)
 		{       
-				
 				showingEndOfMovePhaseScreen = false;
 				showingPlayerMustTradeGoodsForExplorerScreen = true;
 				initializeEvent ();
@@ -178,15 +179,6 @@ public class DesertMovementController : Event
 						playerIds = playerIds + player.GetComponent<Player> ().id + ", ";
 				needToTradeGoodsForMeepleMessage = playerIds + needToTradeGoodsForMeepleMessage;
 			
-		}
-
-		void initializeEvent ()
-		{
-				anEventIsHappeningInGeneral = true;
-				effectOccurring = true;
-				inControlOfTextBox = true;
-				tookEffect = false;
-				eventStartTime = Time.time;
 		}
 
 		void Update ()
@@ -202,24 +194,21 @@ public class DesertMovementController : Event
 						} 
 
 				} else if (inControlOfTextBox) {
-						disableEventTextBox ();
-						inControlOfTextBox = false;
-						anEventIsHappeningInGeneral = true;
+						closeEvent ();
 						
 				
-								closeMovementPhase ();
+						closeMovementPhase ();
 				}
 		      
 				
 				
 		}
-
 		
 		protected override void takeEffect ()
 		{
 			
 				if (showingEndOfMovePhaseScreen) {
-						resetAllPlayerMovementVariables ();
+						//resetAllPlayerMovementVariables ();
 						checkForPlayersWhoNeedToReturnMeepleToSourceForGood ();
 				
 					
@@ -301,7 +290,7 @@ public class DesertMovementController : Event
 
 		void closeMovementPhase ()
 		{
-				Debug.Log ("called end of move phase");
+				
 				resetDesertState ();
 				playersWhoMustTradeGoodsForExplorer.Clear ();
 
@@ -350,9 +339,9 @@ public class DesertMovementController : Event
 
 
 
-						}
-
 				}
+
+		}
 		
 
 

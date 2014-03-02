@@ -107,24 +107,6 @@ public class PlayerInventory : MonoBehaviour
 		{
 				waterText.transform.position = Camera.main.WorldToViewportPoint (transform.position);
 				waterText.text = (availableWater).ToString () + "\n VP:" + victory_points.ToString () + "\n";
-				//bool every_other = false;
-				//foreach (int value in Enum.GetValues(typeof(DesertGenerator.GoodItem))) {
-
-				//		DesertGenerator.GoodItem goodItem = (DesertGenerator.GoodItem)value;
-				//		string name = Enum.GetName (typeof(DesertGenerator.GoodItem), value);
-
-				//		if (every_other) {
-				//				waterText.text += "\n";
-				//		}
-				//		;
-				//		every_other = !every_other;
-				//		waterText.text += name + ": " + amountOfEachGoodItem [(DesertGenerator.GoodItem)value].ToString () + "\t";
-				//}
-
-
-		foreach (int value in Enum.GetValues(typeof(DesertGenerator.GoodItem))) {
-
-				}
 		}
 
 		public void AddCard (GameObject newCard)
@@ -241,16 +223,9 @@ public class PlayerInventory : MonoBehaviour
 
 		public void changeAvailableWaterDuringMovement (int change)
 		{
-				//check new water
-				int newWaterCount = availableWater + change;
-
-				if (newWaterCount > -1)
-						availableWater = newWaterCount;
-				else 
-						newWaterCount = 0;
-
+				changeAvailableWaterDuringPlacementPhase (change);
 				if (!waterAvailable ())
-						gameObject.GetComponent<Player> ().endTurn ();
+						gameObject.GetComponent<Player> ().closeExplorerMovementAndEndTurn ();
 			
 		}
 

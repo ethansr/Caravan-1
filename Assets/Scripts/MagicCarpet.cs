@@ -33,12 +33,9 @@ public class MagicCarpet : Event
 						displayResultOfTwoCaseEvent (true, magicCarpetMessage, partTwoMagicCarpet, "");
 			
 				} else if (inControlOfTextBox) {
-						disableEventTextBox ();
-						inControlOfTextBox = false;
-						anEventIsHappeningInGeneral = false;
-
-						//tellPlayerToFinishEndTurn ();
+						closeEvent ();
 				}
+
 				handleMagicCarpetPlayerSelection ();
 
 
@@ -57,33 +54,49 @@ public class MagicCarpet : Event
 	
 		public void setTilePlayerHasChosen (GameObject chosenTile)
 		{
-				if (!chosenTile.GetComponent<DesertTile> ().isBazaar () && chosenTile.GetComponent<DesertTile> ().roomForMoreOccupants ())
+				if (explorerToMove && validTile (chosenTile))
 						tileToMoveTo = chosenTile;
 		
 		}
 	
 		public void setExplorerPlayerHasChosen (GameObject explorer)
 		{
-				if (explorer.tag.Equals ("explorer") && explorer.GetComponent<Meeple> ().player == playerWithMagicCarpet)
+				if (validExplorer (explorer))
 						explorerToMove = explorer;
-		
+
 		}
 	
 		bool playerHasMadeValidSelectionOfTileAndExplorer ()
 		{
 		
-				if (explorerToMove && tileToMoveTo) {
-						if (tileToMoveTo.GetComponent<DesertTile> ().getNumOccupants () > 0) 
-								return tileToMoveTo.GetComponent<DesertTile> ().handleOccupiedTile (explorerToMove, tileToMoveTo);
-			
-						return true;
-				}
-				return false;
+				return (explorerToMove && tileToMoveTo);
+				
+		}
+
+		bool validExplorer (GameObject explorer)
+		{
+				return explorer.tag.Equals ("explorer") && explorer.GetComponent<Meeple> ().player == playerWithMagicCarpet && !explorer.GetComponent<DesertExplorer> ().hasMovedThisRound;
+				
+		}
+
+		bool validTile (GameObject tile)
+		{
+				return !tile.GetComponent<DesertTile> ().isBazaar () && tile.GetComponent<DesertTile> ().roomForMoreOccupants () && explorerCanMoveToTile (tile);
+		}
+
+		bool explorerCanMoveToTile (GameObject tile)
+		{
+				if (tile.GetComponent<DesertTile> ().getNumOccupants () > 0) 
+						return tile.GetComponent<DesertTile> ().handleOccupiedTile (explorerToMove, tile);
+		
+				return true;
+
 		}
 	
 		void moveChosenExplorerToChosenTile ()
 		{
 				explorerToMove.GetComponent<DesertExplorer> ().updateLocation (tileToMoveTo);
+				explorerToMove.GetComponent<DesertExplorer> ().reactToMovementEnding ();
 		}
 	
 		void closeMagicCarpetEvent ()
@@ -127,14 +140,6 @@ public class MagicCarpet : Event
 				showingMagicCarpetScreen = true;
 				
 		}
-			
-		void initializeEvent ()
-		{
-				anEventIsHappeningInGeneral = true;
-				effectOccurring = true;
-				inControlOfTextBox = true;
-				tookEffect = false;
-				eventStartTime = Time.time;
-		}
+
 
 }
