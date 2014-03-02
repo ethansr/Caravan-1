@@ -20,6 +20,9 @@ public class PublicWell : DropLocation {
 		print (inventory);
 		inventory.availableWater = inventory.availableWater + 1;
 		print ("Boom");
+
+		GameObject.Find ("GameController").GetComponent<GameController> ().getNextPlayer ();
+		
 	}
 
 	}

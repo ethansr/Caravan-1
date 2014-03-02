@@ -11,6 +11,9 @@ public class WinkSink : DropLocation {
 						GameObject player = meeple.player;
 						PlayerInventory inventory = player.GetComponent<PlayerInventory> ();
 						inventory.availableWater = inventory.availableWater + 4;
+
+						GameObject.Find ("GameController").GetComponent<GameController> ().getNextPlayer ();
+
 				}
 		}
 

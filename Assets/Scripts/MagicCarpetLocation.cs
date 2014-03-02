@@ -24,6 +24,8 @@ public class MagicCarpetLocation : DropLocation
 				if (o) {
 						MagicCarpet.playerWithMagicCarpet = o.GetComponent<Meeple> ().player;
 						//DesertMovementController.playerWithMagicCarpet = o.GetComponent<Meeple> ().player;
+						GameObject.Find ("GameController").GetComponent<GameController> ().getNextPlayer ();
+
 			
 				}
 		
