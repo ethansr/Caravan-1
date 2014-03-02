@@ -17,10 +17,7 @@ public class Draggable : MonoBehaviour {
 		target.GetComponent<DropLocation>().SetOccupant(gameObject);
 		currentLocation = target;
 		iTween.MoveTo(gameObject, target.transform.position, iTweenTime);
-		GameController controller = GameObject.Find ("GameController").GetComponent<GameController> ();
-		if ( GameObject.Find ("GameController").GetComponent<GameController> ().currentPhase == "Placement" && controller.currentPlayer() == gameObject.GetComponent<Meeple>().player ) {
-				controller.getNextPlayer ();
-				}
+
 	}
 
 

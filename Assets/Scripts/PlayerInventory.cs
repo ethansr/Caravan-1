@@ -18,13 +18,14 @@ public class PlayerInventory : MonoBehaviour
 		public int victory_points = 0;
 		public List<GameObject> merchantCards;
 		public List<Vector3> merchantCardLocations = new List<Vector3> ();
+	GameObject draggableGoodPrefab;
 
 
 		//set this to true as the effect of the "invasion" worker placement tile;
 		//I handle setting it back to false after it takes effedct during movement phase
 		public bool canInvade;
 		public GameController controller;
-
+		Vector3 goodOrigin;
 	
 		// Use this for initialization
 		void Start ()
@@ -40,30 +41,89 @@ public class PlayerInventory : MonoBehaviour
 						amountOfEachGoodItem.Add (goodItem, 0);
 						
 				}
+		draggableGoodPrefab = GameObject.Find ("DraggableGood");
+		//Vector3 goodOrigin = gameObject.GetComponent<Player> ().transform.position + Vector3.down * 6.8f + Vector3.right * 5.5f;
 
+		//GoodTokens ();
 				
 				merchantCardLocations.Add (transform.position + Vector3.right * 35 + Vector3.up * 1.1f);
 				merchantCardLocations.Add (transform.position + Vector3.right * 45 + Vector3.up * 1.1f);
 
+
+				
+
 		}
 	  
+		void GoodTokens() {
+
+				Vector3 goodOrigin = gameObject.GetComponent<Player> ().transform.position + Vector3.down * 6.8f + Vector3.right * 5.5f;
+				for (int type = 0; type < 4; type++) {
+						for (int offset = 0; offset < 4; offset++) {
+								DesertGenerator.GoodItem goodItem = (DesertGenerator.GoodItem)(type * 4 + offset);
+								addGoodToken (goodItem);
+						}
+
+				}
+		}
+
+		public void addGoodToken(DesertGenerator.GoodItem goodItem) {
+			addGoodToken (goodItem, gameObject);
+		}
+
+
+		public void addGoodToken(DesertGenerator.GoodItem goodItem, GameObject source) {
+		Vector3 goodOrigin = gameObject.GetComponent<Player> ().transform.position + Vector3.down * 6.8f + Vector3.right * 5.5f;
+
+			int goodOffset = (int)goodItem % 4;
+			int goodType = (int)goodItem / 4;
+			//DesertGenerator.GoodItem goodItem = (DesertGenerator.GoodItem)(type * 3 + offset);
+			GameObject desert = GameObject.Find("Desert");
+			
+			GameObject tokenObject = (GameObject)Instantiate(draggableGoodPrefab);
+			GoodToken token = tokenObject.GetComponent<GoodToken>();
+			token.player = gameObject.GetComponent<Player> ();
+
+		tokenObject.transform.position = source.transform.position;
+
+		iTween.MoveTo (tokenObject, goodOrigin + Vector3.right * 3 * goodOffset + Vector3.down * 3 * goodType, 2.0f);
+			//tokenObject.transform.position = goodOrigin + Vector3.right * 3 * goodOffset + Vector3.down * 3 * goodType;
+
+			tokenObject.GetComponent<SpriteRenderer> ().sprite = desert.GetComponent<DesertTileIndex> ().goodTileSprites [(int)goodItem];
+		}
+		//foreach (DesertGenerator.GoodItem value in Enum.GetValues(typeof(DesertGenerator.GoodItem))) {
+
+		//			GameObject tokenObject = (GameObject)Instantiate(draggableGoodPrefab);
+		//			GoodToken token = tokenObject.GetComponent<GoodToken>();
+		//
+		//			if (hasNumberOfGivenGoodItem(value, 1)) {
+						
+		//		GameObject tokenObject = (GameObject)Instantiate(draggableGoodPrefab);
+		//		GoodToken token = tokenObject.GetComponent<GoodToken>();
+		//	}			
+		//		}
+		
 		// Update is called once per frame
 		void Update ()
 		{
 				waterText.transform.position = Camera.main.WorldToViewportPoint (transform.position);
 				waterText.text = (availableWater).ToString () + "\n VP:" + victory_points.ToString () + "\n";
-				bool every_other = false;
-				foreach (int value in Enum.GetValues(typeof(DesertGenerator.GoodItem))) {
+				//bool every_other = false;
+				//foreach (int value in Enum.GetValues(typeof(DesertGenerator.GoodItem))) {
 
-						DesertGenerator.GoodItem goodItem = (DesertGenerator.GoodItem)value;
-						string name = Enum.GetName (typeof(DesertGenerator.GoodItem), value);
+				//		DesertGenerator.GoodItem goodItem = (DesertGenerator.GoodItem)value;
+				//		string name = Enum.GetName (typeof(DesertGenerator.GoodItem), value);
 
-						if (every_other) {
-								waterText.text += "\n";
-						}
-						;
-						every_other = !every_other;
-						waterText.text += name + ": " + amountOfEachGoodItem [(DesertGenerator.GoodItem)value].ToString () + "\t";
+				//		if (every_other) {
+				//				waterText.text += "\n";
+				//		}
+				//		;
+				//		every_other = !every_other;
+				//		waterText.text += name + ": " + amountOfEachGoodItem [(DesertGenerator.GoodItem)value].ToString () + "\t";
+				//}
+
+
+		foreach (int value in Enum.GetValues(typeof(DesertGenerator.GoodItem))) {
+
 				}
 		}
 
@@ -96,13 +156,15 @@ public class PlayerInventory : MonoBehaviour
 				return availableWater;
 		}
 
-		public void increaseGood (DesertGenerator.GoodItem good)
+		public void increaseGood (DesertGenerator.GoodItem good, GameObject source)
 		{
 				int typeOfGoodItem = (int)DesertGenerator.typeOfGoodItem (good);
 				amountOfEachGoodType [(int)typeOfGoodItem]++;
 				amountOfEachGoodItem [good] = amountOfEachGoodItem [good] + 1;
 				Debug.Log (amountOfEachGoodType [typeOfGoodItem].ToString () + " " + DesertGenerator.typeOfGoodItem (good).ToString ());
 				Debug.Log (amountOfEachGoodItem [good].ToString () + " " + good.ToString ());
+		addGoodToken (good, source);
+
 		}
 
 		public void increaseGood (DesertGenerator.GoodItem good, int numOf)
@@ -114,6 +176,10 @@ public class PlayerInventory : MonoBehaviour
 				newAmount = amountOfEachGoodType [(int)DesertGenerator.typeOfGoodItem (good)] + numOf;
 				amountOfEachGoodType [typeOfGoodItem] = newAmount;
 				Debug.Log (amountOfEachGoodItem [good].ToString () + " " + good.ToString ());
+				
+		for(int i = 0 ; i < numOf; i++) {
+				addGoodToken (good);
+		}
 
 		}
 

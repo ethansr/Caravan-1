@@ -48,8 +48,8 @@ public class DragManager : MonoBehaviour
 
 			return controller.currentPhase == "Placement" && beingDragged.GetComponent<Meeple>().player.GetComponent<Player>().isPlayersTurn();
 
-				} else
-						return true;
+		} else
+			return true;
 		}
 
 	bool isMeeple(GameObject beingDragged){

@@ -16,7 +16,7 @@ public class Good : MonoBehaviour {
 	}
 
 	public void addGoodToPlayerInventory(GameObject player){
-		player.GetComponent<PlayerInventory>().increaseGood(good);
+		player.GetComponent<PlayerInventory>().increaseGood(good,gameObject);
 
 	}
 }

@@ -13,6 +13,9 @@ public class WaterMine : DropLocation {
 						if (inventory.wellDepth < 8) {
 							inventory.wellDepth += 1;
 						}
+
+						GameObject.Find ("GameController").GetComponent<GameController> ().getNextPlayer ();
+
 				}
 	}
 }

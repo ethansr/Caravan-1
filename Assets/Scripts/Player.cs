@@ -108,9 +108,6 @@ public class Player : MonoBehaviour
 				meepleSource.GetComponent<MeepleSource> ().Ready ();
 				gameObject.GetComponent<PlayerInventory> ().waterText.transform.position = this.transform.position;
 
-				foreach (int good in Enum.GetValues(typeof(DesertGenerator.GoodItem))) {
-
-				}
 			
 		}
 
