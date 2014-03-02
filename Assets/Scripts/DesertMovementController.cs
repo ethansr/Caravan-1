@@ -23,7 +23,7 @@ public class DesertMovementController : Event
 		float sendToSourceDelayStart;
 		bool waitingOnExplorerReturn = false;
 
-
+	/*
 		//magic carpet controller variables
 		public static GameObject playerWithMagicCarpet;
 		//requires:
@@ -37,7 +37,7 @@ public class DesertMovementController : Event
 		string magicCarpetMessage = "You unfurl your magical carpet...";
 		string partTwoMagicCarpet = "Click on an explorer; click on a tile," + System.Environment.NewLine + " and you will travel there.";
 		public static bool waitingForPlayersMagicCarpetSelection;
-		
+		*/
 		public void beginDesertMovementPhase ()
 		{
 				if (!inMovementPhase) {
@@ -199,75 +199,22 @@ public class DesertMovementController : Event
 								displayResultOfTwoCaseEvent (true, movementEndedMessage, movementEndPartTwoMessage, "");
 						} else if (showingPlayerMustTradeGoodsForExplorerScreen) {
 								displayResultOfTwoCaseEvent (true, needToTradeGoodsForMeepleMessage, partTwo, "");
-						} else if (showingMagicCarpetScreen) {
-								displayResultOfTwoCaseEvent (true, magicCarpetMessage, partTwoMagicCarpet, "");
-						}
+						} 
 
 				} else if (inControlOfTextBox) {
 						disableEventTextBox ();
 						inControlOfTextBox = false;
 						anEventIsHappeningInGeneral = true;
 						
-						if (!showingMagicCarpetScreen)
+				
 								closeMovementPhase ();
 				}
 		      
-				handleMagicCarpetPlayerSelection ();
+				
 				
 		}
 
-		void handleMagicCarpetPlayerSelection ()
-		{
-				if (waitingForPlayersMagicCarpetSelection) {
-						if (playerHasMadeValidSelectionOfTileAndExplorer ()) {
-								moveChosenExplorerToChosenTile ();
-								closeMagicCarpetEvent ();
-						}
-				}
-		}
-
-		public void setTilePlayerHasChosen (GameObject chosenTile)
-		{
-				if (!chosenTile.GetComponent<DesertTile> ().isBazaar () && chosenTile.GetComponent<DesertTile> ().roomForMoreOccupants ())
-						tileToMoveTo = chosenTile;
-
-		}
-
-		public void setExplorerPlayerHasChosen (GameObject explorer)
-		{
-				if (explorer.tag.Equals ("explorer") && explorer.GetComponent<Meeple> ().player == playerWithMagicCarpet)
-						explorerToMove = explorer;
-
-		}
-
-		bool playerHasMadeValidSelectionOfTileAndExplorer ()
-		{
-				
-				if (explorerToMove && tileToMoveTo) {
-						if (tileToMoveTo.GetComponent<DesertTile> ().getNumOccupants () > 0) 
-								return tileToMoveTo.GetComponent<DesertTile> ().handleOccupiedTile (explorerToMove, tileToMoveTo);
-					
-						return true;
-				}
-				return false;
-		}
-
-		void moveChosenExplorerToChosenTile ()
-		{
-				explorerToMove.GetComponent<DesertExplorer> ().updateLocation (tileToMoveTo);
-		}
-
-		void closeMagicCarpetEvent ()
-		{
-	
-				tileToMoveTo = null;
-				explorerToMove = null;
-				playerWithMagicCarpet = null;
-				showingMagicCarpetScreen = false;
-				waitingForPlayersMagicCarpetSelection = false;
-
-		}
-
+		
 		protected override void takeEffect ()
 		{
 			
@@ -281,9 +228,7 @@ public class DesertMovementController : Event
 						takeRandomGoodFromPlayersAndMoveRandomMeepleToSource ();
 						
 				}
-				if (showingMagicCarpetScreen) {
-						waitingForPlayersMagicCarpetSelection = true;
-				}
+				
 		}
 
 		void resetAllPlayerMovementVariables ()
@@ -401,30 +346,14 @@ public class DesertMovementController : Event
 				
 						}
 			           
-						if (playerWithMagicCarpet) {
-								if (GUI.Button (new Rect (buttonStartX - buttonWidth * 2, buttonY, buttonWidth * 1.5f, buttonHeight), "Magic Carpet Ride")) {
-										if (playerWhoseTurnItIsHasMagicCarpetPower ())
-												activateMagicCarpetEvent ();
-
-								}
-
+						
 
 
 
 						}
 
 				}
-		}
+		
 
-		bool playerWhoseTurnItIsHasMagicCarpetPower ()
-		{
-				return GameObject.Find ("Desert").GetComponent<DesertState> ().playerWhoseTurnItIs == playerWithMagicCarpet;
-		}
 
-		void activateMagicCarpetEvent ()
-		{
-				initializeEvent ();
-				showingMagicCarpetScreen = true;
-
-		}
 }

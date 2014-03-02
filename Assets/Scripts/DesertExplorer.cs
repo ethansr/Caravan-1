@@ -84,9 +84,9 @@ public class DesertExplorer : MonoBehaviour
 		void OnMouseUpAsButton ()
 		{
 				
-				if (DesertMovementController.waitingForPlayersMagicCarpetSelection) {
+				if (MagicCarpet.waitingForPlayersMagicCarpetSelection) {
 			
-						DesertMovementController.explorerToMove = gameObject;
+			MagicCarpet.explorerToMove = gameObject;
 						
 			
 				} else if (DesertMovementController.inMovementPhase && isMyPlayersTurn () && currentTile && firstExplorerMovedThisTurn ()) {
@@ -142,7 +142,7 @@ public class DesertExplorer : MonoBehaviour
 	   
 		bool flyingMagicCarpet ()
 		{
-				return DesertMovementController.explorerToMove == gameObject;
+		return MagicCarpet.explorerToMove == gameObject;
 		}
 		//called when we run out of water,
 		//and by the desert generator.

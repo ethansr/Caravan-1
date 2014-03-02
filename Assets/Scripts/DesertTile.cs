@@ -122,7 +122,7 @@ public class DesertTile : MonoBehaviour
 
 		bool inMovementState ()
 		{
-				return (isInRotationState () || DesertMovementController.tileToMoveTo == gameObject);
+		return (isInRotationState () || MagicCarpet.tileToMoveTo == gameObject);
 		}
 	
 		bool isInRotationState ()
@@ -338,8 +338,8 @@ public class DesertTile : MonoBehaviour
 		void OnMouseUpAsButton ()
 		{
 				if (flipped && !isBazaar ()) {
-						if (DesertMovementController.waitingForPlayersMagicCarpetSelection) {
-								DesertMovementController.tileToMoveTo = gameObject;
+			if (MagicCarpet.waitingForPlayersMagicCarpetSelection) {
+				MagicCarpet.tileToMoveTo = gameObject;
 						} else {
 								GameObject playerWhoseTurnItIs = desert.GetComponent<DesertState> ().playerWhoseTurnItIs;
 								if (!occupied () || occupantsBelongToPlayer (playerWhoseTurnItIs)) {

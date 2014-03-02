@@ -15,15 +15,15 @@ public class MagicCarpetLocation : DropLocation
 		{
 				bool playerHasGoods = potentialOccupant.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().hasGoods ();
 				Debug.Log (playerHasGoods);
-				return (base.CanOccupy (potentialOccupant) && playerHasGoods);
+				return (base.CanOccupy (potentialOccupant) && true);//playerHasGoods);
 		}
 	
 		public override void SetOccupant (GameObject o)
 		{
 				base.SetOccupant (o);
 				if (o) {
-
-						DesertMovementController.playerWithMagicCarpet = o.GetComponent<Meeple> ().player;
+						MagicCarpet.playerWithMagicCarpet = o.GetComponent<Meeple> ().player;
+						//DesertMovementController.playerWithMagicCarpet = o.GetComponent<Meeple> ().player;
 			
 				}
 		

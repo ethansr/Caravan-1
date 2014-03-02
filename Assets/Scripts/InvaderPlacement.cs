@@ -17,7 +17,7 @@ public class InvaderPlacement : DropLocation
 				if (o) {
 						o.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().canInvade = true;
 						//for testing quickly
-						DesertMovementController.playerWithMagicCarpet = o.GetComponent<Meeple> ().player;
+						//DesertMovementController.playerWithMagicCarpet = o.GetComponent<Meeple> ().player;
 
 				}
 
