@@ -25,8 +25,10 @@ public class MagicCarpetLocation : DropLocation
 		{
 				if (isMeeple (o))
 						base.SetOccupant (o);
-				else
+				else {
 						goodToTradeForCarpet = o;
+			Debug.Log ("called");
+				}
 
 				if (occupant && goodToTradeForCarpet) {
 						MagicCarpet.playerWithMagicCarpet = o.GetComponent<Meeple> ().player;
