@@ -51,19 +51,21 @@ public class PlayerInventory : MonoBehaviour
 		void Update ()
 		{
 				waterText.transform.position = Camera.main.WorldToViewportPoint (transform.position);
-				waterText.text = (availableWater).ToString () + "\n VP:" + victory_points.ToString () + "\n";
-				bool every_other = false;
-				foreach (int value in Enum.GetValues(typeof(DesertGenerator.GoodItem))) {
+				if (!Event.anEventIsHappeningInGeneral) {
+						waterText.text = (availableWater).ToString () + "\n VP:" + victory_points.ToString () + "\n";
+						bool every_other = false;
+						foreach (int value in Enum.GetValues(typeof(DesertGenerator.GoodItem))) {
 
-						DesertGenerator.GoodItem goodItem = (DesertGenerator.GoodItem)value;
-						string name = Enum.GetName (typeof(DesertGenerator.GoodItem), value);
+								DesertGenerator.GoodItem goodItem = (DesertGenerator.GoodItem)value;
+								string name = Enum.GetName (typeof(DesertGenerator.GoodItem), value);
 
-						if (every_other) {
-								waterText.text += "\n";
+								if (every_other) {
+										waterText.text += "\n";
+								}
+								;
+								every_other = !every_other;
+								waterText.text += name + ": " + amountOfEachGoodItem [(DesertGenerator.GoodItem)value].ToString () + "\t";
 						}
-						;
-						every_other = !every_other;
-						waterText.text += name + ": " + amountOfEachGoodItem [(DesertGenerator.GoodItem)value].ToString () + "\t";
 				}
 		}
 

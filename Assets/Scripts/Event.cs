@@ -110,7 +110,16 @@ public abstract class Event : MonoBehaviour
 		}
 	
 		protected abstract void takeEffect ();
-	/*
+
+		protected void initializeEvent ()
+		{
+				anEventIsHappeningInGeneral = true;
+				effectOccurring = true;
+				inControlOfTextBox = true;
+				tookEffect = false;
+				eventStartTime = Time.time;
+		}
+		/*
 		protected void tellPlayerToFinishEndTurn ()
 		{
 				if (explorer && explorer.GetComponent<Meeple> ().player && endPlayersTurn) {

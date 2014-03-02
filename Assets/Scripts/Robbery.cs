@@ -16,14 +16,15 @@ public class Robbery : Event
 	
 		public override void activateEvent (GameObject desertExplorer)
 		{
-				anEventIsHappeningInGeneral = true;
-		
+				//anEventIsHappeningInGeneral = true;
+		        initializeEvent ();
 				wasRobbed = drawFromBagOfChance (numbersThatLoseWater);
-
+		/*
 				effectOccurring = true;
 				inControlOfTextBox = true;
 				tookEffect = false;
 				eventStartTime = Time.time;
+				*/
 				explorer = desertExplorer;
 				hadEnoughWaterToTake = (explorer.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().howMuchWaterAvailable () + waterStolen > -1);
 				wasRobbedMessage = (hadEnoughWaterToTake ? tookWaterMessage : missNextTurnMessage);

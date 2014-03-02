@@ -127,14 +127,6 @@ public class MagicCarpet : Event
 				showingMagicCarpetScreen = true;
 				
 		}
-			
-		void initializeEvent ()
-		{
-				anEventIsHappeningInGeneral = true;
-				effectOccurring = true;
-				inControlOfTextBox = true;
-				tookEffect = false;
-				eventStartTime = Time.time;
-		}
+
 
 }
