@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
 		{
 				if (isPlayersTurn ()) {
 						if (movementPhase ()) 
-								endTurn ();
+								closeExplorerMovementAndEndTurn ();
 						else
 								GameObject.Find ("GameController").GetComponent<GameController> ().getNextPlayer ();
 	
@@ -50,23 +50,27 @@ public class Player : MonoBehaviour
 				return DesertMovementController.inMovementPhase;
 		}
 
-		public void endTurn ()
+		public void closeExplorerMovementAndEndTurn ()
 		{
-				GameObject desert = GameObject.Find ("Desert");
-				GameObject currentMovingObject = desert.GetComponent<DesertState> ().movingObject;
-		        
-				if (wasMovingAnExplorer (currentMovingObject, desert))
-						makeMovingExplorerReactToMovementEnding (currentMovingObject);
+				GameObject explorerThatThisPlayerWasMoving = wasMovingAnExplorer ();
+				if (explorerThatThisPlayerWasMoving)
+						makeMovingExplorerReactToMovementEnding (explorerThatThisPlayerWasMoving);
 				else
 						finishEndTurn ();
 
 		}
 
-		//cases: this player took his turn, but didn't actually set one of his guys to be moving
-		//(so the over is null, another meeple, a tile). in that case this guy must finish end turn.
-		//otherwise the turn ends with a meeple that was moving
-		//so we need to experience the event and then when the evvent is finished then finishmovement
-		//note that if the explorer returns to the bazaar then the mover is set tonull and so the reacttomoveneding wont be called
+		GameObject wasMovingAnExplorer ()
+		{
+				GameObject desert = GameObject.Find ("Desert");
+				GameObject currentMovingObject = desert.GetComponent<DesertState> ().movingObject;
+				if (currentMovingObject && desert.GetComponent<DesertState> ().movingObjectIsExplorer ()) {
+						if (currentMovingObject.GetComponent<Meeple> ().player == gameObject)
+								return currentMovingObject;
+				}
+				return null;
+		}
+
 		void makeMovingExplorerReactToMovementEnding (GameObject explorer)
 		{
 
@@ -131,7 +135,7 @@ public class Player : MonoBehaviour
 		{
 				return GameObject.Find ("Desert").GetComponent<DesertState> ().playerWhoseTurnItIs == gameObject ||
 						GameObject.Find ("GameController").GetComponent<GameController> ().currentPlayer () == gameObject;
-				//return GameObject.Find ("GameController").GetComponent<GameController> ().currentPlayer () == gameObject;
+				
 
 		}
 

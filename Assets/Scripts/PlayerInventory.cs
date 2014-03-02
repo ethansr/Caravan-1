@@ -177,16 +177,9 @@ public class PlayerInventory : MonoBehaviour
 
 		public void changeAvailableWaterDuringMovement (int change)
 		{
-				//check new water
-				int newWaterCount = availableWater + change;
-
-				if (newWaterCount > -1)
-						availableWater = newWaterCount;
-				else 
-						newWaterCount = 0;
-
+				changeAvailableWaterDuringPlacementPhase (change);
 				if (!waterAvailable ())
-						gameObject.GetComponent<Player> ().endTurn ();
+						gameObject.GetComponent<Player> ().closeExplorerMovementAndEndTurn ();
 			
 		}
 
