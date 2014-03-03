@@ -190,6 +190,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	public GameObject getNextPlayer(){
+		LogEvent ("end_turn");
 		if (indexOfNextPlayer == 3) {
 			indexOfNextPlayer = 0 ;
 		}
@@ -198,7 +199,7 @@ public class GameController : MonoBehaviour {
 			indexOfNextPlayer += 1;
 		}
 		GameObject result= players[indexOfNextPlayer];
-
+		LogEvent("start_turn");
 		return result;
 	}
 
@@ -213,7 +214,7 @@ public class GameController : MonoBehaviour {
 
 		//thanks http://stackoverflow.com/questions/18757097/writing-data-into-csv-file
 
-		var csv = string.Format ("{0},{1},{2}", DateTime.Now.ToString ("u"), DateTime.Now.Ticks, message);
+		var csv = string.Format ("{0},{1},{2},{3}", DateTime.Now.ToString ("u"), DateTime.Now.Ticks, currentPlayer().name, message);
 		print (csv);
 		file.WriteLine(csv);
 
