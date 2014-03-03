@@ -7,6 +7,7 @@ public class DropLocation : MonoBehaviour
 
 		protected GameObject occupant;
 		public bool allowMultipleOccupants;
+		
 
 
 		//returns true if this droplocation doesn't have an occupant already or if it allows multiple occupants
@@ -35,6 +36,14 @@ public class DropLocation : MonoBehaviour
 		public virtual void SetOccupant (GameObject o)
 		{
 				occupant = o;
+		}
+
+		public virtual bool Occupied(){
+		return occupant ? true : false;
+	}
+
+		public virtual GameObject Occupant() {
+		return occupant;
 		}
 
 }

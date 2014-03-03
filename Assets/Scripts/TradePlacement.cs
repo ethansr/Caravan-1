@@ -15,9 +15,9 @@ public class TradePlacement : DropLocation {
 		GetComponent<SpriteRenderer> ().sprite = desert.GetComponent<DesertTileIndex> ().goodTileSprites [(int)good];
 	}
 
-	protected  bool  CanOccupy (GameObject potentialOccupant)
+	protected override bool  CanOccupy (GameObject potentialOccupant)
 	{
-		return ( potentialOccupant.CompareTag("goodToken") && !occupant  );
+		return ( potentialOccupant.GetComponent<GoodToken>() ? true : false );
 	}
 
 
