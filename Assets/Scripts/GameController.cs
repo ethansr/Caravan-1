@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class GameController : MonoBehaviour {
 
@@ -20,16 +21,20 @@ public class GameController : MonoBehaviour {
 
 	public Vector3 deckLocation;
 
+	public DateTime gameStartTime;
+	public DateTime gameEndTime;
+
 
 	// Use this for initialization
 	void Start () {
-
+		gameStartTime = DateTime.Now;
 		BuildDeck ();
 		deckLocation = deck.Peek ().transform.position;
 		ShuffleDeck ();
 
 		DealPublicCards ();
 		BeginPlacementPhase ();
+
 	
 
 
@@ -43,7 +48,7 @@ public class GameController : MonoBehaviour {
 
 	public void BeginPlacementPhase() {
 		currentPhase = "Placement";
-
+		LogEvent("started!");
 		indexOfNextPlayer = 0;
 
 		foreach (Meeple meeple in GameObject.FindObjectsOfType<Meeple>()) {
@@ -103,15 +108,15 @@ public class GameController : MonoBehaviour {
 		int numberOfThreeGoodCards = 24;
 		
 		for (int i = 0; i < numberOfTwoGoodCards; i++) {
-			int first_type = Random.Range(0,3);
+			int first_type = UnityEngine.Random.Range(0,3);
 			int second_type;
 			
 			do {
-				second_type = Random.Range(0,3);
+				second_type = UnityEngine.Random.Range(0,3);
 			} while(first_type == second_type);
 			
-			int first_good = first_type * 4 + Random.Range(0,3);
-			int second_good = second_type * 4 + Random.Range(0,3);
+			int first_good = first_type * 4 + UnityEngine.Random.Range(0,3);
+			int second_good = second_type * 4 + UnityEngine.Random.Range(0,3);
 			GameObject card = (GameObject)Instantiate(merchant_card);
 			card.GetComponent<MerchantCard>().SetGoods((DesertGenerator.GoodItem)first_good,(DesertGenerator.GoodItem)second_good, (DesertGenerator.GoodItem)(-1));
 			//card.transform.position = card.transform.position + Vector3.left * i * 8 + Vector3.right * 45;
@@ -122,20 +127,20 @@ public class GameController : MonoBehaviour {
 		}
 
 		for (int i = 0; i < numberOfThreeGoodCards; i++) {
-			int first_type = Random.Range(0,3);
+			int first_type = UnityEngine.Random.Range(0,3);
 			int second_type;
 			int third_type;
 			
 			do {
-				second_type = Random.Range(0,3);
+				second_type = UnityEngine.Random.Range(0,3);
 			} while(first_type == second_type);
 			do {
-				third_type = Random.Range(0,3);
+				third_type = UnityEngine.Random.Range(0,3);
 			} while(first_type == second_type || second_type == third_type || first_type == third_type );
 			
-			int first_good = first_type * 4 + Random.Range(0,3);
-			int second_good = second_type * 4 + Random.Range(0,3);
-			int third_good = third_type * 4 + Random.Range (0,3);
+			int first_good = first_type * 4 + UnityEngine.Random.Range(0,3);
+			int second_good = second_type * 4 + UnityEngine.Random.Range(0,3);
+			int third_good = third_type * 4 + UnityEngine.Random.Range (0,3);
 			GameObject card = (GameObject)Instantiate(merchant_card);
 			card.GetComponent<MerchantCard>().SetGoods((DesertGenerator.GoodItem)first_good,(DesertGenerator.GoodItem)second_good, (DesertGenerator.GoodItem)third_good);
 			//card.transform.position = card.transform.position + Vector3.left * i * 8 + Vector3.right * 45 ;
@@ -196,4 +201,22 @@ public class GameController : MonoBehaviour {
 
 		return result;
 	}
+
+	//thanks http://stackoverflow.com/questions/5057567/how-to-do-logging-in-c
+	public void LogEvent(string message) {
+		// Write the string to a file.append mode is enabled so that the log
+		// lines get appended to  test.txt than wiping content and writing the log
+		string fileName = gameStartTime.ToString("yyyyMMdd_hh_mm_ss") + ".csv";
+		string logFileDirectory = "logs";
+		string filePath = System.IO.Path.Combine(logFileDirectory,fileName);
+		System.IO.StreamWriter file = new System.IO.StreamWriter( filePath,true);
+
+		//thanks http://stackoverflow.com/questions/18757097/writing-data-into-csv-file
+
+		var csv = string.Format ("{0},{1},{2}", DateTime.Now.ToString ("u"), DateTime.Now.Ticks, message);
+		print (csv);
+		file.WriteLine(csv);
+
+		file.Close();
+		}
 }
