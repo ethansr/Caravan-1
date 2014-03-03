@@ -3,6 +3,8 @@ using System.Collections;
 
 public class BarterPlacement : DropLocation {
 
+	public Barter barter;
+
 	void Start () {
 		
 	}
@@ -10,17 +12,20 @@ public class BarterPlacement : DropLocation {
 
 	protected override bool  CanOccupy (GameObject potentialOccupant)
 	{
-		print ("Tried");
-		return potentialOccupant.GetComponent<GoodToken>() ? true : false ;
+		GoodToken token = potentialOccupant.GetComponent<GoodToken> ();
+		if (token) {
+						return barter.ShouldAllowPlacement (token, this);
+				} else {
+			return false;
+				}
 	}
 
-	public virtual void SetOccupant (GameObject o)
+	public override void SetOccupant (GameObject o)
 	{
 		occupant = o;
 
 		if (o) {
-			GameObject parent = gameObject.transform.parent.gameObject;
-			parent.GetComponent<Barter>().AttemptToCompleteBarter();
+			barter.AttemptToCompleteBarter();
 		}
 	}
 	
