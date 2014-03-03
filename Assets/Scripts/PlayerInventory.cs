@@ -34,12 +34,13 @@ public class PlayerInventory : MonoBehaviour
 				controller = GameObject.Find ("GameController").GetComponent<GameController> ();
 				canInvade = false;
 
+		draggableGoodPrefab = GameObject.Find ("DraggableGood");
+
 				amountOfEachGoodItem = new Dictionary<DesertGenerator.GoodItem,int> ();
 
 				foreach (int value in Enum.GetValues(typeof(DesertGenerator.GoodItem))) {
 						DesertGenerator.GoodItem goodItem = (DesertGenerator.GoodItem)value;
-						amountOfEachGoodItem.Add (goodItem, 0);
-						
+						amountOfEachGoodItem.Add (goodItem, 0);						
 				}
 				draggableGoodPrefab = GameObject.Find ("DraggableGood");
 				//Vector3 goodOrigin = gameObject.GetComponent<Player> ().transform.position + Vector3.down * 6.8f + Vector3.right * 5.5f;
@@ -84,13 +85,13 @@ public class PlayerInventory : MonoBehaviour
 				GameObject tokenObject = (GameObject)Instantiate (draggableGoodPrefab);
 				GoodToken token = tokenObject.GetComponent<GoodToken> ();
 				token.player = gameObject.GetComponent<Player> ();
-
+				token.good = goodItem;
 				tokenObject.transform.position = source.transform.position;
 
 				iTween.MoveTo (tokenObject, goodOrigin + Vector3.right * 3 * goodOffset + Vector3.down * 3 * goodType, 2.0f);
 				//tokenObject.transform.position = goodOrigin + Vector3.right * 3 * goodOffset + Vector3.down * 3 * goodType;
 
-				tokenObject.GetComponent<SpriteRenderer> ().sprite = desert.GetComponent<DesertTileIndex> ().goodTileSprites [(int)goodItem];
+				tokenObject.GetComponent<SpriteRenderer> ().sprite = desert.GetComponent<DesertTileIndex> ().goodTileSprites [(int)token.good];
 		}
 		//foreach (DesertGenerator.GoodItem value in Enum.GetValues(typeof(DesertGenerator.GoodItem))) {
 

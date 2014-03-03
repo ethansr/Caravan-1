@@ -67,10 +67,14 @@ public class MeepleSource : DropLocation
 				}
 		}
 
-		protected  bool CanOccupy (GameObject potentialOccupant)
+		protected override bool CanOccupy (GameObject potentialOccupant)
 		{
-				GameObject occupantPlayer = potentialOccupant.GetComponent<Meeple> ().player;
-				return (occupantPlayer == player);
+		if (potentialOccupant.GetComponent<Meeple> ()) {
+						GameObject occupantPlayer = potentialOccupant.GetComponent<Meeple> ().player;
+						return (occupantPlayer == player);
+				} else {
+			return false;
+				}
 		}
 	
 		public override void SetOccupant (GameObject o)
