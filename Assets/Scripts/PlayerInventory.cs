@@ -18,7 +18,7 @@ public class PlayerInventory : MonoBehaviour
 		public int victory_points = 0;
 		public List<GameObject> merchantCards;
 		public List<Vector3> merchantCardLocations = new List<Vector3> ();
-	GameObject draggableGoodPrefab;
+		GameObject draggableGoodPrefab;
 
 
 		//set this to true as the effect of the "invasion" worker placement tile;
@@ -41,10 +41,10 @@ public class PlayerInventory : MonoBehaviour
 						amountOfEachGoodItem.Add (goodItem, 0);
 						
 				}
-		draggableGoodPrefab = GameObject.Find ("DraggableGood");
-		//Vector3 goodOrigin = gameObject.GetComponent<Player> ().transform.position + Vector3.down * 6.8f + Vector3.right * 5.5f;
+				draggableGoodPrefab = GameObject.Find ("DraggableGood");
+				//Vector3 goodOrigin = gameObject.GetComponent<Player> ().transform.position + Vector3.down * 6.8f + Vector3.right * 5.5f;
 
-		//GoodTokens ();
+				//GoodTokens ();
 				
 				merchantCardLocations.Add (transform.position + Vector3.right * 35 + Vector3.up * 1.1f);
 				merchantCardLocations.Add (transform.position + Vector3.right * 45 + Vector3.up * 1.1f);
@@ -54,7 +54,8 @@ public class PlayerInventory : MonoBehaviour
 
 		}
 	  
-		void GoodTokens() {
+		void GoodTokens ()
+		{
 
 				Vector3 goodOrigin = gameObject.GetComponent<Player> ().transform.position + Vector3.down * 6.8f + Vector3.right * 5.5f;
 				for (int type = 0; type < 4; type++) {
@@ -66,29 +67,30 @@ public class PlayerInventory : MonoBehaviour
 				}
 		}
 
-		public void addGoodToken(DesertGenerator.GoodItem goodItem) {
-			addGoodToken (goodItem, gameObject);
+		public void addGoodToken (DesertGenerator.GoodItem goodItem)
+		{
+				addGoodToken (goodItem, gameObject);
 		}
 
+		public void addGoodToken (DesertGenerator.GoodItem goodItem, GameObject source)
+		{
+				Vector3 goodOrigin = gameObject.GetComponent<Player> ().transform.position + Vector3.down * 6.8f + Vector3.right * 5.5f;
 
-		public void addGoodToken(DesertGenerator.GoodItem goodItem, GameObject source) {
-		Vector3 goodOrigin = gameObject.GetComponent<Player> ().transform.position + Vector3.down * 6.8f + Vector3.right * 5.5f;
-
-			int goodOffset = (int)goodItem % 4;
-			int goodType = (int)goodItem / 4;
-			//DesertGenerator.GoodItem goodItem = (DesertGenerator.GoodItem)(type * 3 + offset);
-			GameObject desert = GameObject.Find("Desert");
+				int goodOffset = (int)goodItem % 4;
+				int goodType = (int)goodItem / 4;
+				//DesertGenerator.GoodItem goodItem = (DesertGenerator.GoodItem)(type * 3 + offset);
+				GameObject desert = GameObject.Find ("Desert");
 			
-			GameObject tokenObject = (GameObject)Instantiate(draggableGoodPrefab);
-			GoodToken token = tokenObject.GetComponent<GoodToken>();
-			token.player = gameObject.GetComponent<Player> ();
+				GameObject tokenObject = (GameObject)Instantiate (draggableGoodPrefab);
+				GoodToken token = tokenObject.GetComponent<GoodToken> ();
+				token.player = gameObject.GetComponent<Player> ();
 
-		tokenObject.transform.position = source.transform.position;
+				tokenObject.transform.position = source.transform.position;
 
-		iTween.MoveTo (tokenObject, goodOrigin + Vector3.right * 3 * goodOffset + Vector3.down * 3 * goodType, 2.0f);
-			//tokenObject.transform.position = goodOrigin + Vector3.right * 3 * goodOffset + Vector3.down * 3 * goodType;
+				iTween.MoveTo (tokenObject, goodOrigin + Vector3.right * 3 * goodOffset + Vector3.down * 3 * goodType, 2.0f);
+				//tokenObject.transform.position = goodOrigin + Vector3.right * 3 * goodOffset + Vector3.down * 3 * goodType;
 
-			tokenObject.GetComponent<SpriteRenderer> ().sprite = desert.GetComponent<DesertTileIndex> ().goodTileSprites [(int)goodItem];
+				tokenObject.GetComponent<SpriteRenderer> ().sprite = desert.GetComponent<DesertTileIndex> ().goodTileSprites [(int)goodItem];
 		}
 		//foreach (DesertGenerator.GoodItem value in Enum.GetValues(typeof(DesertGenerator.GoodItem))) {
 
@@ -145,7 +147,7 @@ public class PlayerInventory : MonoBehaviour
 				amountOfEachGoodItem [good] = amountOfEachGoodItem [good] + 1;
 				Debug.Log (amountOfEachGoodType [typeOfGoodItem].ToString () + " " + DesertGenerator.typeOfGoodItem (good).ToString ());
 				Debug.Log (amountOfEachGoodItem [good].ToString () + " " + good.ToString ());
-		addGoodToken (good, source);
+				addGoodToken (good, source);
 
 		}
 
@@ -159,9 +161,9 @@ public class PlayerInventory : MonoBehaviour
 				amountOfEachGoodType [typeOfGoodItem] = newAmount;
 				Debug.Log (amountOfEachGoodItem [good].ToString () + " " + good.ToString ());
 				
-		for(int i = 0 ; i < numOf; i++) {
-				addGoodToken (good);
-		}
+				for (int i = 0; i < numOf; i++) {
+						addGoodToken (good);
+				}
 
 		}
 

@@ -31,7 +31,7 @@ public class GameController : MonoBehaviour {
 		DealPublicCards ();
 		BeginPlacementPhase ();
 	
-		//BeginMovementPhase ();
+
 
 	}
 

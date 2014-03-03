@@ -28,7 +28,7 @@ public class Oasis : Event
 						displayResultOfTwoCaseEvent (getMoreWater, foundOasisMessage, isOasisMessage, isMirageMessage);
 						
 				} else if (inControlOfTextBox) {
-			closeEvent ();
+						closeEvent ();
 						
 				}
 				

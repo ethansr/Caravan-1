@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class Bazaar : DropLocation
 {
 		public Dictionary<GameObject,Vector3> playersToPositions;
+		GameObject gameController;
 	
 		void Start ()
 		{
@@ -17,6 +18,7 @@ public class Bazaar : DropLocation
 				GetComponent<DesertTile> ().maxAllowedOccupants = 20;
 
 				playersToPositions = null;
+				gameController = GameObject.Find ("GameController");
 
 		}
 	
@@ -27,6 +29,9 @@ public class Bazaar : DropLocation
 						o.GetComponent<Meeple> ().makeExplorer (gameObject);
 
 				}
+
+				if (gameController.GetComponent<GameController> ().currentPhase.Equals ("Placement"))
+						gameController.GetComponent<GameController> ().getNextPlayer ();
 		
 		}
 

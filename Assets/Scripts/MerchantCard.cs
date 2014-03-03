@@ -11,8 +11,7 @@ public class MerchantCard : MonoBehaviour {
 	public GameObject player;
 	public GameController controller;
 
-	
-	
+
 	float doubleClickStart = 0;
 	// Use this for initialization
 
