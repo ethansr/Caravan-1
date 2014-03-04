@@ -4,6 +4,7 @@ using System.Collections;
 public class MagicCarpetLocation : DropLocation
 {
 		GameObject goodToTradeForCarpet;
+	    
 
 		// Use this for initialization
 		void Start ()
@@ -16,7 +17,7 @@ public class MagicCarpetLocation : DropLocation
 		{       
 				
 				
-				if (isMeeple (potentialOccupant)) {
+				if (isMeepleOrNull (potentialOccupant)) {
 						bool playerHasGoods = potentialOccupant.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().hasGoods ();
 						return (base.CanOccupy (potentialOccupant) && playerHasGoods);
 				} else
@@ -25,39 +26,40 @@ public class MagicCarpetLocation : DropLocation
 	
 		public override void SetOccupant (GameObject o)
 		{
-				if (o) {
-						if (isMeeple (o)) {
-								base.SetOccupant (o);
-								Debug.Log ("meeple");
-						} else {
-								goodToTradeForCarpet = o;
-								Debug.Log ("good ");
-		
-						}
-
-						if (occupant && goodToTradeForCarpet) {
-								givePlayerMagicCarpetPowerForGood (occupant);
-								GameObject.Find ("GameController").GetComponent<GameController> ().getNextPlayer ();
-			
-			
-						}
+				
+				if (isMeepleOrNull (o)) {
+						base.SetOccupant (o);
+							
+				} else if (o) {
+						goodToTradeForCarpet = o;
+							
 				}
+
+				if (occupant && goodToTradeForCarpet) {
+				           
+						givePlayerMagicCarpetPowerForGood (occupant);
+						GameObject.Find ("GameController").GetComponent<GameController> ().getNextPlayer ();
+			
+			
+				}
+			
+		          
 
 		}
 
 		void givePlayerMagicCarpetPowerForGood (GameObject occupantPlayer)
 		{      
-				MagicCarpet.playerWithMagicCarpet = occupantPlayer.GetComponent<Meeple> ().player;
+				
+				occupantPlayer.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().hasMagicCarpetPower = true;
 				DesertGenerator.GoodItem goodGiven = goodToTradeForCarpet.GetComponent<GoodToken> ().good;
 				occupant.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().removeGoods (goodGiven, 1);
-				
 				Object.Destroy (goodToTradeForCarpet);
 		               
 		}
 	
-		bool isMeeple (GameObject potentialOccupant)
+		bool isMeepleOrNull (GameObject potentialOccupant)
 		{
-				return potentialOccupant.GetComponent<Meeple> ();
+				return (potentialOccupant && potentialOccupant.GetComponent<Meeple> ()||!potentialOccupant);
 		}
 
 		bool playerHasAnyGoods (GameObject meeple)

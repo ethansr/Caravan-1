@@ -63,7 +63,7 @@ public class GameController : MonoBehaviour {
 						}
 				}
 
-		//getNextPlayer ().GetComponent<Player> ().isPlayersTurn ();
+
 	}
 
 	public void EndPlacementPhase() {

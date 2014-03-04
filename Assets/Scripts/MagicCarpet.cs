@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class MagicCarpet : Event
@@ -10,7 +10,7 @@ public class MagicCarpet : Event
 		float buttonY = 50;
 
 		//magic carpet controller variables
-		public static GameObject playerWithMagicCarpet;
+		GameObject playerWithMagicCarpet;
 		//requires:
 		//! bazaaar
 		//otherwise this movement should behave the same as all other movements
@@ -24,7 +24,13 @@ public class MagicCarpet : Event
 		public static bool waitingForPlayersMagicCarpetSelection;
 		// Use this for initialization
 
-	
+
+
+
+
+
+
+
 		// Update is called once per frame
 		void Update ()
 		{
@@ -96,7 +102,7 @@ public class MagicCarpet : Event
 		{
 				explorerToMove.GetComponent<DesertExplorer> ().updateLocation (tileToMoveTo);
 				
-		explorerToMove.GetComponent<DesertExplorer> ().reactToMovementEnding ();
+				explorerToMove.GetComponent<DesertExplorer> ().reactToMovementEnding ();
 		}
 	
 		void closeMagicCarpetEvent ()
@@ -104,6 +110,7 @@ public class MagicCarpet : Event
 		
 				tileToMoveTo = null;
 				explorerToMove = null;
+				playerWithMagicCarpet.GetComponent<PlayerInventory> ().hasMagicCarpetPower = false;
 				playerWithMagicCarpet = null;
 				showingMagicCarpetScreen = false;
 				waitingForPlayersMagicCarpetSelection = false;
@@ -119,10 +126,10 @@ public class MagicCarpet : Event
 
 		void OnGUI ()
 		{
-				if (DesertMovementController.inMovementPhase && playerWithMagicCarpet) {
+				if (DesertMovementController.inMovementPhase && playerWhoseTurnItIsHasMagicCarpetPower ()) {
 						if (GUI.Button (new Rect (buttonStartX - buttonWidth * 2, buttonY, buttonWidth * 1.5f, buttonHeight), "Magic Carpet Ride")) {
-								if (playerWhoseTurnItIsHasMagicCarpetPower ())
-										activateEvent (null);
+								
+								activateEvent (GameObject.Find ("Desert").GetComponent<DesertState> ().playerWhoseTurnItIs);
 			
 		
 						}
@@ -131,11 +138,13 @@ public class MagicCarpet : Event
 			
 		bool playerWhoseTurnItIsHasMagicCarpetPower ()
 		{
-				return GameObject.Find ("Desert").GetComponent<DesertState> ().playerWhoseTurnItIs == playerWithMagicCarpet;
+				GameObject player = GameObject.Find ("Desert").GetComponent<DesertState> ().playerWhoseTurnItIs;
+				return (player && player.GetComponent<PlayerInventory> ().hasMagicCarpetPower);
 		}
 
-		public override void activateEvent (GameObject dummy)
+		public override void activateEvent (GameObject player)
 		{
+				playerWithMagicCarpet = player;
 				initializeEvent ();
 				showingMagicCarpetScreen = true;
 				

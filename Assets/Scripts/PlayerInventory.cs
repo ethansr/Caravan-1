@@ -24,6 +24,7 @@ public class PlayerInventory : MonoBehaviour
 		//set this to true as the effect of the "invasion" worker placement tile;
 		//I handle setting it back to false after it takes effedct during movement phase
 		public bool canInvade;
+		public bool hasMagicCarpetPower;
 		public GameController controller;
 		Vector3 goodOrigin;
 	
@@ -33,8 +34,9 @@ public class PlayerInventory : MonoBehaviour
 
 				controller = GameObject.Find ("GameController").GetComponent<GameController> ();
 				canInvade = false;
+				hasMagicCarpetPower = false;
 
-		draggableGoodPrefab = GameObject.Find ("DraggableGood");
+				draggableGoodPrefab = GameObject.Find ("DraggableGood");
 
 				amountOfEachGoodItem = new Dictionary<DesertGenerator.GoodItem,int> ();
 

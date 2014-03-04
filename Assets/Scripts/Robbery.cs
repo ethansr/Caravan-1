@@ -37,7 +37,7 @@ public class Robbery : Event
 						disableEventTextBox ();
 						inControlOfTextBox = false;
 						anEventIsHappeningInGeneral = false;
-						//tellPlayerToFinishEndTurn ();
+					
 				}
 		
 		
