@@ -95,7 +95,8 @@ public class MagicCarpet : Event
 		void moveChosenExplorerToChosenTile ()
 		{
 				explorerToMove.GetComponent<DesertExplorer> ().updateLocation (tileToMoveTo);
-				explorerToMove.GetComponent<DesertExplorer> ().reactToMovementEnding ();
+				
+		explorerToMove.GetComponent<DesertExplorer> ().reactToMovementEnding ();
 		}
 	
 		void closeMagicCarpetEvent ()

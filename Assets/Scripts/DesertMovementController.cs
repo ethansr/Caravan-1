@@ -22,6 +22,7 @@ public class DesertMovementController : Event
 		float buttonY = 50;
 		float sendToSourceDelayStart;
 		bool waitingOnExplorerReturn = false;
+		bool updatePlayerWaitingOnEvent = false;
 
 		/*
 		//magic carpet controller variables
@@ -125,16 +126,23 @@ public class DesertMovementController : Event
 		//this should only by called by the players during the movement phase
 		public void updatePlayer ()
 		{
-				if (noPlayersCanMakeMove ()) {
-						endDesertMovementPhase ();
-				} else { 
-					
-						GameObject nextPlayer;
-						do {
-								nextPlayer = gameObject.GetComponent<GameController> ().getNextPlayer ();
-						} while (!nextPlayer.GetComponent<Player>().canMoveAgainThisRound);
+				if (Event.anEventIsHappeningInGeneral) {
+						updatePlayerWaitingOnEvent = true;
+				} else {
+						updatePlayerWaitingOnEvent = false;
 
-						GameObject.Find ("Desert").GetComponent<DesertState> ().changePlayerWhoseTurnItIs (nextPlayer);
+						if (noPlayersCanMakeMove ()) {
+								endDesertMovementPhase ();
+
+						} else { 
+					
+								GameObject nextPlayer;
+								do {
+										nextPlayer = gameObject.GetComponent<GameController> ().getNextPlayer ();
+								} while (!nextPlayer.GetComponent<Player>().canMoveAgainThisRound);
+
+								GameObject.Find ("Desert").GetComponent<DesertState> ().changePlayerWhoseTurnItIs (nextPlayer);
+						}
 				}
 		}
 
@@ -182,7 +190,10 @@ public class DesertMovementController : Event
 		}
 
 		void Update ()
-		{       
+		{
+				if (updatePlayerWaitingOnEvent)
+						updatePlayer ();
+
 				if (waitingOnExplorerReturn) {
 						announceEndOfMovePhaseAfterDelay ();
 				}
