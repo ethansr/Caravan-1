@@ -6,7 +6,7 @@ public class MagicCarpetLocation : DropLocation
 		GameObject goodToTradeForCarpet;
 		public GameObject magicCarpet;
 		public static float magicCarpetTokenXPos = -70.0f;
-	    
+		public static float tokenYPosJitter = 10.0f;
 
 		// Use this for initialization
 		void Start ()
@@ -64,8 +64,6 @@ public class MagicCarpetLocation : DropLocation
 		               
 				
 		}
-	
-
 
 		bool playerHasAnyGoods (GameObject meeple)
 		{
@@ -80,6 +78,7 @@ public class MagicCarpetLocation : DropLocation
 				magicCarpetToken.transform.position = occupantPlayer.transform.position;
 				Vector3 newPos = occupantPlayer.GetComponent<Meeple> ().player.GetComponent<Player> ().meepleSource.transform.position;
 				newPos.x = magicCarpetTokenXPos;
+				newPos.y -= tokenYPosJitter;
 	
 				iTween.MoveTo (magicCarpetToken, newPos, 2.0f);
 

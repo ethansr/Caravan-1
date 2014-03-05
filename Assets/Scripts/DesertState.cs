@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class DesertState : MonoBehaviour {
@@ -15,7 +15,7 @@ public class DesertState : MonoBehaviour {
 		//close movement of the movingObject.
 		//atm is an unfortunate if else
 		if (movingObject&&movingObjectIsExplorer())
-			movingObject.GetComponent<DesertExplorer> ().reactToMovementEnding ();
+			movingObject.GetComponent<DesertExplorer> ().reactToMovementEndingInDesert ();
 
 		movingObject = newMover;
 	}

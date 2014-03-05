@@ -49,6 +49,7 @@ public class InvaderPlacement : DropLocation
 				newInvaderToken.transform.position = occupantMeeple.transform.position;
 				Vector3 newPos = occupantMeeple.GetComponent<Meeple> ().player.GetComponent<Player> ().meepleSource.transform.position;
 				newPos.x = invaderTokenXPos;
+				newPos.y -= MagicCarpetLocation.tokenYPosJitter;
 		
 				iTween.MoveTo (newInvaderToken, newPos, 2.0f);
 

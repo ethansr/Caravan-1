@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
 		void makeMovingExplorerReactToMovementEnding (GameObject explorer)
 		{
 
-				explorer.GetComponent<DesertExplorer> ().reactToMovementEnding ();
+				explorer.GetComponent<DesertExplorer> ().reactToMovementEndingInDesert ();
 					
 		}
 

@@ -59,8 +59,9 @@ public class DesertExplorer : MonoBehaviour
 		{
 				stopFlashing ();
 				removeSelfFromDesertState ();
-				
-				reactToMovementEnding ();
+				closeMovement ();
+				endPlayersTurn ();
+				//reactToMovementEnding ();
 
 				gameObject.GetComponent<Meeple> ().endExploration ();
 		
@@ -144,12 +145,13 @@ public class DesertExplorer : MonoBehaviour
 	   
 		bool flyingMagicCarpet ()
 		{
-				Debug.Log ("flying magic carpet " + (MagicCarpet.explorerToMove == gameObject));
+				
 				return MagicCarpet.explorerToMove == gameObject;
 		}
 
-		public void reactToMovementEnding ()
+		public void reactToMovementEndingInDesert ()
 		{
+				decrementPlayersMoveableExplorers ();
 				closeMovement ();
 
 				endPlayersTurn ();
@@ -158,7 +160,7 @@ public class DesertExplorer : MonoBehaviour
 		void closeMovement ()
 		{
 				preventThisExplorerFromMovingAgainThisRound ();
-				decrementPlayersMoveableExplorers ();
+				//decrementPlayersMoveableExplorers ();
 				GetComponent<Transform> ().localScale = defaultSize;
 		}
 	    
@@ -240,7 +242,7 @@ public class DesertExplorer : MonoBehaviour
 						if (newLocation == lastGoodAcquired)
 								return; 
 						addGoodToPlayerInventory (newLocation);
-						if (GameController.testMeeplesSentBackToBazaarAfterFindingGood && !isMercenary ()) {
+						if (!isMercenary ()) {
 								leaveCurrentTile ();
 								returnToSource ();
 						} else
@@ -325,7 +327,7 @@ public class DesertExplorer : MonoBehaviour
 				if (!isMercenary ()) {
 						if (playerHasInvaderPower (invader)) {
 								invader.GetComponent<Invader> ().prepareForInvasion ();
-				Debug.Log (playerHasInvaderPower (invader) + " player has invader power");
+								Debug.Log (playerHasInvaderPower (invader) + " player has invader power");
 								return true;
 						} else 
 								return false;
@@ -336,9 +338,9 @@ public class DesertExplorer : MonoBehaviour
 	
 		public void handleInvader (GameObject invader)
 		{
-		Debug.Log (isForeign (invader) + " is foreign");
-		Debug.Log (playerHasInvaderPower (invader) + " player has invader power");
-		Debug.Log (invader.GetComponent<Invader> ().entersFromInvadingTile () + " eneters from invading tile");
+				Debug.Log (isForeign (invader) + " is foreign");
+				Debug.Log (playerHasInvaderPower (invader) + " player has invader power");
+				Debug.Log (invader.GetComponent<Invader> ().entersFromInvadingTile () + " eneters from invading tile");
 
 				if (isMercenary () && isForeign (invader)) 
 						GetComponent<MercenaryExplorer> ().activateEvent (invader);

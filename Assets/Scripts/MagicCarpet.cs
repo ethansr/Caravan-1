@@ -52,7 +52,7 @@ public class MagicCarpet : Event
 				}
 		}
 	
-		public void setTilePlayerHasChosen (GameObject chosenTile)
+		public static void setTilePlayerHasChosen (GameObject chosenTile)
 		{
 				if (explorerToMove && validTile (chosenTile))
 						tileToMoveTo = chosenTile;
@@ -77,20 +77,18 @@ public class MagicCarpet : Event
 
 		static bool validExplorer (GameObject explorer)
 		{
-				Debug.Log ("tag " + explorer.tag.Equals ("explorer"));
-				Debug.Log ("player " + (explorer.GetComponent<Meeple> ().player == playerWithMagicCarpet));
-				Debug.Log ("has not moved " + !explorer.GetComponent<DesertExplorer> ().hasMovedThisRound);
+			
 
 				return explorer.tag.Equals ("explorer") && explorer.GetComponent<Meeple> ().player == playerWithMagicCarpet && !explorer.GetComponent<DesertExplorer> ().hasMovedThisRound;
 				
 		}
 
-		bool validTile (GameObject tile)
+		static bool validTile (GameObject tile)
 		{
 				return !tile.GetComponent<DesertTile> ().isBazaar () && tile.GetComponent<DesertTile> ().roomForMoreOccupants () && explorerCanMoveToTile (tile);
 		}
 
-		bool explorerCanMoveToTile (GameObject tile)
+		static bool explorerCanMoveToTile (GameObject tile)
 		{
 				if (tile.GetComponent<DesertTile> ().getNumOccupants () > 0) 
 						return tile.GetComponent<DesertTile> ().handleOccupiedTile (explorerToMove, tile);
@@ -103,7 +101,7 @@ public class MagicCarpet : Event
 		{
 				explorerToMove.GetComponent<DesertExplorer> ().updateLocation (tileToMoveTo);
 				
-				explorerToMove.GetComponent<DesertExplorer> ().reactToMovementEnding ();
+				explorerToMove.GetComponent<DesertExplorer> ().reactToMovementEndingInDesert ();
 		}
 	
 		void closeMagicCarpetEvent ()
