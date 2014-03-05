@@ -88,7 +88,7 @@ public class DesertExplorer : MonoBehaviour
 				
 				if (MagicCarpet.waitingForPlayersMagicCarpetSelection) {
 			
-						MagicCarpet.explorerToMove = gameObject;
+						MagicCarpet.setExplorerPlayerHasChosen (gameObject);
 						
 			
 				} else if (DesertMovementController.inMovementPhase && isMyPlayersTurn () && currentTile && firstExplorerMovedThisTurn ()) {
@@ -144,6 +144,7 @@ public class DesertExplorer : MonoBehaviour
 	   
 		bool flyingMagicCarpet ()
 		{
+				Debug.Log ("flying magic carpet " + (MagicCarpet.explorerToMove == gameObject));
 				return MagicCarpet.explorerToMove == gameObject;
 		}
 
@@ -324,6 +325,7 @@ public class DesertExplorer : MonoBehaviour
 				if (!isMercenary ()) {
 						if (playerHasInvaderPower (invader)) {
 								invader.GetComponent<Invader> ().prepareForInvasion ();
+				Debug.Log (playerHasInvaderPower (invader) + " player has invader power");
 								return true;
 						} else 
 								return false;
@@ -334,15 +336,16 @@ public class DesertExplorer : MonoBehaviour
 	
 		public void handleInvader (GameObject invader)
 		{
-				
+		Debug.Log (isForeign (invader) + " is foreign");
+		Debug.Log (playerHasInvaderPower (invader) + " player has invader power");
+		Debug.Log (invader.GetComponent<Invader> ().entersFromInvadingTile () + " eneters from invading tile");
 
 				if (isMercenary () && isForeign (invader)) 
 						GetComponent<MercenaryExplorer> ().activateEvent (invader);
 				else if (isForeign (invader) && playerHasInvaderPower (invader) && invader.GetComponent<Invader> ().entersFromInvadingTile ())
 						invader.GetComponent<Invader> ().activateEvent (gameObject);
-				Debug.Log (isForeign (invader));
-				Debug.Log (playerHasInvaderPower (invader));
-				Debug.Log (invader.GetComponent<Invader> ().entersFromInvadingTile ());
+				
+				
 			
 
 		}

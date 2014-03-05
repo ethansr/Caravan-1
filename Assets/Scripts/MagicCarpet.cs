@@ -10,7 +10,7 @@ public class MagicCarpet : Event
 		float buttonY = 50;
 
 		//magic carpet controller variables
-		GameObject playerWithMagicCarpet;
+		static GameObject playerWithMagicCarpet;
 		//requires:
 		//! bazaaar
 		//otherwise this movement should behave the same as all other movements
@@ -59,10 +59,12 @@ public class MagicCarpet : Event
 		
 		}
 	
-		public void setExplorerPlayerHasChosen (GameObject explorer)
-		{
+		public static void setExplorerPlayerHasChosen (GameObject explorer)
+		{     
 				if (validExplorer (explorer))
 						explorerToMove = explorer;
+	
+				Debug.Log (explorerToMove);
 
 		}
 	
@@ -73,8 +75,12 @@ public class MagicCarpet : Event
 				
 		}
 
-		bool validExplorer (GameObject explorer)
+		static bool validExplorer (GameObject explorer)
 		{
+				Debug.Log ("tag " + explorer.tag.Equals ("explorer"));
+				Debug.Log ("player " + (explorer.GetComponent<Meeple> ().player == playerWithMagicCarpet));
+				Debug.Log ("has not moved " + !explorer.GetComponent<DesertExplorer> ().hasMovedThisRound);
+
 				return explorer.tag.Equals ("explorer") && explorer.GetComponent<Meeple> ().player == playerWithMagicCarpet && !explorer.GetComponent<DesertExplorer> ().hasMovedThisRound;
 				
 		}
@@ -124,9 +130,8 @@ public class MagicCarpet : Event
 		{
 				if (DesertMovementController.inMovementPhase && playerWhoseTurnItIsHasMagicCarpetPower ()) {
 						if (GUI.Button (new Rect (buttonStartX - buttonWidth * 2, buttonY, buttonWidth * 1.5f, buttonHeight), "Magic Carpet Ride")) {
-								GameObject player = GameObject.Find ("Desert").GetComponent<DesertState> ().playerWhoseTurnItIs;
-								playerWithMagicCarpet = player;
-								activateEvent (playerWithMagicCarpet);
+					
+								activateEvent (GameObject.Find ("Desert").GetComponent<DesertState> ().playerWhoseTurnItIs);
 			
 		
 						}
@@ -139,9 +144,10 @@ public class MagicCarpet : Event
 				return (player && player.GetComponent<PlayerInventory> ().hasMagicCarpetPower);
 		}
 
-		public override void activateEvent ()
+		public override void activateEvent (GameObject player)
 		{
-				
+	
+				playerWithMagicCarpet = player;
 				initializeEvent ();
 				showingMagicCarpetScreen = true;
 				
