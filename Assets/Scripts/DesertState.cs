@@ -15,7 +15,7 @@ public class DesertState : MonoBehaviour {
 		//close movement of the movingObject.
 		//atm is an unfortunate if else
 		if (movingObject&&movingObjectIsExplorer())
-			movingObject.GetComponent<DesertExplorer> ().reactToMovementEndingInDesert ();
+			movingObject.GetComponent<DesertExplorer> ().reactToMovementEndingStayInDesert ();
 
 		movingObject = newMover;
 	}

@@ -101,7 +101,7 @@ public class MagicCarpet : Event
 		{
 				explorerToMove.GetComponent<DesertExplorer> ().updateLocation (tileToMoveTo);
 				
-				explorerToMove.GetComponent<DesertExplorer> ().reactToMovementEndingInDesert ();
+				explorerToMove.GetComponent<DesertExplorer> ().reactToMovementEndingStayInDesert ();
 		}
 	
 		void closeMagicCarpetEvent ()
@@ -126,7 +126,7 @@ public class MagicCarpet : Event
 
 		void OnGUI ()
 		{
-				if (DesertMovementController.inMovementPhase && playerWhoseTurnItIsHasMagicCarpetPower ()) {
+				if (DesertMovementController.inMovementPhase && playerWhoseTurnItIsHasMagicCarpetPower () && playerHasntMovedMeeple ()) {
 						if (GUI.Button (new Rect (buttonStartX - buttonWidth * 2, buttonY, buttonWidth * 1.5f, buttonHeight), "Magic Carpet Ride")) {
 					
 								activateEvent (GameObject.Find ("Desert").GetComponent<DesertState> ().playerWhoseTurnItIs);
@@ -135,7 +135,12 @@ public class MagicCarpet : Event
 						}
 				}
 		}
-			
+
+		bool playerHasntMovedMeeple ()
+		{
+				return !GameObject.Find ("Desert").GetComponent<DesertState> ().movingObject;
+		}
+
 		bool playerWhoseTurnItIsHasMagicCarpetPower ()
 		{
 				GameObject player = GameObject.Find ("Desert").GetComponent<DesertState> ().playerWhoseTurnItIs;

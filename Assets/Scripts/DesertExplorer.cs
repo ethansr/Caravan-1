@@ -60,10 +60,12 @@ public class DesertExplorer : MonoBehaviour
 				stopFlashing ();
 				removeSelfFromDesertState ();
 				closeMovement ();
-				endPlayersTurn ();
+
+				//endPlayersTurn ();
 				//reactToMovementEnding ();
 
 				gameObject.GetComponent<Meeple> ().endExploration ();
+				endPlayersTurn ();
 		
 		}
 
@@ -149,7 +151,7 @@ public class DesertExplorer : MonoBehaviour
 				return MagicCarpet.explorerToMove == gameObject;
 		}
 
-		public void reactToMovementEndingInDesert ()
+		public void reactToMovementEndingStayInDesert ()
 		{
 				decrementPlayersMoveableExplorers ();
 				closeMovement ();
