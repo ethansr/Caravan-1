@@ -10,18 +10,21 @@ public class Invader : Event
 
 		public bool entersFromInvadingTile ()
 		{
-
+				bool result = !gameObject.GetComponent<DesertExplorer> ().currentTile.GetComponent<DesertTile> ().isBazaar ();
+				Debug.Log ("entersFromInvasing tile " + result);
 				return !gameObject.GetComponent<DesertExplorer> ().currentTile.GetComponent<DesertTile> ().isBazaar ();
 		}
 
 		public void prepareForInvasion ()
 		{
+				Debug.Log ("prepare for invasion");
 				tileFromWhichInvaderAttacks = gameObject.GetComponent<DesertExplorer> ().currentTile;
 
 		}
 
 		public override void activateEvent (GameObject desertExplorer)
 		{
+				Debug.Log ("activate event");
 				initializeEvent ();
 				explorer = desertExplorer;
 
@@ -46,6 +49,7 @@ public class Invader : Event
 		void removePlayersInvaderAbility ()
 		{
 				gameObject.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().canInvade = false;
+				Object.Destroy (gameObject.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().playersInvaderToken);
 		}
 
 		void Update ()

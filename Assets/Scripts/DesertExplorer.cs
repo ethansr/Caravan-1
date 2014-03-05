@@ -340,6 +340,9 @@ public class DesertExplorer : MonoBehaviour
 						GetComponent<MercenaryExplorer> ().activateEvent (invader);
 				else if (isForeign (invader) && playerHasInvaderPower (invader) && invader.GetComponent<Invader> ().entersFromInvadingTile ())
 						invader.GetComponent<Invader> ().activateEvent (gameObject);
+				Debug.Log (isForeign (invader));
+				Debug.Log (playerHasInvaderPower (invader));
+				Debug.Log (invader.GetComponent<Invader> ().entersFromInvadingTile ());
 			
 
 		}

@@ -25,8 +25,13 @@ public class PlayerInventory : MonoBehaviour
 		//I handle setting it back to false after it takes effedct during movement phase
 		public bool canInvade;
 		public bool hasMagicCarpetPower;
+		public GameObject playersMagicCarpetToken;
+		public GameObject playersInvaderToken;
 		public GameController controller;
 		Vector3 goodOrigin;
+
+
+
 	
 		// Use this for initialization
 		void Start ()
@@ -53,8 +58,7 @@ public class PlayerInventory : MonoBehaviour
 				merchantCardLocations.Add (transform.position + Vector3.right * 45 + Vector3.up * 1.1f);
 
 
-				
-
+			
 		}
 	  
 		void GoodTokens ()

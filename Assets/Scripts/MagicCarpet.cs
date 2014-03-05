@@ -26,11 +26,6 @@ public class MagicCarpet : Event
 
 
 
-
-
-
-
-
 		// Update is called once per frame
 		void Update ()
 		{
@@ -111,6 +106,7 @@ public class MagicCarpet : Event
 				tileToMoveTo = null;
 				explorerToMove = null;
 				playerWithMagicCarpet.GetComponent<PlayerInventory> ().hasMagicCarpetPower = false;
+				Object.Destroy (playerWithMagicCarpet.GetComponent<PlayerInventory> ().playersMagicCarpetToken);
 				playerWithMagicCarpet = null;
 				showingMagicCarpetScreen = false;
 				waitingForPlayersMagicCarpetSelection = false;
@@ -128,8 +124,9 @@ public class MagicCarpet : Event
 		{
 				if (DesertMovementController.inMovementPhase && playerWhoseTurnItIsHasMagicCarpetPower ()) {
 						if (GUI.Button (new Rect (buttonStartX - buttonWidth * 2, buttonY, buttonWidth * 1.5f, buttonHeight), "Magic Carpet Ride")) {
-								
-								activateEvent (GameObject.Find ("Desert").GetComponent<DesertState> ().playerWhoseTurnItIs);
+								GameObject player = GameObject.Find ("Desert").GetComponent<DesertState> ().playerWhoseTurnItIs;
+								playerWithMagicCarpet = player;
+								activateEvent (playerWithMagicCarpet);
 			
 		
 						}
@@ -142,9 +139,9 @@ public class MagicCarpet : Event
 				return (player && player.GetComponent<PlayerInventory> ().hasMagicCarpetPower);
 		}
 
-		public override void activateEvent (GameObject player)
+		public override void activateEvent ()
 		{
-				playerWithMagicCarpet = player;
+				
 				initializeEvent ();
 				showingMagicCarpetScreen = true;
 				

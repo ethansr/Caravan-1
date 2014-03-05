@@ -236,6 +236,7 @@ public class DesertMovementController : Event
 				GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
 				foreach (GameObject player in players) {
 						player.GetComponent<PlayerInventory> ().drainWater ();
+						player.GetComponent<Player> ().reactToEndOfMovePhase ();
 						player.GetComponent<Player> ().moveableDesertExplorers = 0;
 						player.GetComponent<Player> ().canMoveAgainThisRound = false;
 				}

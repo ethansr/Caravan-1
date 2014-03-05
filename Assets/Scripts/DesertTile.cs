@@ -487,7 +487,7 @@ public class DesertTile : MonoBehaviour
 						availablePositions.Remove (explorersPosition);
 						occupants.Add (explorer);
 				}
-				//occupants.Add (explorer);
+			
 				return explorersPosition;
 		
 		}

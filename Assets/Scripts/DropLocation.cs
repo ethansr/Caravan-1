@@ -42,7 +42,12 @@ public class DropLocation : MonoBehaviour
 		return occupant ? true : false;
 	}
 
-		public virtual GameObject Occupant() {
+	protected bool isMeepleOrNull (GameObject potentialOccupant)
+	{
+		return (potentialOccupant && potentialOccupant.GetComponent<Meeple> () || !potentialOccupant);
+	}
+	
+	public virtual GameObject Occupant() {
 		return occupant;
 		}
 

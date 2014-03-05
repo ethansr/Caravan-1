@@ -89,7 +89,7 @@ public class Player : MonoBehaviour
 
 		public void finishEndTurn ()
 		{
-				eventsExperiencedThisTurn.Clear ();
+				
 
 				hasMovedAnExplorerThisTurn = false;
 
@@ -187,6 +187,10 @@ public class Player : MonoBehaviour
 				explorerToReturn.GetComponent<DesertExplorer> ().leaveCurrentTile ();
 				explorerToReturn.GetComponent<Meeple> ().endExploration ();
 		}
+
+	    public void reactToEndOfMovePhase(){
+		eventsExperiencedThisTurn.Clear ();
+	}
 
 
 

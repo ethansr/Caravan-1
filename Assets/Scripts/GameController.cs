@@ -202,7 +202,7 @@ public class GameController : MonoBehaviour {
 		LogEvent("start_turn");
 		return result;
 	}
-
+	/*
 	//thanks http://stackoverflow.com/questions/5057567/how-to-do-logging-in-c
 	public void LogEvent(string message) {
 		// Write the string to a file.append mode is enabled so that the log
@@ -220,4 +220,5 @@ public class GameController : MonoBehaviour {
 
 		file.Close();
 		}
+		*/
 }
