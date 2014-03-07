@@ -8,7 +8,7 @@ using System.Linq;
 public class Player : MonoBehaviour
 {
 
-		Color col;
+		public Color col;
 		public Color fColor;
 		public int flash = 1;
 		float doubleClickStart = 0;

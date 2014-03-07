@@ -90,7 +90,9 @@ public class PlayerInventory : MonoBehaviour
 			
 				GameObject tokenObject = (GameObject)Instantiate (draggableGoodPrefab);
 				GoodToken token = tokenObject.GetComponent<GoodToken> ();
+				// SpriteRenderer tokenBackground = tokenObject.transform.FindChild ("TokenBackground").GetComponentInChildren (SpriteRenderer); 
 				token.player = gameObject.GetComponent<Player> ();
+				colorTokenByPlayer (tokenObject);
 				token.good = goodItem;
 				tokenObject.transform.position = source.transform.position;
 
@@ -111,6 +113,15 @@ public class PlayerInventory : MonoBehaviour
 		//	}			
 		//		}
 		
+
+		void colorTokenByPlayer (GameObject tokenObject)
+		{
+				SpriteRenderer tokenBackground = tokenObject.GetComponentInChildren <SpriteRenderer> (); 
+				tokenBackground.color = tokenObject.GetComponent<GoodToken> ().player.GetComponent<Player> ().col;
+				//token.GetComponent<SpriteRenderer> ().color = token.transform.parent.GetComponent<GoodToken> ().player.GetComponent<Player> ().col;
+
+		}
+
 		// Update is called once per frame
 		void Update ()
 		{

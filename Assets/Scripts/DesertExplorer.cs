@@ -328,9 +328,9 @@ public class DesertExplorer : MonoBehaviour
 				//foreign and tile does not have event
 				if (!isMercenary ()) {
 						if (playerHasInvaderPower (invader)) {
-								invader.GetComponent<Invader> ().prepareForInvasion ();
-								Debug.Log (playerHasInvaderPower (invader) + " player has invader power");
-								return true;
+								return invader.GetComponent<Invader> ().prepareForInvasion ();
+								
+								//return true;
 						} else 
 								return false;
 				}

@@ -102,6 +102,7 @@ public class MagicCarpet : Event
 				explorerToMove.GetComponent<DesertExplorer> ().updateLocation (tileToMoveTo);
 				
 				explorerToMove.GetComponent<DesertExplorer> ().reactToMovementEndingStayInDesert ();
+		//end players turn
 		}
 	
 		void closeMagicCarpetEvent ()

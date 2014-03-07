@@ -11,20 +11,22 @@ public class Invader : Event
 		public bool entersFromInvadingTile ()
 		{
 				bool result = !gameObject.GetComponent<DesertExplorer> ().currentTile.GetComponent<DesertTile> ().isBazaar ();
-				Debug.Log ("entersFromInvasing tile " + result);
+				
 				return !gameObject.GetComponent<DesertExplorer> ().currentTile.GetComponent<DesertTile> ().isBazaar ();
 		}
 
-		public void prepareForInvasion ()
+		public bool prepareForInvasion ()
 		{
-				Debug.Log ("prepare for invasion");
-				tileFromWhichInvaderAttacks = gameObject.GetComponent<DesertExplorer> ().currentTile;
+				bool willInvade = entersFromInvadingTile ();
+				if (willInvade)
+						tileFromWhichInvaderAttacks = gameObject.GetComponent<DesertExplorer> ().currentTile;
+				return willInvade;
 
 		}
 
 		public override void activateEvent (GameObject desertExplorer)
 		{
-				Debug.Log ("activate event");
+				
 				initializeEvent ();
 				explorer = desertExplorer;
 
