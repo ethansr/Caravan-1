@@ -24,6 +24,8 @@ public class GameController : MonoBehaviour {
 	public DateTime gameStartTime;
 	public DateTime gameEndTime;
 
+	public int firstPlayerIndex = 0;
+
 
 	// Use this for initialization
 	void Start () {
@@ -192,7 +194,7 @@ public class GameController : MonoBehaviour {
 	public GameObject getNextPlayer(){
 		LogEvent ("end_turn");
 		if (indexOfNextPlayer == 3) {
-			indexOfNextPlayer = 0 ;
+			indexOfNextPlayer = firstPlayerIndex;
 		}
 		else {
 
@@ -201,6 +203,37 @@ public class GameController : MonoBehaviour {
 		GameObject result= players[indexOfNextPlayer];
 		LogEvent("start_turn");
 		return result;
+	}
+
+	public void MakeFirstPlayer(GameObject player) {
+
+
+		int index = 0;
+		for (int i = 0; i < 4; i++) {
+			if (players[i] == player) {
+					index = i;
+				break;
+			}
+		}
+
+		indexOfNextPlayer = 0;
+
+		switch(index) 
+		{
+		case 0:
+				//do nothing
+			break;
+		case 1:
+			players = new GameObject[] { players[1],players[2],players[3],players[0] };
+			break;
+		case 2:
+			players = new GameObject[] { players[2],players[3],players[0],players[1] };
+			break;
+		case 3:
+			players = new GameObject[] { players[3],players[0],players[1],players[2] };
+			break;
+		}
+
 	}
 
 	//thanks http://stackoverflow.com/questions/5057567/how-to-do-logging-in-c
