@@ -1,5 +1,9 @@
 using UnityEngine;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 public class DesertExplorer : MonoBehaviour
 {
@@ -7,6 +11,11 @@ public class DesertExplorer : MonoBehaviour
 		public Color defaultColor;
 		public Color fColor;
 		public int flash = 1;
+
+		//both of these should be clear on start, and be cleared each time a meeple 
+		//returns to the source (it should be the last call of "end exploration")
+		Collection<GameObject> eventsExperiencedThisExploration;
+		Dictionary<DesertGenerator.GoodItem, bool> hasCollectedGoodThisExploration;
 		GameObject lastGoodAcquired;
 		GameObject lastEventExperienced;
 		public Vector3 bazaarPosition;
@@ -24,6 +33,17 @@ public class DesertExplorer : MonoBehaviour
 				hasMovedThisRound = false;
 				defaultColor = GetComponent<SpriteRenderer> ().color;
 				fColor.a = 255.0f;
+
+				eventsExperiencedThisExploration = new Collection<GameObject> ();
+				initializeGoodItemRecord ();
+		}
+
+		void initializeGoodItemRecord ()
+		{
+				hasCollectedGoodThisExploration = new Dictionary<DesertGenerator.GoodItem, bool> ();
+				foreach (DesertGenerator.GoodItem goodItem in (DesertGenerator.GoodItem[])Enum.GetValues (typeof(DesertGenerator.GoodItem))) {
+						hasCollectedGoodThisExploration.Add (goodItem, false);
+				}
 		}
 	
 		//assume that move was successful
@@ -42,6 +62,19 @@ public class DesertExplorer : MonoBehaviour
 								experienceEvent ();
 				}
 		
+		}
+
+		public void clearGoodsAndEventsRecords ()
+		{
+				eventsExperiencedThisExploration.Clear ();
+				setHasCollectedGoodsToFalse ();
+		}
+	    
+		void setHasCollectedGoodsToFalse ()
+		{
+				foreach (DesertGenerator.GoodItem goodItem in (DesertGenerator.GoodItem[])Enum.GetValues (typeof(DesertGenerator.GoodItem))) {
+						hasCollectedGoodThisExploration [goodItem] = false;
+				}
 		}
 	
 		public void leaveCurrentTile ()
@@ -63,7 +96,7 @@ public class DesertExplorer : MonoBehaviour
 
 				//endPlayersTurn ();
 				//reactToMovementEnding ();
-
+				
 				gameObject.GetComponent<Meeple> ().endExploration ();
 				endPlayersTurn ();
 		
@@ -179,7 +212,9 @@ public class DesertExplorer : MonoBehaviour
 		bool haventAlreadyExperienceEvent ()
 		{
 				GameObject newEvent = currentTile.GetComponent<DesertTile> ().getEvent ();
-				return (newEvent != lastEventExperienced && !myPlayerHasExperiencedEvent (newEvent));
+				return !eventsExperiencedThisExploration.Contains (newEvent);
+
+				//return (newEvent != lastEventExperienced && !myPlayerHasExperiencedEvent (newEvent));
 			
 		}
 
@@ -202,7 +237,8 @@ public class DesertExplorer : MonoBehaviour
 		void experienceEvent ()
 		{
 				GameObject newEvent = currentTile.GetComponent<DesertTile> ().getEvent ();
-				lastEventExperienced = newEvent;
+				eventsExperiencedThisExploration.Add (newEvent);
+				//lastEventExperienced = newEvent;
 				updatePlayersEvents (newEvent);
 				newEvent.GetComponent<Event> ().activateEvent (gameObject);
 
@@ -239,22 +275,37 @@ public class DesertExplorer : MonoBehaviour
 		}
 	
 		void handleSuccessfulMove (GameObject newLocation)
-		{
+		{          
 				if (newLocation.GetComponent<Good> ()) {
-						if (newLocation == lastGoodAcquired)
+						if (haveAlreadyCollectedThisGood (newLocation))//(newLocation == lastGoodAcquired)
 								return; 
 						addGoodToPlayerInventory (newLocation);
-						if (!isMercenary ()) {
+						recordThatIHaveCollectedThisGood (newLocation);
+				}
+						/*
+            All of this code causes the meeple to return to the source upon acquiring a good.
+			if (!isMercenary ()) {
 								leaveCurrentTile ();
 								returnToSource ();
 						} else
 								lastGoodAcquired = newLocation;
+								*/
 			
-				} else 
+				 else 
 						updateLocation (newLocation);
 		
 				decreaseAvailableWater ();
 			
+		}
+
+		bool haveAlreadyCollectedThisGood (GameObject goodTile)
+		{
+				return hasCollectedGoodThisExploration [goodTile.GetComponent<Good> ().good];
+		}
+	    
+		void recordThatIHaveCollectedThisGood (GameObject goodTile)
+		{
+				hasCollectedGoodThisExploration [goodTile.GetComponent<Good> ().good] = true;
 		}
 
 		void addGoodToPlayerInventory (GameObject goodTile)

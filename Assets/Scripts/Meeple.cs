@@ -43,6 +43,9 @@ public class Meeple : MonoBehaviour
 				Vector3 placementSize = new Vector3 (1, 1, 1);
 				gameObject.GetComponent<Draggable> ().enabled = true;
 				gameObject.GetComponent<DesertExplorer> ().hasMovedThisRound = false;
+
+				gameObject.GetComponent<DesertExplorer> ().clearGoodsAndEventsRecords ();
+
 				gameObject.tag = "Untagged";
 				gameObject.GetComponent<DesertExplorer> ().enabled = false;
 				gameObject.GetComponent<Transform> ().localScale = placementSize;

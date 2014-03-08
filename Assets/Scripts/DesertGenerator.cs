@@ -35,13 +35,13 @@ public class DesertGenerator : MonoBehaviour
 		public GameObject bazaar;
 		public GameObject desertEvent;
 		public GameObject good;
-
-		
+	    
 	    
 		//use these to determine how many of each type of pathway to make.
 		public int numPathTypes = 7;
-		
-		int[] pathTypeCounts = {54,6,6,6,6,6,6};
+		//= numTilesWidth*numTilesHeight-1 (for bazaar tile)
+		int[] pathTypeCounts = {44,6,6,6,6,6,6};
+		int bazaarTag;
 		//aligned to indexes of pathTypeCounts
 		public static int NORTH_INDEX = 0;
 		public static int SOUTH_INDEX = 1;
@@ -176,6 +176,7 @@ public class DesertGenerator : MonoBehaviour
 				initDesertParameters ();
 				makeTilesAndPlaceInDesert ();
 				assignEventsToTiles ();
+				assignPathsToTiles ();
 		      
 		}
 
@@ -208,15 +209,16 @@ public class DesertGenerator : MonoBehaviour
 								setTileCoordinates (i, j);
 								if (center (i, j)) {
 										tile = (GameObject)Instantiate (bazaar);
+										bazaarTag = (i * numTilesWidth) + j;
 								} else {
 										tile = (GameObject)Instantiate (desertTile);
-										setDesertTileParameters (tile);
 										
 								}
 								setHasEventToFalse (tile);
 								scaleTile (tile);
 								assignTileCoordinates (tile);
 								tagTileWithOneDimensionalIndex (tile, i, j);
+								
 								assignAdjacentGoods (i, j, tile);
 								
 								
@@ -346,33 +348,6 @@ public class DesertGenerator : MonoBehaviour
 
 		}
 
-		void setDesertTileParameters (GameObject tile)
-		{   
-				setPaths (tile);
-				
-		}
-
-		void setPaths (GameObject tile)
-		{
-				int randomPathType;
-				int typeCount;
-
-				do {
-						randomPathType = (int)UnityEngine.Random.Range (0, pathTypeCounts.Length);
-						typeCount = pathTypeCounts [randomPathType];
-
-				} while(typeCount==0);
-
-				typeCount--;
-
-				pathTypeCounts [randomPathType] = typeCount;
-
-				int[] pathValues = pathTypes [randomPathType];
-
-				tile.GetComponent<DesertTile> ().setVerticalPaths (pathValues [NORTH_INDEX], pathValues [SOUTH_INDEX]);
-				tile.GetComponent<DesertTile> ().setHorizontalPaths (pathValues [EAST_INDEX], pathValues [WEST_INDEX]);
-		}
-
 		void assignTileCoordinates (GameObject tile)
 		{      
 				tile.GetComponent<DesertTile> ().setRelativePosition (relativeX, relativeY);
@@ -419,6 +394,37 @@ public class DesertGenerator : MonoBehaviour
 				}
 
 
+		}
+	
+		void assignPathsToTiles ()
+		{
+				bool[] tilesChosen = new bool[totalTiles];
+				tilesChosen [bazaarTag] = true;
+
+				for (int i=0; i<pathTypeCounts.Length; i++) {
+						//step through each path type; assign tiles randomly.
+						int indexOfNumberOf = i;
+						int numberOf = pathTypeCounts [indexOfNumberOf];
+						int tagOfCandidateTileForPath;
+			
+						for (int j=0; j<numberOf; j++) {
+								GameObject candidateTile;
+								do {
+										tagOfCandidateTileForPath = (int)UnityEngine.Random.Range (0, totalTiles);
+										
+								} while(tilesChosen[tagOfCandidateTileForPath]);
+				
+								int[] pathValues = pathTypes [indexOfNumberOf];
+								tilesChosen [tagOfCandidateTileForPath] = true;
+								candidateTile = GameObject.FindGameObjectWithTag (tagOfCandidateTileForPath.ToString ());
+								candidateTile.GetComponent<DesertTile> ().GetComponent<DesertTile> ().setVerticalPaths (pathValues [NORTH_INDEX], pathValues [SOUTH_INDEX]);
+								candidateTile.GetComponent<DesertTile> ().setHorizontalPaths (pathValues [EAST_INDEX], pathValues [WEST_INDEX]);
+								
+			
+						}
+
+				}
+	
 		}
 
 		public static DesertGenerator.GoodType getGoodTypeGivenLocation (int x, int y)

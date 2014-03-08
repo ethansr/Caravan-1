@@ -163,6 +163,7 @@ public class Mercenary : Event
 				removeSelfFromOldPlayer ();
 				assumeNewColor (newPlayer);
 				mercenary.GetComponent<DesertExplorer> ().hasMovedThisRound = false;
+		        mercenary.GetComponent<DesertExplorer> ().clearGoodsAndEventsRecords ();
 				newPlayer.GetComponent<Player> ().changeMovebleDesertExplorers (1);
 		}
 

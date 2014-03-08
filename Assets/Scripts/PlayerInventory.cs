@@ -116,10 +116,9 @@ public class PlayerInventory : MonoBehaviour
 
 		void colorTokenByPlayer (GameObject tokenObject)
 		{
-				SpriteRenderer tokenBackground = tokenObject.GetComponentInChildren <SpriteRenderer> (); 
+				SpriteRenderer tokenBackground = tokenObject.GetComponentsInChildren <SpriteRenderer> ()[1]; 
 				tokenBackground.color = tokenObject.GetComponent<GoodToken> ().player.GetComponent<Player> ().col;
-				//token.GetComponent<SpriteRenderer> ().color = token.transform.parent.GetComponent<GoodToken> ().player.GetComponent<Player> ().col;
-
+				
 		}
 
 		// Update is called once per frame

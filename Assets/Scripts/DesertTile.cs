@@ -22,6 +22,7 @@ public class DesertTile : MonoBehaviour
 		public GameObject headOccupant;
 		Collection<GameObject> occupants;
 		GameObject desert;
+
 	
 	
 		//factor this out into a custom sprite renderer 
