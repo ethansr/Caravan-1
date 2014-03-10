@@ -110,15 +110,15 @@ public class GameController : MonoBehaviour {
 		int numberOfThreeGoodCards = 24;
 		
 		for (int i = 0; i < numberOfTwoGoodCards; i++) {
-			int first_type = UnityEngine.Random.Range(0,3);
+			int first_type = UnityEngine.Random.Range(0,4);
 			int second_type;
 			
 			do {
-				second_type = UnityEngine.Random.Range(0,3);
+				second_type = UnityEngine.Random.Range(0,4);
 			} while(first_type == second_type);
 			
-			int first_good = first_type * 4 + UnityEngine.Random.Range(0,3);
-			int second_good = second_type * 4 + UnityEngine.Random.Range(0,3);
+			int first_good = first_type * 4 + UnityEngine.Random.Range(0,4);
+			int second_good = second_type * 4 + UnityEngine.Random.Range(0,4);
 			GameObject card = (GameObject)Instantiate(merchant_card);
 			card.GetComponent<MerchantCard>().SetGoods((DesertGenerator.GoodItem)first_good,(DesertGenerator.GoodItem)second_good, (DesertGenerator.GoodItem)(-1));
 			//card.transform.position = card.transform.position + Vector3.left * i * 8 + Vector3.right * 45;
@@ -238,6 +238,8 @@ public class GameController : MonoBehaviour {
 
 	public void PlayerWon(Player player) {
 		LogEvent ("winner");
+
+
 	}
 
 	//thanks http://stackoverflow.com/questions/5057567/how-to-do-logging-in-c
