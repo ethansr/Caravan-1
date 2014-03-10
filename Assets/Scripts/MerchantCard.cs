@@ -56,7 +56,9 @@ public class MerchantCard : MonoBehaviour {
 	//in general double click is how a player ends his turn early (ie before running out of wter)
 	void OnDoubleClick ()
 	{   
-		if (controller.currentPhase == "Placement") {
+		if (controller.currentPhase == "Placement" && (first_position.GetComponent<DropLocation>().Occupied() ||
+		                                               second_position.GetComponent<DropLocation>().Occupied() ||
+		                                               (third_position && third_position.GetComponent<DropLocation>().Occupied()))) {
 						GameObject currentPlayer = GameObject.Find ("GameController").GetComponent<GameController> ().currentPlayer ();
 
 						Vector3 originalPosition = gameObject.transform.position;

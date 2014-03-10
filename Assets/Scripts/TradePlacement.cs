@@ -15,10 +15,6 @@ public class TradePlacement : DropLocation {
 		GetComponent<SpriteRenderer> ().sprite = desert.GetComponent<DesertTileIndex> ().goodTileSprites [(int)good];
 	}
 
-	protected override bool  CanOccupy (GameObject potentialOccupant)
-	{
-		return ( potentialOccupant.GetComponent<GoodToken>() ? true : false );
-	}
 
 
 	// Update is called once per frame
