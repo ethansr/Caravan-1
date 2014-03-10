@@ -82,7 +82,7 @@ public class MerchantCard : MonoBehaviour {
 												controller.Discard (gameObject);
 
 												iTween.MoveTo (gameObject, ((currentPlayer.transform.position + Vector3.left * 20) - gameObject.transform.position) * 2, 1.0f);
-
+												controller.getNextPlayer();
 		
 										}
 								} else {
@@ -100,6 +100,7 @@ public class MerchantCard : MonoBehaviour {
 												controller.Discard (gameObject);
 				
 												iTween.MoveTo (gameObject, ((currentPlayer.transform.position + Vector3.left * 20) - gameObject.transform.position) * 2, 1.0f);
+												controller.getNextPlayer();
 
 
 										}
