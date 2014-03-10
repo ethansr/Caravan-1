@@ -75,7 +75,9 @@ public class MerchantCard : MonoBehaviour {
 
 
 												if (!player) {
+														controller.Discard(gameObject);
 														GameObject new_card = controller.deck.Pop ();
+														controller.public_cards.Add (new_card);
 														iTween.MoveTo (new_card, originalPosition, 1.0f);
 												}
 
@@ -93,7 +95,9 @@ public class MerchantCard : MonoBehaviour {
 												inventory.AddVictoryPoint ();
 
 												if (!player) {
+														controller.Discard(gameObject);
 														GameObject new_card = controller.deck.Pop ();
+														controller.public_cards.Add (new_card);
 														iTween.MoveTo (new_card, originalPosition, 1.0f);
 												}
 				
