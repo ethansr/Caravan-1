@@ -51,7 +51,6 @@ public class PlayerInventory : MonoBehaviour
 						DesertGenerator.GoodItem goodItem = (DesertGenerator.GoodItem)value;
 						amountOfEachGoodItem.Add (goodItem, 0);	
 						goodTokens.Add (goodItem, new List<GameObject>());
-			increaseGood(goodItem,1);
 				}
 				draggableGoodPrefab = GameObject.Find ("DraggableGood");
 				//Vector3 goodOrigin = gameObject.GetComponent<Player> ().transform.position + Vector3.down * 6.8f + Vector3.right * 5.5f;
