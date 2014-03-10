@@ -236,11 +236,15 @@ public class GameController : MonoBehaviour {
 
 	}
 
+	public void PlayerWon(Player player) {
+		LogEvent ("winner");
+	}
+
 	//thanks http://stackoverflow.com/questions/5057567/how-to-do-logging-in-c
 	public void LogEvent(string message) {
 		// Write the string to a file.append mode is enabled so that the log
 		// lines get appended to  test.txt than wiping content and writing the log
-		/*
+
 		string fileName = gameStartTime.ToString("yyyyMMdd_hh_mm_ss") + ".csv";
 		string logFileDirectory = "logs";
 		string filePath = System.IO.Path.Combine(logFileDirectory,fileName);
@@ -253,7 +257,7 @@ public class GameController : MonoBehaviour {
 		file.WriteLine(csv);
 
 		file.Close();
-		*/
+
 		}
 		
 }

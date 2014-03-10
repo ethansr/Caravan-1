@@ -55,56 +55,55 @@ public class MerchantCard : MonoBehaviour {
 	
 	//in general double click is how a player ends his turn early (ie before running out of wter)
 	void OnDoubleClick ()
-	{      
-		GameObject currentPlayer = GameObject.Find ("GameController").GetComponent<GameController> ().currentPlayer ();
+	{   
+		if (controller.currentPhase == "Placement") {
+						GameObject currentPlayer = GameObject.Find ("GameController").GetComponent<GameController> ().currentPlayer ();
 
-		Vector3 originalPosition = gameObject.transform.position;
+						Vector3 originalPosition = gameObject.transform.position;
 
-		PlayerInventory inventory = currentPlayer.GetComponent<PlayerInventory> ();
+						PlayerInventory inventory = currentPlayer.GetComponent<PlayerInventory> ();
 		
-		if (!player || currentPlayer == player) 
-		{
-		if (third_good == (DesertGenerator.GoodItem)(-1)) 
-			{
+						if (!player || currentPlayer == player) {
+								if (third_good == (DesertGenerator.GoodItem)(-1)) {
 
-			if (inventory.hasNumberOfGivenGoodItem(first_good,1) && inventory.hasNumberOfGivenGoodItem(second_good, 1)) 
-				{
-				inventory.removeGoods(first_good,1);
-				inventory.removeGoods(second_good,1);
-				inventory.AddVictoryPoint ();
+										if (inventory.hasNumberOfGivenGoodItem (first_good, 1) && inventory.hasNumberOfGivenGoodItem (second_good, 1)) {
+												inventory.removeGoods (first_good, 1);
+												inventory.removeGoods (second_good, 1);
+												inventory.AddVictoryPoint ();
 
 
-				if (!player) {
-					GameObject new_card = controller.deck.Pop();
-					iTween.MoveTo(new_card, originalPosition, 1.0f);
-				}
+												if (!player) {
+														GameObject new_card = controller.deck.Pop ();
+														iTween.MoveTo (new_card, originalPosition, 1.0f);
+												}
 
-				controller.Discard(gameObject);
+												controller.Discard (gameObject);
 
-				iTween.MoveTo(gameObject, ((currentPlayer.transform.position + Vector3.left *20)  - gameObject.transform.position ) * 2, 1.0f);
+												iTween.MoveTo (gameObject, ((currentPlayer.transform.position + Vector3.left * 20) - gameObject.transform.position) * 2, 1.0f);
 
 		
-				}
-			} else {
-			if (inventory.hasNumberOfGivenGoodItem(first_good,1) && inventory.hasNumberOfGivenGoodItem(second_good, 1) && inventory.hasNumberOfGivenGoodItem(third_good,1) )  {
-				inventory.removeGoods(first_good,1);
-				inventory.removeGoods(second_good,1);
-				inventory.removeGoods(third_good,1);
-				inventory.AddVictoryPoint ();
+										}
+								} else {
+										if (inventory.hasNumberOfGivenGoodItem (first_good, 1) && inventory.hasNumberOfGivenGoodItem (second_good, 1) && inventory.hasNumberOfGivenGoodItem (third_good, 1)) {
+												inventory.removeGoods (first_good, 1);
+												inventory.removeGoods (second_good, 1);
+												inventory.removeGoods (third_good, 1);
+												inventory.AddVictoryPoint ();
 
-				if (!player) {
-					GameObject new_card = controller.deck.Pop();
-					iTween.MoveTo(new_card, originalPosition, 1.0f);
-				}
+												if (!player) {
+														GameObject new_card = controller.deck.Pop ();
+														iTween.MoveTo (new_card, originalPosition, 1.0f);
+												}
 				
-				controller.Discard(gameObject);
+												controller.Discard (gameObject);
 				
-				iTween.MoveTo(gameObject, ((currentPlayer.transform.position + Vector3.left *20)  - gameObject.transform.position ) * 2, 1.0f);
+												iTween.MoveTo (gameObject, ((currentPlayer.transform.position + Vector3.left * 20) - gameObject.transform.position) * 2, 1.0f);
 
 
+										}
+								}
+						}
 				}
-			}
-			}
 			
 	}
 

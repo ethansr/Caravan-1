@@ -25,10 +25,10 @@ public class Barter : MonoBehaviour {
 			GoodToken targetToken = targetPlacement.GetComponent<BarterPlacement> ().Occupant().GetComponent<GoodToken>();
 
 			offerToken.player.gameObject.GetComponent<PlayerInventory>().increaseGood(targetToken.good,targetToken.gameObject);
-			offerToken.player.gameObject.GetComponent<PlayerInventory>().removeGoods(offerToken.good,1);
+			offerToken.player.gameObject.GetComponent<PlayerInventory>().removeGoods(offerToken.good,1, offerToken.gameObject);
 
 			targetToken.player.gameObject.GetComponent<PlayerInventory>().increaseGood(offerToken.good,offerToken.gameObject);
-			targetToken.player.gameObject.GetComponent<PlayerInventory>().removeGoods(targetToken.good,1);
+			targetToken.player.gameObject.GetComponent<PlayerInventory>().removeGoods(targetToken.good,1, offerToken.gameObject);
 
 			Object.Destroy (targetToken.gameObject);
 			Object.Destroy(offerToken.gameObject);
