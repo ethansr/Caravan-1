@@ -51,6 +51,7 @@ public class PlayerInventory : MonoBehaviour
 						DesertGenerator.GoodItem goodItem = (DesertGenerator.GoodItem)value;
 						amountOfEachGoodItem.Add (goodItem, 0);	
 						goodTokens.Add (goodItem, new List<GameObject>());
+			increaseGood(goodItem,1);
 				}
 				draggableGoodPrefab = GameObject.Find ("DraggableGood");
 				//Vector3 goodOrigin = gameObject.GetComponent<Player> ().transform.position + Vector3.down * 6.8f + Vector3.right * 5.5f;
@@ -147,7 +148,12 @@ public class PlayerInventory : MonoBehaviour
 
 		public void AddVictoryPoint ()
 		{
-				victory_points += 1;
+		victory_points += 1;
+
+			if (victory_points == 4) {
+	
+			controller.PlayerWon(gameObject.GetComponent<Player>());
+				}
 
 		}
 
