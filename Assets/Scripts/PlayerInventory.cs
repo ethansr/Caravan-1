@@ -14,6 +14,8 @@ public class PlayerInventory : MonoBehaviour
 		public GUIText goodsText;
 		int[] amountOfEachGoodType = {0,0,0,0};
 		public Dictionary<DesertGenerator.GoodItem, int> amountOfEachGoodItem;
+		public Dictionary<DesertGenerator.GoodItem, List<GameObject>> goodTokens = new Dictionary<DesertGenerator.GoodItem, List<GameObject>>();
+
 		public int wellDepth = 0;
 		public int victory_points = 0;
 		public List<GameObject> merchantCards;
@@ -47,7 +49,8 @@ public class PlayerInventory : MonoBehaviour
 
 				foreach (int value in Enum.GetValues(typeof(DesertGenerator.GoodItem))) {
 						DesertGenerator.GoodItem goodItem = (DesertGenerator.GoodItem)value;
-						amountOfEachGoodItem.Add (goodItem, 0);						
+						amountOfEachGoodItem.Add (goodItem, 0);	
+						goodTokens.Add (goodItem, new List<GameObject>());
 				}
 				draggableGoodPrefab = GameObject.Find ("DraggableGood");
 				//Vector3 goodOrigin = gameObject.GetComponent<Player> ().transform.position + Vector3.down * 6.8f + Vector3.right * 5.5f;
@@ -89,6 +92,7 @@ public class PlayerInventory : MonoBehaviour
 				GameObject desert = GameObject.Find ("Desert");
 			
 				GameObject tokenObject = (GameObject)Instantiate (draggableGoodPrefab);
+				goodTokens [goodItem].Add (tokenObject);
 				GoodToken token = tokenObject.GetComponent<GoodToken> ();
 				// SpriteRenderer tokenBackground = tokenObject.transform.FindChild ("TokenBackground").GetComponentInChildren (SpriteRenderer); 
 				token.player = gameObject.GetComponent<Player> ();
@@ -205,7 +209,14 @@ public class PlayerInventory : MonoBehaviour
 
 		}
 
-		public void removeGoods (DesertGenerator.GoodItem good, int numOf)
+	public void removeGoods (DesertGenerator.GoodItem good, int numOf)
+	{
+		for (int i = 0; i < numOf; i++) {
+						removeGoods (good, numOf, goodTokens [good].First ());
+				}
+		}
+
+		public void removeGoods (DesertGenerator.GoodItem good, int numOf, GameObject token)
 		{       
 				int newAmount = amountOfEachGoodItem [good] - numOf;
 				if (newAmount > -1) {
@@ -214,6 +225,10 @@ public class PlayerInventory : MonoBehaviour
 						int typeOfGoodItem = (int)DesertGenerator.typeOfGoodItem (good);
 						newAmount = amountOfEachGoodType [(int)DesertGenerator.typeOfGoodItem (good)] - numOf;
 						amountOfEachGoodType [typeOfGoodItem] = newAmount;
+
+						goodTokens[good].Remove(token);
+						UnityEngine.Object.Destroy(token);
+
 						Debug.Log (amountOfEachGoodItem [good].ToString () + " " + good.ToString ());
 				}
 		}
