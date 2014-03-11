@@ -6,29 +6,54 @@ public class EventManager : MonoBehaviour
 		public static int maxQueuedEvents = 3;
 		static Event[] events;
 		static int numQueuedEvents;
-		static int indexOfNextEvent;
-		Event currentEvent;
-		
+
 
 		// Use this for initialization
 		void Start ()
 		{       
-				reset ();
+				
 				events = new Event[maxQueuedEvents];
 	
 		}
-	
-		// Update is called once per frame
-		void Update ()
-		{    
-				if ((currentEvent && currentEvent.done) || (!currentEvent && eventInQueue ())) 
+
+		public static void alertEventManagerThatEventIsFinished ()
+		{
+				
+
+				decrementNumberOfEventsInQueue ();
+				advanceQueue ();
+				if (eventInQueue ())
 						activateNextEventInQueue ();
-				else
-						reset ();
-	
 		}
 
-		bool eventInQueue ()
+		static void decrementNumberOfEventsInQueue ()
+		{
+				numQueuedEvents -= (numQueuedEvents == 0 ? 0 : 1);
+		}
+
+		static void activateNextEventInQueue ()
+		{
+				currentEvent ().activateEvent ();
+			
+
+		}
+	
+		static void advanceQueue ()
+		{
+				for (int i=0; i<maxQueuedEvents-1; i++) {
+						events [i] = events [i + 1];
+				}
+				
+			
+		
+		}
+
+		static Event currentEvent ()
+		{
+				return events [0];
+		}
+
+		static bool eventInQueue ()
 		{
 				return numQueuedEvents > 0;
 
@@ -37,39 +62,21 @@ public class EventManager : MonoBehaviour
 		public static void addEventToQueue (Event nextEvent)
 		{       
 				if (numQueuedEvents < maxQueuedEvents) {
-						Debug.Log (nextEvent.name);
 						events [numQueuedEvents] = nextEvent;
+						
+						if (!eventInQueue ())
+								activateNextEventInQueue ();
 						numQueuedEvents++;
 				}
 			
 	
 		}
 
-		void getNextEventInQueue ()
-		{
-				if (++indexOfNextEvent < maxQueuedEvents) {
-						currentEvent = events [indexOfNextEvent];
-						events [indexOfNextEvent] = null;
-				} else
-						reset ();
-				
-		}
 
-		void reset ()
-		{
-				currentEvent = null;
-				numQueuedEvents = 0;
-				indexOfNextEvent = numQueuedEvents - 1;
-		}
 
-		void activateNextEventInQueue ()
-		{
-				getNextEventInQueue ();
-				if (currentEvent) 
-						currentEvent.activateEvent ();
-				
-	
-		}
+
+
+
 
 		
 

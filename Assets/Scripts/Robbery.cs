@@ -59,9 +59,12 @@ public class Robbery : Event
 						displayResultOfTwoCaseEvent (wasRobbed, foundRobberMessage, wasRobbedMessage, escapedRobbersMessage);
 
 				} else if (inControlOfTextBox) {
+			/*
 						disableEventTextBox ();
 						inControlOfTextBox = false;
 						anEventIsHappeningInGeneral = false;
+						*/
+			closeEvent ();
 					
 				}
 		
