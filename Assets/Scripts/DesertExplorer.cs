@@ -127,11 +127,17 @@ public class DesertExplorer : MonoBehaviour
 						MagicCarpet.setExplorerPlayerHasChosen (gameObject);
 						
 			
-				} else if (DesertMovementController.inMovementPhase && isMyPlayersTurn () && currentTile && firstExplorerMovedThisTurn ()) {
+				} else if (ableToMove ()) { //(DesertMovementController.inMovementPhase && isMyPlayersTurn () && currentTile && firstExplorerMovedThisTurn () && !hasMovedThisRound) {
 					
 						makeMover ();
 				}
 
+		}
+
+		bool ableToMove ()
+		{
+
+				return DesertMovementController.inMovementPhase && isMyPlayersTurn () && currentTile && firstExplorerMovedThisTurn () && !hasMovedThisRound;
 		}
 
 		bool isMyPlayersTurn ()
@@ -144,7 +150,12 @@ public class DesertExplorer : MonoBehaviour
 		bool firstExplorerMovedThisTurn ()
 		{
 				GameObject myPlayer = gameObject.GetComponent<Meeple> ().player;
-				return !myPlayer.GetComponent<Player> ().hasMovedAnExplorerThisTurn;
+				return !myPlayer.GetComponent<Player> ().hasMovedAnExplorerThisTurn || lastMovingExplorerIsMe ();
+		}
+
+		bool lastMovingExplorerIsMe ()
+		{
+				return desert.GetComponent<DesertState> ().movingExplorer == gameObject;
 		}
 
 		bool playerHasntMovedTileThisTurn ()
@@ -159,6 +170,7 @@ public class DesertExplorer : MonoBehaviour
 						graphicallyIndicateMoveState ();
 				else
 						stopFlashing ();
+
 				if (!Event.anEventIsHappeningInGeneral && moving ()) {
 						GameObject newLocation = getNewLocationGivenKeyInput ();
 						if (moveSuccessful (newLocation)) 
@@ -281,17 +293,7 @@ public class DesertExplorer : MonoBehaviour
 								return; 
 						addGoodToPlayerInventory (newLocation);
 						recordThatIHaveCollectedThisGood (newLocation);
-				}
-						/*
-            All of this code causes the meeple to return to the source upon acquiring a good.
-			if (!isMercenary ()) {
-								leaveCurrentTile ();
-								returnToSource ();
-						} else
-								lastGoodAcquired = newLocation;
-								*/
-			
-				 else 
+				} else 
 						updateLocation (newLocation);
 		
 				decreaseAvailableWater ();
@@ -348,7 +350,7 @@ public class DesertExplorer : MonoBehaviour
 		void makeMover ()
 		{
 				if (!hasMovedThisRound) {
-						desert.GetComponent<DesertState> ().changeMover (gameObject);
+						desert.GetComponent<DesertState> ().setMovingExplorer (gameObject);
 						recordMovementOfExplorerToPlayer ();
 						GetComponent<Transform> ().localScale = movingSize;
 				}
@@ -370,12 +372,20 @@ public class DesertExplorer : MonoBehaviour
 		{       
 				if (!isForeign (invader))
 						return true;
+
+		/*
 				//mercenary doesn't have invasion power.
 				if (invader.GetComponent<DesertExplorer> ().isMercenary ())
 						return false;
+
 				//is foreign; if current tile has event return false.
+
+		/*
 				if (currentTile.GetComponent<DesertTile> ().hasDesertEvent ())
 						return false;
+						*/
+
+
 				//foreign and tile does not have event
 				if (!isMercenary ()) {
 						if (playerHasInvaderPower (invader)) {
@@ -391,9 +401,7 @@ public class DesertExplorer : MonoBehaviour
 	
 		public void handleInvader (GameObject invader)
 		{
-				Debug.Log (isForeign (invader) + " is foreign");
-				Debug.Log (playerHasInvaderPower (invader) + " player has invader power");
-				Debug.Log (invader.GetComponent<Invader> ().entersFromInvadingTile () + " eneters from invading tile");
+				
 
 				if (isMercenary () && isForeign (invader)) 
 						GetComponent<MercenaryExplorer> ().activateEvent (invader);

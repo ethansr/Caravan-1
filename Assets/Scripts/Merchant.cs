@@ -7,7 +7,8 @@ public class Merchant : Event
 		string foundMerchantMessage = "A merchant appears, and asks" + System.Environment.NewLine + "that you satisfy his demand...";
 		string partTwo = "Do you wish to take this merchant?";
 		bool showingButtons = false;
-
+	   
+		/*
 		public override void activateEvent (GameObject desertExplorer)
 		{
 
@@ -15,6 +16,27 @@ public class Merchant : Event
 				explorer = desertExplorer;
 
 
+		}
+
+		public override void activateEvent ()
+		{
+	
+		}
+		*/
+
+		public override void activateEvent (GameObject desertExplorer)
+		{
+		
+				EventManager.addEventToQueue (gameObject.GetComponent<Event> ());
+				explorer = desertExplorer;
+		
+		
+		}
+	
+		public override void activateEvent ()
+	{       name = "merchant";
+				initializeEvent ();
+		
 		}
 
 		protected override void takeEffect ()

@@ -100,9 +100,9 @@ public class MagicCarpet : Event
 		void moveChosenExplorerToChosenTile ()
 		{
 				explorerToMove.GetComponent<DesertExplorer> ().updateLocation (tileToMoveTo);
-				
-				explorerToMove.GetComponent<DesertExplorer> ().reactToMovementEndingStayInDesert ();
-		//end players turn
+				explorerToMove.GetComponent<DesertExplorer> ().decreaseAvailableWater ();
+				//explorerToMove.GetComponent<DesertExplorer> ().reactToMovementEndingStayInDesert ();
+
 		}
 	
 		void closeMagicCarpetEvent ()
@@ -147,7 +147,7 @@ public class MagicCarpet : Event
 				GameObject player = GameObject.Find ("Desert").GetComponent<DesertState> ().playerWhoseTurnItIs;
 				return (player && player.GetComponent<PlayerInventory> ().hasMagicCarpetPower);
 		}
-
+		/*
 		public override void activateEvent (GameObject player)
 		{
 	
@@ -156,6 +156,27 @@ public class MagicCarpet : Event
 				showingMagicCarpetScreen = true;
 				
 		}
+
+		public override void activateEvent ()
+		{
+		}
+		*/
+
+		public override void activateEvent (GameObject player)
+		{
+		
+				playerWithMagicCarpet = player;
+				EventManager.addEventToQueue (gameObject.GetComponent<Event> ());
+
+		
+		}
+	
+		public override void activateEvent ()
+		{
+				initializeEvent ();
+				showingMagicCarpetScreen = true;
+		}
+
 
 
 }

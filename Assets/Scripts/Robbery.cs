@@ -13,7 +13,8 @@ public class Robbery : Event
 		const string escapedRobbersMessage = "You fight them off... this time.";
 		bool wasRobbed = false;
 		bool hadEnoughWaterToTake;
-	
+
+		/*
 		public override void activateEvent (GameObject desertExplorer)
 		{
 				
@@ -26,6 +27,30 @@ public class Robbery : Event
 
 
 		
+		}
+
+	public override void activateEvent ()
+	{
+	}
+	*/
+
+		public override void activateEvent (GameObject desertExplorer)
+	{       name = "robber";
+				explorer = desertExplorer;
+				EventManager.addEventToQueue (gameObject.GetComponent<Event> ());
+	
+		
+		}
+	
+		public override void activateEvent ()
+		{
+				initializeEvent ();
+				wasRobbed = drawFromBagOfChance (numbersThatLoseWater);
+		
+		
+				hadEnoughWaterToTake = (explorer.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().howMuchWaterAvailable () + waterStolen > -1);
+				wasRobbedMessage = (hadEnoughWaterToTake ? tookWaterMessage : missNextTurnMessage);
+
 		}
 	
 		void Update ()

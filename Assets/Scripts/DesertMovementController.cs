@@ -189,6 +189,10 @@ public class DesertMovementController : Event
 			
 		}
 
+		public override void activateEvent ()
+		{
+		}
+
 		void Update ()
 		{
 				if (updatePlayerWaitingOnEvent)
@@ -354,6 +358,9 @@ public class DesertMovementController : Event
 				}
 
 		}
+
+
+	  
 		
 
 

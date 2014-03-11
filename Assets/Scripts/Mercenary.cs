@@ -36,16 +36,38 @@ public class Mercenary : Event
 				
 		}
 		
-		//
+
+		/*
+	public override void activateEvent (GameObject desertExplorer)
+	{
+		if (!mercenaryHasBeenInitialized) {
+			pickDesiredGoodTypeGivenCurrentLocation (desertTileWhereLocated);
+			initializeMercenary ();
+			reActivateEvent (desertExplorer);
+			
+		} 
+		
+	}
+	
+	public override void activateEvent ()
+	{
+	}
+	*/
+
 		public override void activateEvent (GameObject desertExplorer)
 		{
 				if (!mercenaryHasBeenInitialized) {
 						pickDesiredGoodTypeGivenCurrentLocation (desertTileWhereLocated);
 						initializeMercenary ();
 						reActivateEvent (desertExplorer);
-					
-				} 
 			
+				} 
+		
+		}
+	
+		public override void activateEvent ()
+		{
+				initializeEvent ();
 		}
 
 		void Update ()
@@ -163,7 +185,7 @@ public class Mercenary : Event
 				removeSelfFromOldPlayer ();
 				assumeNewColor (newPlayer);
 				mercenary.GetComponent<DesertExplorer> ().hasMovedThisRound = false;
-		        mercenary.GetComponent<DesertExplorer> ().clearGoodsAndEventsRecords ();
+				mercenary.GetComponent<DesertExplorer> ().clearGoodsAndEventsRecords ();
 				newPlayer.GetComponent<Player> ().changeMovebleDesertExplorers (1);
 		}
 
@@ -208,6 +230,7 @@ public class Mercenary : Event
 		     
 		}
 		//assume that whenever this event has been called the new desired good type has been updated
+		/*
 		public void reActivateEvent (GameObject desertExplorer)
 		{
 				initializeEvent ();
@@ -216,6 +239,19 @@ public class Mercenary : Event
 						getGoodItemsPlayerCanPay (desertExplorer.GetComponent<Meeple> ().player);		
 			
 				explorer = desertExplorer;
+		
+		}
+		*/
+
+		public void reActivateEvent (GameObject desertExplorer)
+		{
+		name = "merc";
+				mercenaryCanBeHired = roomAtTileWhereLocated () && checkIfPlayerHasSufficientFunds (desertExplorer.GetComponent<Meeple> ().player);
+				if (mercenaryCanBeHired)
+						getGoodItemsPlayerCanPay (desertExplorer.GetComponent<Meeple> ().player);		
+		
+				explorer = desertExplorer;
+				EventManager.addEventToQueue (gameObject.GetComponent<Event> ());
 		
 		}
 

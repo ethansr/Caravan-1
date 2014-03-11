@@ -16,15 +16,20 @@ public abstract class Event : MonoBehaviour
 		protected float delayStartTime;
 		protected float eventTextBoxDisplayDelay = 2.0f;
 		protected bool inControlOfTextBox;
-		
+		public bool done;
+		public string name;
 	
 		public abstract void activateEvent (GameObject desertExplorer);
+
+		public abstract void activateEvent ();
 
 		public void setTileWhereLocated (GameObject tile)
 		{
 				desertTileWhereLocated = tile;
 		}
-	
+
+
+
 		void Start ()
 		{      
 				eventText = GameObject.Find ("EventText");
@@ -37,6 +42,7 @@ public abstract class Event : MonoBehaviour
 				tookEffect = false;
 				inControlOfTextBox = false;
 				anEventIsHappeningInGeneral = false;
+				done = true;
 		       
 			
 		}
@@ -118,6 +124,7 @@ public abstract class Event : MonoBehaviour
 				inControlOfTextBox = true;
 				tookEffect = false;
 				eventStartTime = Time.time;
+				done = false;
 		}
 
 		protected void closeEvent ()
@@ -125,6 +132,7 @@ public abstract class Event : MonoBehaviour
 				disableEventTextBox ();
 				inControlOfTextBox = false;
 				anEventIsHappeningInGeneral = false;
+				done = true;
 
 		}
 

@@ -10,7 +10,8 @@ public class Oasis : Event
 		const string isOasisMessage = "It is an oasis! You earn more water.";
 		const string isMirageMessage = "It is a mirage. You earn nothing...";
 		bool getMoreWater = false;
-	
+
+		/*
 		public override void activateEvent (GameObject desertExplorer)
 		{
 				
@@ -20,6 +21,24 @@ public class Oasis : Event
 				explorer = desertExplorer;
 				
 
+		}
+
+	public override void activateEvent ()
+	{
+	}
+	*/
+
+		public override void activateEvent (GameObject desertExplorer)
+	{        name = "oasis";
+				explorer = desertExplorer;
+				EventManager.addEventToQueue (gameObject.GetComponent<Event>());
+
+		}
+	
+		public override void activateEvent ()
+		{
+				initializeEvent ();
+				getMoreWater = drawFromBagOfChance (numbersThatWinMoreWater);
 		}
 
 		void Update ()

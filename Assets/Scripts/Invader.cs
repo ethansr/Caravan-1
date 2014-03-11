@@ -10,7 +10,6 @@ public class Invader : Event
 
 		public bool entersFromInvadingTile ()
 		{
-				bool result = !gameObject.GetComponent<DesertExplorer> ().currentTile.GetComponent<DesertTile> ().isBazaar ();
 				
 				return !gameObject.GetComponent<DesertExplorer> ().currentTile.GetComponent<DesertTile> ().isBazaar ();
 		}
@@ -23,13 +22,32 @@ public class Invader : Event
 				return willInvade;
 
 		}
-
+		/*
 		public override void activateEvent (GameObject desertExplorer)
 		{
 				
 				initializeEvent ();
 				explorer = desertExplorer;
 
+		}
+
+	public override void activateEvent ()
+	{
+	}
+	*/
+
+		public override void activateEvent (GameObject desertExplorer)
+		{
+	
+				explorer = desertExplorer;
+				EventManager.addEventToQueue (gameObject.GetComponent<Event> ());
+		
+		}
+	
+		public override void activateEvent ()
+		{
+				name = "invade";
+				initializeEvent ();
 		}
 
 		protected override void takeEffect ()

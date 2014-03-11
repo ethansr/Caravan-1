@@ -111,8 +111,7 @@ public class DesertTile : MonoBehaviour
 						flashToIndicateMoveState ();
 				if (isInRotationState ()) {
 						rotateByKey ();
-			
-						//flashToIndicateMoveState ();
+
 			
 				} else
 			
@@ -344,8 +343,7 @@ public class DesertTile : MonoBehaviour
 						} else {
 								GameObject playerWhoseTurnItIs = desert.GetComponent<DesertState> ().playerWhoseTurnItIs;
 								if (!occupied () || occupantsBelongToPlayer (playerWhoseTurnItIs)) {
-										if (playerWhoseTurnItIs && playerHasntMovedExplorerThisTurn (playerWhoseTurnItIs)) {//if new player clicks on tile
-										
+										if (playerWhoseTurnItIs) {// && playerHasntMovedExplorerThisTurn (playerWhoseTurnItIs)) {//if new player clicks on tile
 												playerWhoIsRotatingTile = playerWhoseTurnItIs;
 												playerWhoseTurnItIs.GetComponent<Player> ().hasRotatedATileThisTurn = true;
 												makeTileRotatable ();
@@ -364,21 +362,25 @@ public class DesertTile : MonoBehaviour
 				return true;
 		}
 
+		/*
 		bool playerHasntMovedExplorerThisTurn (GameObject player)
 		{
 				return !player.GetComponent<Player> ().hasMovedAnExplorerThisTurn;
 		}
+		*/
 	
 		void makeTileRotatable ()
 		{
-				desert.GetComponent<DesertState> ().changeMover (gameObject);
+				desert.GetComponent<DesertState> ().makeATileRotate (gameObject);
 		}
-	
+	/*
 		void leaveRotationStateIfNecessary ()
 		{
 				if (isInRotationState ())
-						desert.GetComponent<DesertState> ().movingObject = null;
+						//desert.GetComponent<DesertState> ().rotatingTile = null;
+						desert.GetComponent<DesertState> ().stopTileRotation ();
 		}
+		*/
 	
 		void rotateByKey ()
 		{

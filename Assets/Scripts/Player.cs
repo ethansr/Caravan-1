@@ -63,8 +63,9 @@ public class Player : MonoBehaviour
 		GameObject wasMovingAnExplorer ()
 		{
 				GameObject desert = GameObject.Find ("Desert");
-				GameObject currentMovingObject = desert.GetComponent<DesertState> ().movingObject;
-				if (currentMovingObject && desert.GetComponent<DesertState> ().movingObjectIsExplorer ()) {
+				//GameObject currentMovingObject = desert.GetComponent<DesertState> ().movingObject;
+				GameObject currentMovingObject = desert.GetComponent<DesertState> ().movingExplorer;
+				if (currentMovingObject) { //&& desert.GetComponent<DesertState> ().movingObjectIsExplorer ()) {
 						if (currentMovingObject.GetComponent<Meeple> ().player == gameObject)
 								return currentMovingObject;
 				}
@@ -77,7 +78,7 @@ public class Player : MonoBehaviour
 				explorer.GetComponent<DesertExplorer> ().reactToMovementEndingStayInDesert ();
 					
 		}
-
+/*
 		bool wasMovingAnExplorer (GameObject currentMovingObject, GameObject desert)
 		{
 
@@ -86,6 +87,7 @@ public class Player : MonoBehaviour
 				return false;
 
 		}
+		*/
 
 		public void finishEndTurn ()
 		{
@@ -188,9 +190,10 @@ public class Player : MonoBehaviour
 				explorerToReturn.GetComponent<Meeple> ().endExploration ();
 		}
 
-	    public void reactToEndOfMovePhase(){
-		eventsExperiencedThisTurn.Clear ();
-	}
+		public void reactToEndOfMovePhase ()
+		{
+				eventsExperiencedThisTurn.Clear ();
+		}
 
 
 
