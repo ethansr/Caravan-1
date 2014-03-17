@@ -29,9 +29,10 @@ public class Oasis : Event
 	*/
 
 		public override void activateEvent (GameObject desertExplorer)
-	{        name = "oasis";
+		{
+				name = "oasis/mirage";
 				explorer = desertExplorer;
-				EventManager.addEventToQueue (gameObject.GetComponent<Event>());
+				EventManager.addEventToQueue (gameObject.GetComponent<Event> ());
 
 		}
 	
@@ -39,6 +40,9 @@ public class Oasis : Event
 		{
 				initializeEvent ();
 				getMoreWater = drawFromBagOfChance (numbersThatWinMoreWater);
+		        eventMessage = name + (getMoreWater? " oasis ":" mirage ")+" updated water "+(explorer.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().availableWater+(getMoreWater?waterGranted:0));
+
+
 		}
 
 		void Update ()
@@ -47,6 +51,7 @@ public class Oasis : Event
 						displayResultOfTwoCaseEvent (getMoreWater, foundOasisMessage, isOasisMessage, isMirageMessage);
 						
 				} else if (inControlOfTextBox) {
+						recordEventToLog ();
 						closeEvent ();
 						
 				}
@@ -57,7 +62,7 @@ public class Oasis : Event
 		protected override void takeEffect ()
 		{      
 				explorer.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().changeAvailableWaterDuringMovement (waterGranted);
-
+				
 	
 		}
 		

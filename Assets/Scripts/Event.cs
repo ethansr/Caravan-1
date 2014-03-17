@@ -17,6 +17,7 @@ public abstract class Event : MonoBehaviour
 		protected float eventTextBoxDisplayDelay = 2.0f;
 		protected bool inControlOfTextBox;
 		public string name;
+		public string eventMessage;
 	
 		public abstract void activateEvent (GameObject desertExplorer);
 
@@ -121,6 +122,7 @@ public abstract class Event : MonoBehaviour
 				inControlOfTextBox = true;
 				tookEffect = false;
 				eventStartTime = Time.time;
+		        
 			
 		}
 
@@ -132,6 +134,12 @@ public abstract class Event : MonoBehaviour
 				anEventIsHappeningInGeneral = false;
 			
 				
+
+		}
+
+		protected void recordEventToLog ()
+		{
+				GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent (eventMessage);
 
 		}
 

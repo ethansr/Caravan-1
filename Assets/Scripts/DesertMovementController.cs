@@ -24,21 +24,6 @@ public class DesertMovementController : Event
 		bool waitingOnExplorerReturn = false;
 		bool updatePlayerWaitingOnEvent = false;
 
-		/*
-		//magic carpet controller variables
-		public static GameObject playerWithMagicCarpet;
-		//requires:
-		//! bazaaar
-		//otherwise this movement should behave the same as all other movements
-		// i.e., if player has invasion power then they can move into a tile occupied by other meeples.
-	    
-		public static GameObject tileToMoveTo;
-		public static  GameObject explorerToMove;
-		bool showingMagicCarpetScreen;
-		string magicCarpetMessage = "You unfurl your magical carpet...";
-		string partTwoMagicCarpet = "Click on an explorer; click on a tile," + System.Environment.NewLine + " and you will travel there.";
-		public static bool waitingForPlayersMagicCarpetSelection;
-		*/
 		public void beginDesertMovementPhase ()
 		{
 				if (!inMovementPhase) {
@@ -50,6 +35,8 @@ public class DesertMovementController : Event
 						getFirstPlayer ();
 			            
 				}
+
+				GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent ("Begin Movement Phase");
 				
 		}
 
@@ -90,7 +77,7 @@ public class DesertMovementController : Event
 						//player.GetComponent<Player> ().canMoveAgainThisRound = player.GetComponent<PlayerInventory> ().waterAvailable ();
 			          
 						//strictly for testing; just easier to go thru various turns.
-						player.GetComponent<PlayerInventory> ().changeAvailableWaterDuringPlacementPhase (100);
+						//player.GetComponent<PlayerInventory> ().changeAvailableWaterDuringPlacementPhase (100);
 				}
 		
 		}
@@ -313,6 +300,8 @@ public class DesertMovementController : Event
 				inMovementPhase = false;
 
 				//initiate worker placement phase
+
+				GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent ("End Movement Phase");
 	
 				gameObject.GetComponent<GameController> ().BeginPlacementPhase ();
 				

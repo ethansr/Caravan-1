@@ -5,6 +5,7 @@ public class Meeple : MonoBehaviour
 {
 		public GameObject player;
 		Vector3 explorerSize;
+		public string id;
 
 		void Start ()
 		{      

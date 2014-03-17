@@ -35,7 +35,8 @@ public class Robbery : Event
 	*/
 
 		public override void activateEvent (GameObject desertExplorer)
-	{       name = "robber";
+		{
+				name = "robber";
 				explorer = desertExplorer;
 				EventManager.addEventToQueue (gameObject.GetComponent<Event> ());
 	
@@ -50,6 +51,7 @@ public class Robbery : Event
 		
 				hadEnoughWaterToTake = (explorer.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().howMuchWaterAvailable () + waterStolen > -1);
 				wasRobbedMessage = (hadEnoughWaterToTake ? tookWaterMessage : missNextTurnMessage);
+				eventMessage = name + (wasRobbed ? " rob successful " : " escaped ") + " updated water " + (explorer.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().availableWater + (wasRobbed ? waterStolen : 0));
 
 		}
 	
@@ -59,12 +61,9 @@ public class Robbery : Event
 						displayResultOfTwoCaseEvent (wasRobbed, foundRobberMessage, wasRobbedMessage, escapedRobbersMessage);
 
 				} else if (inControlOfTextBox) {
-			/*
-						disableEventTextBox ();
-						inControlOfTextBox = false;
-						anEventIsHappeningInGeneral = false;
-						*/
-			closeEvent ();
+						recordEventToLog ();
+						closeEvent ();
+			           
 					
 				}
 		
@@ -77,5 +76,6 @@ public class Robbery : Event
 						explorer.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().changeAvailableWaterDuringMovement (waterStolen);
 				else
 						explorer.GetComponent<DesertExplorer> ().makeMissNextTurn ();
+				
 		}
 }

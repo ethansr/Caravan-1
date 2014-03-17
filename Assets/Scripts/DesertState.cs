@@ -20,44 +20,50 @@ public class DesertState : MonoBehaviour
 		//(similar to the effect of double clicking)
 		public void setMovingExplorer (GameObject newMover)
 		{
-				//closeMovementOfPreviousMovingExplorer ();
+				if (movingObjectIsTile (movingObject)) {
+						GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent ("End rotation " + getRotatingTileInformation ());
+
+				}
 				if (movingObjectIsExplorer (newMover)) {
 						movingExplorer = newMover;
 
 						movingObject = newMover;
+						GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent ("Set Explorer To Move " + newMover.GetComponent<Meeple> ().id);
 				}
 
-				
-				
-		}
 
-	   
-		/*
-		void closeMovementOfPreviousMovingExplorer ()
-		{
-				if (movingObject && movingObjectIsExplorer ()) 
-						movingObject.GetComponent<DesertExplorer> ().reactToMovementEndingStayInDesert ();
+				
+				
 		}
-		*/
 
 		public void makeATileRotate (GameObject rotatingDesertTile)
 		{
-				if (movingObjectIsTile (rotatingDesertTile))
-				//if (rotatingDesertTile) {
-				//rotatingTile = rotatingDesertTile;
+				if (movingObjectIsTile (rotatingDesertTile)) {
+
 						movingObject = rotatingDesertTile;
-				//} 
+
+						GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent ("Set tile to rotate " + getRotatingTileInformation ());
+
+
+				}
+			
 		       
 				
 		}
-		/*
-		public void stopTileRotation ()
+
+		string getRotatingTileInformation ()
 		{
-				rotatingTile = null;
-				if (movingExplorer)
-						movingObject = movingExplorer;
+				int x = movingObject.GetComponent<DesertTile> ().rp.x;
+				int y = movingObject.GetComponent<DesertTile> ().rp.y;
+				int n = movingObject.GetComponent<DesertTile> ().vp.n;
+				int s = movingObject.GetComponent<DesertTile> ().vp.s;
+				int e = movingObject.GetComponent<DesertTile> ().hp.e;
+				int w = movingObject.GetComponent<DesertTile> ().hp.w;
+				return "x: " + x + " y: " + y + " paths " + n + "" + s + "" + e + "" + w;
+
 		}
-*/
+
+
 
 
 		//when the player whose turn it is changes any meeples belonging to the player who are moving 
@@ -69,15 +75,10 @@ public class DesertState : MonoBehaviour
 	
 
 				playerWhoseTurnItIs = newPlayer;
+				GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent ("Update Player " + newPlayer.GetComponent<Player> ().id);
 	
 		}
-		/*
-		public bool movingObjectIsExplorer ()
-		{
-				return movingObject.GetComponent<DesertExplorer> () != null;
 
-		}
-*/
 		public bool movingObjectIsExplorer (GameObject newMover)
 		{
 				return newMover.GetComponent<DesertExplorer> () != null;
@@ -85,7 +86,7 @@ public class DesertState : MonoBehaviour
 
 		public bool movingObjectIsTile (GameObject newMover)
 		{
-				return newMover.GetComponent<DesertTile> () != null;
+				return (newMover&&newMover.GetComponent<DesertTile> () != null);
 		}
 
 

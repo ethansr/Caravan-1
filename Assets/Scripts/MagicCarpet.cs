@@ -172,7 +172,7 @@ public class MagicCarpet : Event
 		}
 	
 		public override void activateEvent ()
-		{
+	{           name = "magic carpet ride";
 				initializeEvent ();
 				showingMagicCarpetScreen = true;
 		}

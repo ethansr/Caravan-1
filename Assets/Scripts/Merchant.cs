@@ -34,7 +34,7 @@ public class Merchant : Event
 		}
 	
 		public override void activateEvent ()
-	{       name = "merchant";
+	{           name = "merchant";
 				initializeEvent ();
 		
 		}

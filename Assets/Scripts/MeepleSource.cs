@@ -19,15 +19,18 @@ public class MeepleSource : DropLocation
 						GameObject inst = (GameObject)Instantiate (meeple, transform.position, Quaternion.identity);
 						setColor (inst);
 						setPlayer (inst);
+						inst.GetComponent<Meeple> ().id = "Meeple "+numSpawned;
 						numSpawned++;
 						inst.GetComponent<Draggable> ().MoveLocations (null, gameObject);
 
 				}
 		}
 
-	public void Ready() {
-		ready = true;
-	}
+		public void Ready ()
+		{
+				ready = true;
+		}
+
 		void setColor (GameObject meeple)
 		{
 				Color colour = meeple.GetComponent<SpriteRenderer> ().color;
@@ -69,11 +72,11 @@ public class MeepleSource : DropLocation
 
 		protected override bool CanOccupy (GameObject potentialOccupant)
 		{
-		if (potentialOccupant.GetComponent<Meeple> ()) {
+				if (potentialOccupant.GetComponent<Meeple> ()) {
 						GameObject occupantPlayer = potentialOccupant.GetComponent<Meeple> ().player;
 						return (occupantPlayer == player);
 				} else {
-			return false;
+						return false;
 				}
 		}
 	

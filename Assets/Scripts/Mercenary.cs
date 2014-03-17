@@ -245,7 +245,7 @@ public class Mercenary : Event
 
 		public void reActivateEvent (GameObject desertExplorer)
 		{
-		name = "merc";
+		        name = "mercenary";
 				mercenaryCanBeHired = roomAtTileWhereLocated () && checkIfPlayerHasSufficientFunds (desertExplorer.GetComponent<Meeple> ().player);
 				if (mercenaryCanBeHired)
 						getGoodItemsPlayerCanPay (desertExplorer.GetComponent<Meeple> ().player);		
