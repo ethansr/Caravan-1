@@ -253,8 +253,13 @@ public class GameController : MonoBehaviour {
 		System.IO.StreamWriter file = new System.IO.StreamWriter( filePath,true);
 
 		//thanks http://stackoverflow.com/questions/18757097/writing-data-into-csv-file
+		List<string> elements = new List<string>();
+		elements.Add( DateTime.Now.ToString ("u"));
+		elements.Add(DateTime.Now.Ticks.ToString());
+		elements.Add(currentPlayer().name);
+		elements.Add(message);
+		var csv = string.Join(",", elements.ToArray());
 
-		var csv = string.Format ("{0},{1},{2},{3}", DateTime.Now.ToString ("u"), DateTime.Now.Ticks, currentPlayer().name, message);
 		print (csv);
 		file.WriteLine(csv);
 
