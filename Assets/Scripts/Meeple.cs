@@ -56,6 +56,8 @@ public class Meeple : MonoBehaviour
 						player.GetComponent<Player> ().changeMovebleDesertExplorers (-1);
 						player.GetComponent<Player> ().exploringMeeples.Remove (gameObject);
 				}
+
+				GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent (id + " return to source ");
 		}
 
 	    

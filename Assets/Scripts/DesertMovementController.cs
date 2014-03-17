@@ -38,6 +38,7 @@ public class DesertMovementController : Event
 
 				GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent ("Begin Movement Phase");
 				
+
 		}
 
 		void updateExplorerAndPlayerMovementVariablesForThisTurn ()
@@ -51,11 +52,32 @@ public class DesertMovementController : Event
 					
 								explorer.GetComponent<Meeple> ().player.GetComponent<Player> ().moveableDesertExplorers++;
 						}
+						logExplorerData (explorer);
 
 				}
 
 				resetPlayerMovementWithRegardToWaterAndMoveableExplorer ();
 			
+		}
+
+		void logExplorerData (GameObject explorer)
+		{
+				DesertExplorer ex = explorer.GetComponent<DesertExplorer> ();
+				Meeple m = explorer.GetComponent<Meeple> ();
+				string explorerName = m.id;
+				string explorerPlayer = m.player.GetComponent<Player> ().id;
+				string position = ex.currentTile.GetComponent<DesertTile> ().rp.x + " , " + ex.currentTile.GetComponent<DesertTile> ().rp.y;
+				GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent (explorerName + " player: " + explorerPlayer + " position: " + position);
+
+		}
+
+		void logPlayerData (GameObject player)
+		{
+				Player pl = player.GetComponent<Player> ();
+				PlayerInventory pi = player.GetComponent<PlayerInventory> ();
+				string name = pl.id;
+				string availableWater = "" + pi.availableWater;
+				GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent (name + " availableWater " + availableWater);
 		}
 
 		void resetPlayerMovementWithRegardToWaterAndMoveableExplorer ()
@@ -72,6 +94,7 @@ public class DesertMovementController : Event
 
 	
 						player.GetComponent<Player> ().updateWhetherCanMoveAgainThisRound ();
+						logPlayerData (player);
 			          
 						//weaker condition; based strictly on available water
 						//player.GetComponent<Player> ().canMoveAgainThisRound = player.GetComponent<PlayerInventory> ().waterAvailable ();
