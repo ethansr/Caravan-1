@@ -51,7 +51,7 @@ public class Robbery : Event
 		
 				hadEnoughWaterToTake = (explorer.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().howMuchWaterAvailable () + waterStolen > -1);
 				wasRobbedMessage = (hadEnoughWaterToTake ? tookWaterMessage : missNextTurnMessage);
-				eventMessage = name + (wasRobbed ? " rob successful " : " escaped ") + " updated water " + (explorer.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().availableWater + (wasRobbed ? waterStolen : 0));
+				eventMessage = name +"," +(wasRobbed ? "rob successful" : "escaped ") + "," + (explorer.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().availableWater + (wasRobbed ? waterStolen : 0));
 
 		}
 	

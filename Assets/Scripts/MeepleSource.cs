@@ -17,9 +17,9 @@ public class MeepleSource : DropLocation
 		{
 				if (ready && numSpawned < numMeeples) {
 						GameObject inst = (GameObject)Instantiate (meeple, transform.position, Quaternion.identity);
-						setColor (inst);
+						setColorAndID (inst);
 						setPlayer (inst);
-						inst.GetComponent<Meeple> ().id = "Meeple "+numSpawned;
+						inst.GetComponent<Meeple> ().id = "Meeple:" + numSpawned;
 						numSpawned++;
 						inst.GetComponent<Draggable> ().MoveLocations (null, gameObject);
 
@@ -31,11 +31,13 @@ public class MeepleSource : DropLocation
 				ready = true;
 		}
 
-		void setColor (GameObject meeple)
+		void setColorAndID (GameObject meeple)
 		{
 				Color colour = meeple.GetComponent<SpriteRenderer> ().color;
 				colour = GetComponent<SpriteRenderer> ().color;
 				meeple.GetComponent<SpriteRenderer> ().color = colour;
+
+				meeple.GetComponent<Meeple> ().id = "Meeple_"+colour+"_"+ numSpawned;
 		}
 
 		void setPlayer (GameObject meeple)

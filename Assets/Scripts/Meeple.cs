@@ -36,6 +36,8 @@ public class Meeple : MonoBehaviour
 						player.GetComponent<Player> ().exploringMeeples.Add (gameObject);
 			            
 				}
+
+				GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent ("Make explorer," + id);
 	
 		}
 
@@ -57,7 +59,7 @@ public class Meeple : MonoBehaviour
 						player.GetComponent<Player> ().exploringMeeples.Remove (gameObject);
 				}
 
-				GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent (id + " return to source ");
+				GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent ("Return to source," + id);
 		}
 
 	    

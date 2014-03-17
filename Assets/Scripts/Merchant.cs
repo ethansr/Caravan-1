@@ -34,8 +34,10 @@ public class Merchant : Event
 		}
 	
 		public override void activateEvent ()
-	{           name = "merchant";
+		{
+				name = "merchant";
 				initializeEvent ();
+				eventMessage = name + ",";
 		
 		}
 
@@ -82,6 +84,8 @@ public class Merchant : Event
 								if (GUI.Button (new Rect (buttonStartX + buttonWidth * 2, buttonY, buttonWidth, buttonHeight), "NO")) {
 										//do nothing
 										showingButtons = false;
+										eventMessage = eventMessage + "no";
+										recordEventToLog ();
 					
 					
 								}
@@ -95,8 +99,10 @@ public class Merchant : Event
 
 		void givePlayerNewMerchantCard ()
 		{
+				eventMessage = eventMessage + "yes,";
 				GameController controller = GameObject.Find ("GameController").GetComponent<GameController> ();
-				controller.AssignCardToPlayer (explorer.GetComponent<Meeple> ().player);
+				controller.AssignCardToPlayer (explorer.GetComponent<Meeple> ().player, eventMessage);
+
 		}
 	
 		

@@ -40,7 +40,7 @@ public class Oasis : Event
 		{
 				initializeEvent ();
 				getMoreWater = drawFromBagOfChance (numbersThatWinMoreWater);
-		        eventMessage = name + (getMoreWater? " oasis ":" mirage ")+" updated water "+(explorer.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().availableWater+(getMoreWater?waterGranted:0));
+		        eventMessage = name + (getMoreWater? ",oasis":",mirage")+","+(explorer.GetComponent<Meeple> ().player.GetComponent<PlayerInventory> ().availableWater+(getMoreWater?waterGranted:0));
 
 
 		}

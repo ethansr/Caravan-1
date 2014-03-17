@@ -491,6 +491,18 @@ public class DesertTile : MonoBehaviour
 				return explorersPosition;
 		
 		}
+
+	public string getTileInformation (){
+		int x = rp.x;
+		int y = rp.y;
+		int n = vp.n;
+		int s = vp.s;
+		int e = hp.e;
+		int w = hp.w;
+		return "" + x + "," + y + "," + n + "," + s + "," + e + "," + w;
+
+
+	}
 	
 	
 	
