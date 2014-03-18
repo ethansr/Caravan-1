@@ -176,6 +176,8 @@ public class DesertTile : MonoBehaviour
 				flipped = true;
 				updateSprite ();
 				showEvent ();
+				GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent ("Tile flipped,");
+		        
 		}
 	
 		public void updateSprite ()
@@ -373,7 +375,7 @@ public class DesertTile : MonoBehaviour
 		{
 				desert.GetComponent<DesertState> ().makeATileRotate (gameObject);
 		}
-	/*
+		/*
 		void leaveRotationStateIfNecessary ()
 		{
 				if (isInRotationState ())
@@ -492,17 +494,18 @@ public class DesertTile : MonoBehaviour
 		
 		}
 
-	public string getTileInformation (){
-		int x = rp.x;
-		int y = rp.y;
-		int n = vp.n;
-		int s = vp.s;
-		int e = hp.e;
-		int w = hp.w;
-		return "" + x + "," + y + "," + n + "," + s + "," + e + "," + w;
+		public string getTileInformation ()
+		{
+				int x = rp.x;
+				int y = rp.y;
+				int n = vp.n;
+				int s = vp.s;
+				int e = hp.e;
+				int w = hp.w;
+				return "" + x + "," + y + "," + n + "," + s + "," + e + "," + w;
 
 
-	}
+		}
 	
 	
 	

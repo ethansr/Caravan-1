@@ -125,7 +125,7 @@ public class Player : MonoBehaviour
 						GetComponent<SpriteRenderer> ().color = col;
 
 	
-				Debug.Log (id + " " + moveableDesertExplorers + " " + canMoveAgainThisRound + " " + exploringMeeples.Count ());
+				//Debug.Log (id + " " + moveableDesertExplorers + " " + canMoveAgainThisRound + " " + exploringMeeples.Count ());
 
 			
 		}
