@@ -13,6 +13,7 @@ public class MagicCarpetLocation : DropLocation
 		{
 				allowMultipleOccupants = false;
 				goodToTradeForCarpet = null;
+		label = "magic_carpet_placement";
 		}
 
 		protected override bool CanOccupy (GameObject potentialOccupant)

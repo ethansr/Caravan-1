@@ -19,6 +19,7 @@ public class Bazaar : DropLocation
 
 				playersToPositions = null;
 				gameController = GameObject.Find ("GameController");
+		label = "bazaar_placement";
 
 		}
 	

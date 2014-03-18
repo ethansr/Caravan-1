@@ -6,7 +6,7 @@ public class BarterPlacement : DropLocation {
 	public Barter barter;
 
 	void Start () {
-		
+		label = "barter_good";
 	}
 	
 

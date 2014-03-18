@@ -6,7 +6,7 @@ public class TradePlacement : DropLocation {
 
 	// Use this for initialization
 	void Start () {
-
+		label = "trade_placement";
 	}
 
 	public void setGood(DesertGenerator.GoodItem good_item) {

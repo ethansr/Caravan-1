@@ -6,6 +6,7 @@ public class FirstPlayerPlacement : DropLocation {
 	// Use this for initialization
 	void Start () {
 		controller = GameObject.Find ("GameController").GetComponent<GameController> ();
+		label = "first_player_placement";
 	}
 	
 	// Update is called once per frame

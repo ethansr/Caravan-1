@@ -2,7 +2,10 @@
 using System.Collections;
 
 public class WinkSink : DropLocation {
-	
+
+	void Start() {
+		label = "wine_sink_placement";
+	}
 	public override void SetOccupant (GameObject o)
 	{ 
 				base.SetOccupant (o);

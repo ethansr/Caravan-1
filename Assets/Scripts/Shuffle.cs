@@ -2,6 +2,12 @@
 using System.Collections;
 
 public class Shuffle : DropLocation {
+
+	void Start()
+	{
+		label = "shuffle_placement";
+		}
+
 	public override void SetOccupant (GameObject o)
 	{ 
 	

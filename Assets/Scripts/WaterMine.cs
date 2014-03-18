@@ -3,6 +3,9 @@ using System.Collections;
 
 public class WaterMine : DropLocation {
 
+	void Start() {
+		label = "water_mine_placement";
+		}
 	public override void SetOccupant (GameObject o)
 	{ 
 		base.SetOccupant (o);
