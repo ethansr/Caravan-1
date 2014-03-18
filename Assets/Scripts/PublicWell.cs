@@ -5,7 +5,7 @@ public class PublicWell : DropLocation {
 
 	// Use this for initialization
 	void Start () {
-	
+		label = "public_well_placement";
 	}
 	
 	public override void SetOccupant (GameObject o)

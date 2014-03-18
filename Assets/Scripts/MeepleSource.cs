@@ -52,6 +52,7 @@ public class MeepleSource : DropLocation
 				}
 				SpawnMeeple ();
 				player.GetComponent<Player> ().meepleSource = gameObject;
+		label = "meeple_source_placement";
 		}
 	
 		void Update ()

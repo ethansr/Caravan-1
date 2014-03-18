@@ -11,6 +11,7 @@ public class InvaderPlacement : DropLocation
 		{
 				allowMultipleOccupants = false;
 				invaderTokenXPos = MagicCarpetLocation.magicCarpetTokenXPos - 5;
+		label = "invader_placement";
 	
 		}
 

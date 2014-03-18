@@ -7,6 +7,7 @@ public class DropLocation : MonoBehaviour
 
 		protected GameObject occupant;
 		public bool allowMultipleOccupants;
+	public string label = "placement";
 		
 
 
@@ -35,6 +36,7 @@ public class DropLocation : MonoBehaviour
 
 		public virtual void SetOccupant (GameObject o)
 		{
+		GameObject.Find ("GameController").GetComponent<GameController>().LogEvent(label);
 				occupant = o;
 		}
 

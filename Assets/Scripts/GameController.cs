@@ -35,6 +35,8 @@ public class GameController : MonoBehaviour {
 		ShuffleDeck ();
 
 		DealPublicCards ();
+
+	
 		BeginPlacementPhase ();
 
 	
@@ -252,19 +254,68 @@ public class GameController : MonoBehaviour {
 		// Write the string to a file.append mode is enabled so that the log
 		// lines get appended to  test.txt than wiping content and writing the log
 
-		string fileName = gameStartTime.ToString("yyyyMMdd_hh_mm_ss") + ".csv";
-		string logFileDirectory = "logs";
-		string filePath = System.IO.Path.Combine(logFileDirectory,fileName);
-		System.IO.StreamWriter file = new System.IO.StreamWriter( filePath,true);
+		PlayerInventory inv = currentPlayer ().GetComponent<PlayerInventory> ();
 
-		//thanks http://stackoverflow.com/questions/18757097/writing-data-into-csv-file
+		if ((currentPhase == "Placement" || currentPhase == "Movement") && inv.ready) {
+						string fileName = gameStartTime.ToString ("yyyyMMdd_hh_mm_ss") + ".csv";
+						string logFileDirectory = "logs";
+						string filePath = System.IO.Path.Combine (logFileDirectory, fileName);
+						System.IO.StreamWriter file = new System.IO.StreamWriter (filePath, true);
 
-		var csv = string.Format ("{0},{1},{2},{3}", DateTime.Now.ToString ("u"), DateTime.Now.Ticks, currentPlayer().name, message);
-		print (csv);
-		file.WriteLine(csv);
+						//thanks http://stackoverflow.com/questions/18757097/writing-data-into-csv-file
+						List<string> elements = new List<string> ();
+						elements.Add (DateTime.Now.ToString ("u"));
+						elements.Add (DateTime.Now.Ticks.ToString ());
+						elements.Add (message);
 
-		file.Close();
 
+
+						//name
+						elements.Add (currentPlayer ().name);
+
+						//vp
+						elements.Add (inv.victory_points.ToString ());
+
+						//available_water
+						elements.Add (inv.availableWater.ToString ());
+
+						//well_depth
+						elements.Add (inv.wellDepth.ToString ());
+
+						//goods 0-15
+
+						foreach (DesertGenerator.GoodItem goodItem in (DesertGenerator.GoodItem[])Enum.GetValues (typeof(DesertGenerator.GoodItem))) {
+								elements.Add (inv.amountOfEachGoodItem [goodItem].ToString ());
+						}
+
+
+						//private_card_demand 1
+						//pivate_card_demand 2
+						//private_card_demand 3
+						//pivate_card_demand 4
+						//private_card_demand 5
+						//pivate_card_demand 6
+						//total_demand 0-15
+
+						//magic carpet
+						elements.Add (inv.hasMagicCarpetPower.ToString ());
+
+						//invader
+						elements.Add (inv.canInvade.ToString ());
+
+						//meeple 1
+						//meeple 2
+						//meeple 3
+						//meeple 4
+						//meeple 5
+
+						var csv = string.Join (",", elements.ToArray ());
+
+						print (csv);
+						file.WriteLine (csv);
+
+						file.Close ();
+				}
 		}
 
 

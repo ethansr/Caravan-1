@@ -30,7 +30,7 @@ public class PlayerInventory : MonoBehaviour
 		public GameObject playersInvaderToken;
 		public GameController controller;
 		Vector3 goodOrigin;
-
+	public bool ready = false;
 
 
 	
@@ -60,7 +60,7 @@ public class PlayerInventory : MonoBehaviour
 				merchantCardLocations.Add (transform.position + Vector3.right * 45 + Vector3.up * 1.1f);
 
 
-			
+		ready = true;
 		}
 	  
 		void GoodTokens ()
