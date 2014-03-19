@@ -102,6 +102,15 @@ public class GameController : MonoBehaviour {
 			list[n] = value;  
 		}  
 
+		n = deck.Count;  
+		while (n > 1) {  
+			n--;  
+			int k = rng.Next(n + 1);  
+			GameObject value = list[k]; 
+			list[k] = list[n];  
+			list[n] = value;  
+		}  
+
 		deck = new Stack<GameObject> (list);
 		
 	}
@@ -131,20 +140,20 @@ public class GameController : MonoBehaviour {
 		}
 
 		for (int i = 0; i < numberOfThreeGoodCards; i++) {
-			int first_type = UnityEngine.Random.Range(0,3);
+			int first_type = UnityEngine.Random.Range(0,4);
 			int second_type;
 			int third_type;
 			
 			do {
-				second_type = UnityEngine.Random.Range(0,3);
+				second_type = UnityEngine.Random.Range(0,4);
 			} while(first_type == second_type);
 			do {
-				third_type = UnityEngine.Random.Range(0,3);
+				third_type = UnityEngine.Random.Range(0,4);
 			} while(first_type == second_type || second_type == third_type || first_type == third_type );
 			
-			int first_good = first_type * 4 + UnityEngine.Random.Range(0,3);
-			int second_good = second_type * 4 + UnityEngine.Random.Range(0,3);
-			int third_good = third_type * 4 + UnityEngine.Random.Range (0,3);
+			int first_good = first_type * 4 + UnityEngine.Random.Range(0,4);
+			int second_good = second_type * 4 + UnityEngine.Random.Range(0,4);
+			int third_good = third_type * 4 + UnityEngine.Random.Range (0,4);
 			GameObject card = (GameObject)Instantiate(merchant_card);
 			card.GetComponent<MerchantCard>().SetGoods((DesertGenerator.GoodItem)first_good,(DesertGenerator.GoodItem)second_good, (DesertGenerator.GoodItem)third_good);
 			//card.transform.position = card.transform.position + Vector3.left * i * 8 + Vector3.right * 45 ;
