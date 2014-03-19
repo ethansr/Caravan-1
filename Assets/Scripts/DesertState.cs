@@ -21,14 +21,14 @@ public class DesertState : MonoBehaviour
 		public void setMovingExplorer (GameObject newMover)
 		{
 				if (movingObjectIsTile (movingObject)) {
-						GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent ("End rotation " + getRotatingTileInformation ());
+						GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent ("End rotation," + getRotatingTileInformation ());
 
 				}
 				if (movingObjectIsExplorer (newMover)) {
 						movingExplorer = newMover;
 
 						movingObject = newMover;
-						GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent ("Set Explorer To Move " + newMover.GetComponent<Meeple> ().id);
+						GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent ("Set Explorer To Move," + newMover.GetComponent<Meeple> ().id);
 				}
 
 
@@ -52,14 +52,8 @@ public class DesertState : MonoBehaviour
 		}
 
 		string getRotatingTileInformation ()
-		{
-				int x = movingObject.GetComponent<DesertTile> ().rp.x;
-				int y = movingObject.GetComponent<DesertTile> ().rp.y;
-				int n = movingObject.GetComponent<DesertTile> ().vp.n;
-				int s = movingObject.GetComponent<DesertTile> ().vp.s;
-				int e = movingObject.GetComponent<DesertTile> ().hp.e;
-				int w = movingObject.GetComponent<DesertTile> ().hp.w;
-				return "x: " + x + " y: " + y + " paths " + n + "" + s + "" + e + "" + w;
+		{     
+				return movingObject.GetComponent<DesertTile> ().getTileInformation ();
 
 		}
 
@@ -75,7 +69,7 @@ public class DesertState : MonoBehaviour
 	
 
 				playerWhoseTurnItIs = newPlayer;
-				GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent ("Update Player " + newPlayer.GetComponent<Player> ().id);
+				
 	
 		}
 
@@ -86,7 +80,7 @@ public class DesertState : MonoBehaviour
 
 		public bool movingObjectIsTile (GameObject newMover)
 		{
-				return (newMover&&newMover.GetComponent<DesertTile> () != null);
+				return (newMover && newMover.GetComponent<DesertTile> () != null);
 		}
 
 

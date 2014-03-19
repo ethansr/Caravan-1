@@ -66,8 +66,8 @@ public class DesertMovementController : Event
 				Meeple m = explorer.GetComponent<Meeple> ();
 				string explorerName = m.id;
 				string explorerPlayer = m.player.GetComponent<Player> ().id;
-				string position = ex.currentTile.GetComponent<DesertTile> ().rp.x + " , " + ex.currentTile.GetComponent<DesertTile> ().rp.y;
-				GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent (explorerName + " player: " + explorerPlayer + " position: " + position);
+				string position = ex.currentTile.GetComponent<DesertTile> ().rp.x + "," + ex.currentTile.GetComponent<DesertTile> ().rp.y;
+				GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent (explorerName + "," + explorerPlayer + "," + position);
 
 		}
 
@@ -77,7 +77,7 @@ public class DesertMovementController : Event
 				PlayerInventory pi = player.GetComponent<PlayerInventory> ();
 				string name = pl.id;
 				string availableWater = "" + pi.availableWater;
-				GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent (name + " availableWater " + availableWater);
+				GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent (name + "," + availableWater);
 		}
 
 		void resetPlayerMovementWithRegardToWaterAndMoveableExplorer ()

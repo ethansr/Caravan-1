@@ -118,15 +118,21 @@ public class DesertExplorer : MonoBehaviour
 				currentPos = currentTile.GetComponent<DesertTile> ().enterTile (gameObject);
 				currentPos.z = 1;
 				GetComponent<Transform> ().position = currentPos;
-				GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent ("Enter tile " + getTileInformation ());
+				GameObject.Find ("GameController").GetComponent<GameController> ().LogEvent ("Enter tile," +getId ()+ getTileInformation ());
 		
+		}
+
+		string getId ()
+		{
+				return gameObject.GetComponent<Meeple> ().id + ",";
+
 		}
 
 		string getTileInformation ()
 		{
 				int x = currentTile.GetComponent<DesertTile> ().rp.x;
 				int y = currentTile.GetComponent<DesertTile> ().rp.y;
-				return "x " + x + " y " + y;
+				return "" + x + "," + y;
 		}
 	
 		void OnMouseUpAsButton ()

@@ -33,6 +33,8 @@ public class Mercenary : Event
 				mercenary.GetComponent<SpriteRenderer> ().enabled = false;
 
 				mercenary.GetComponent<MercenaryExplorer> ().sourceEvent = gameObject;
+		        
+		        mercenary.GetComponent<Meeple>().id = "mercenary " + mercenary.GetHashCode ();
 				
 		}
 		
@@ -81,6 +83,7 @@ public class Mercenary : Event
 						displayResultOfTwoCaseEvent (mercenaryCanBeHired, foundMercenaryMessage, canHireMessage, cannotHireMessage);
 				} else if (!showingButtons ()) { 
 						if (inControlOfTextBox) {
+								recordEventToLog ();
 								closeEvent ();
 							
 						}
@@ -133,6 +136,7 @@ public class Mercenary : Event
 								if (GUI.Button (new Rect (buttonStartX + buttonWidth * 2, buttonY, buttonWidth, buttonHeight), "NO")) {
 										//do nothing
 										showHireSelectionButtons = false;
+										eventMessage = name + "," + desiredGoodType + ",no";
 									
 					
 								}
@@ -145,6 +149,7 @@ public class Mercenary : Event
 										if (GUI.Button (new Rect (buttonStartX + (xAdj * xAdjFactor), buttonY, buttonWidth, buttonHeight), itemName)) {
 												hireMercenary (item);
 												showGoodSelectionButtons = false;
+						                        
 												
 										}
 										xAdjFactor++;
@@ -161,12 +166,14 @@ public class Mercenary : Event
 
 		//requires that current explorer is the one who stumbled on the mercenary.
 		void hireMercenary (DesertGenerator.GoodItem payment)
-		{       
+		{
+				eventMessage = name + "," + desiredGoodType + "," + payment+",";
 				GameObject newPlayer = explorer.GetComponent<Meeple> ().player;
 				newPlayer.GetComponent<PlayerInventory> ().removeGoods (payment, requiredNumberOfGood);
 				if (firstTimeHired ()) {
 						setupMercenaryForExploration ();
 						mercenaryHasBeenInitialized = true;
+						eventMessage = eventMessage + "first_hire,";
 				}
 				assignToNewPlayer (newPlayer);
 
@@ -192,10 +199,13 @@ public class Mercenary : Event
 		void removeSelfFromOldPlayer ()
 		{
 				GameObject oldPlayer = mercenary.GetComponent<Meeple> ().player;
+			
 				bool hasMovedThisTurnForOldPlayer = mercenary.GetComponent<DesertExplorer> ().hasMovedThisRound;
 				//if the mercenary has alreayd moved for this player, then num oveables was already decrementd		
-				if (oldPlayer && !hasMovedThisTurnForOldPlayer)
+				if (oldPlayer && !hasMovedThisTurnForOldPlayer) {
 						oldPlayer.GetComponent<Player> ().changeMovebleDesertExplorers (-1);
+						eventMessage = eventMessage + oldPlayer.GetComponent<Player> ().id + ",";
+				}
 
 		}
 
@@ -245,7 +255,7 @@ public class Mercenary : Event
 
 		public void reActivateEvent (GameObject desertExplorer)
 		{
-		        name = "mercenary";
+				name = "mercenary";
 				mercenaryCanBeHired = roomAtTileWhereLocated () && checkIfPlayerHasSufficientFunds (desertExplorer.GetComponent<Meeple> ().player);
 				if (mercenaryCanBeHired)
 						getGoodItemsPlayerCanPay (desertExplorer.GetComponent<Meeple> ().player);		

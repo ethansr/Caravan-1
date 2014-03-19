@@ -47,6 +47,7 @@ public class Invader : Event
 		public override void activateEvent ()
 		{
 				name = "invade";
+				eventMessage = name + ",";
 				initializeEvent ();
 		}
 
@@ -63,6 +64,8 @@ public class Invader : Event
 		{
 				GameObject tileOfVictim = explorer.GetComponent<DesertExplorer> ().currentTile;
 				gameObject.GetComponent<DesertExplorer> ().updateLocation (tileOfVictim);
+				string player = explorer.GetComponent<Meeple> ().player.GetComponent<Player> ().id;
+				eventMessage = eventMessage + player + ",";
 
 		}
 
@@ -79,6 +82,7 @@ public class Invader : Event
 						displayResultOfTwoCaseEvent (true, invaderMessagePartOne, invaderMessagePartTwo, "");
 			
 				} else if (inControlOfTextBox) {
+						recordEventToLog ();
 						closeEvent ();
 						moveVictimToInvadersOldTile ();
 						

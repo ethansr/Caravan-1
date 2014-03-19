@@ -85,7 +85,10 @@ public class GameController : MonoBehaviour {
 			GameObject card = deck.Pop ();
 			public_cards.Add(card);
 			iTween.MoveTo (card, deckLocation +  Vector3.right * 27 + Vector3.left * i * 10 + Vector3.down * 43, 1.0f);
-				}
+			string cardRecord="public card,"+card.GetComponent<MerchantCard> ().first_good + "," + card.GetComponent<MerchantCard> ().second_good + "," + card.GetComponent<MerchantCard> ().third_good + ",";
+			LogEvent (cardRecord);
+		
+		}
 	}
 	public void ShuffleDeck() {
 		//thanks http://stackoverflow.com/questions/273313/randomize-a-listt-in-c-sharp#answer-1262619
@@ -169,7 +172,7 @@ public class GameController : MonoBehaviour {
 	
 	}
 
-	public void AssignCardToPlayer(GameObject player) {
+	public void AssignCardToPlayer(GameObject player, string message) {
 
 		PlayerInventory inventory = player.transform.GetComponent<PlayerInventory> ();
 
@@ -177,6 +180,8 @@ public class GameController : MonoBehaviour {
 		card.GetComponent<MerchantCard>().player = player;
 
 		inventory.AddCard (card);
+		message = message + card.GetComponent<MerchantCard> ().first_good + "," + card.GetComponent<MerchantCard> ().second_good + "," + card.GetComponent<MerchantCard> ().third_good + ",";
+		LogEvent (message);
 		
 		// do nothing
 	}

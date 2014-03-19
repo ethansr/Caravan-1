@@ -34,6 +34,7 @@ public class MagicCarpet : Event
 						displayResultOfTwoCaseEvent (true, magicCarpetMessage, partTwoMagicCarpet, "");
 			
 				} else if (inControlOfTextBox) {
+						recordEventToLog ();
 						closeEvent ();
 				}
 
@@ -64,7 +65,7 @@ public class MagicCarpet : Event
 				if (validExplorer (explorer))
 						explorerToMove = explorer;
 	
-				Debug.Log (explorerToMove);
+			
 
 		}
 	
@@ -99,9 +100,14 @@ public class MagicCarpet : Event
 	
 		void moveChosenExplorerToChosenTile ()
 		{
+				string explorerName = explorerToMove.GetComponent<Meeple> ().id;
+				string startLocation = explorerToMove.GetComponent<DesertExplorer> ().currentTile.GetComponent<DesertTile> ().getTileInformation ();
+				
 				explorerToMove.GetComponent<DesertExplorer> ().updateLocation (tileToMoveTo);
 				explorerToMove.GetComponent<DesertExplorer> ().decreaseAvailableWater ();
-				//explorerToMove.GetComponent<DesertExplorer> ().reactToMovementEndingStayInDesert ();
+
+				eventMessage = eventMessage + explorerName + "," + startLocation;
+				
 
 		}
 	
@@ -172,7 +178,8 @@ public class MagicCarpet : Event
 		}
 	
 		public override void activateEvent ()
-	{           name = "magic carpet ride";
+		{
+				name = "magic carpet ride";
 				initializeEvent ();
 				showingMagicCarpetScreen = true;
 		}
